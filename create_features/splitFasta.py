@@ -15,8 +15,8 @@ def fasta_iter(fasta_name):
 # line1 = True
 used_dict = {}
 
-if not os.path.exists(sys.argv[1].strip("/").split("/")[:-1]+".seq_dir"):
-    os.makedirs(sys.argv[1].strip("/").split("/")[:-1]+".seq_dir")
+if not os.path.exists(sys.argv[1].strip("/").split("/")[-1]+".seq_dir"):
+    os.makedirs(sys.argv[1].strip("/").split("/")[-1]+".seq_dir")
 for ff in fasta_iter(sys.argv[1]):
     headerStr, seq = ff
     with open(sys.argv[1]+".seq_dir"+headerStr.replace("|","_"),"w") as out:
