@@ -1,5 +1,7 @@
 SAMPLES, = glob_wildcards("{sequence}.seq")
 
+print(SAMPLES)
+
 rule final:
     input: expand("{sequence}.blastout",sample=SAMPLES)
 
