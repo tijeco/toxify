@@ -1,9 +1,8 @@
 SAMPLES, = glob_wildcards("{sequence}.seq")
 
-print(SAMPLES)
 
 rule final:
-    input: expand("{sequence}.blastout",sample=SAMPLES)
+    input: expand("{sequence}.blastout",sequence=SAMPLES)
 
 rule diamond:
     input:
@@ -11,4 +10,4 @@ rule diamond:
     output:
         "{sequence}.blastout"
     shell:
-        "diamond blastp -d ../../nr_database/diamond_db.dmnd -q {input} -o {output} -p {threads}   -f 6 sseqid sseq qseqid qseq  -k 1000"
+        "diamond blastp -d /home/brewerlab/nr_database/diamond_db.dmnd -q {input} -o {output} -p {threads}   -f 6 sseqid sseq qseqid qseq  -k 1000"
