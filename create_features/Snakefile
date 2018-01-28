@@ -12,7 +12,7 @@ SAMPLES, = glob_wildcards("{sample}.fa")
 
 rule final:
     # input: expand("{sample}.blastout",sample=SAMPLES)
-    input: dynamic("{header}.fasta")
+    input: dynamic("{header}.aln")
 
 rule diamond:
     input:
@@ -49,8 +49,8 @@ rule blast2fa:
                     out.write(row[1]+"\n")
 rule mafft:
     input:
-        "{header}.fasta"
+        dynamic("{header}.fasta")
     output:
-        "{header}.aln"
+        dynamic("{header}.aln")
     shell:
         "mafft --auto -t -1 {input} > {output}"
