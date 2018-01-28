@@ -141,6 +141,7 @@ rule align2pssm:
 
             # print()
             out.write(line2write+"\n")
+            line2write=""
             # for i in sorted(sseq.keys()):
             #     print(str(i)+"\t", end="")
             #     for j in sorted(sseq[i].keys()):
@@ -159,6 +160,7 @@ rule align2pssm:
                         line2write+="0\t"
                 # print()
                 out.write(line2write+"\t"+"\n")
+                line2write=""
 
 
 
