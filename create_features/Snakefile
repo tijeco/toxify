@@ -158,7 +158,7 @@ rule align2pssm:
                         # print("0\t",end="")
                         line2write+="0\t"
                 # print()
-                out.write(line2write+"\t")
+                out.write(line2write+"\t"+"\n")
 
 
 
