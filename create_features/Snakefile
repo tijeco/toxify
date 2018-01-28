@@ -112,7 +112,7 @@ rule align2pssm:
         print(output[0],input)
         with open(output[0],"w") as out:
             print(output,"opened")
-            for ff in fasta_iter(input):
+            for ff in fasta_iter(input[0]):
                 headerStr, seq = ff
                 if line1:
                     for num in range(len(seq)):
