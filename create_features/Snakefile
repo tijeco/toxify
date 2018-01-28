@@ -109,6 +109,7 @@ rule align2pssm:
                 "Y":{}
 
         }
+        print(output[0],input)
         with open(output[0]) as out:
             for ff in fasta_iter(input):
                 headerStr, seq = ff
