@@ -262,7 +262,7 @@ rule seq2png:
         "sequences/{header}.seq"
     output:
         "seq_pics/{header}.png"
-    conda: "envs/pil.yaml"
+    # conda: "envs/pil.yaml"
     run:
         import PIL.ImageDraw as ImageDraw,PIL.Image as Image, PIL.ImageShow as ImageShow
         scale_factor = 360/20
