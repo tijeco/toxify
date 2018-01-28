@@ -49,8 +49,8 @@ rule blast2fa:
                     out.write(row[1]+"\n")
 rule mafft:
     input:
-        dynamic("{header}.fasta")
+        "{header}.fasta"
     output:
-        dynamic("{header}.aln")
+        "{header}.aln"
     shell:
         "mafft --auto -t -1 {input} > {output}"
