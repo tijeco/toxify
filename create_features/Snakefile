@@ -109,9 +109,9 @@ rule align2pssm:
                 "Y":{}
 
         }
-        print(output[0],input)
+        # print(output[0],input)
         with open(output[0],"w") as out:
-            print(output,"opened")
+            # print(output,"opened")
             for ff in fasta_iter(input[0]):
                 headerStr, seq = ff
                 if line1:
@@ -152,7 +152,7 @@ rule align2pssm:
                 line2write +=str(i)+"\t"
                 for j in sorted(qseq.keys()):
                     try:
-                        print(str(sseq[i][j])+"\t",end="")
+                        # print(str(sseq[i][j])+"\t",end="")
                         line2write+=str(sseq[i][j])+"\t"
                     except:
                         # print("0\t",end="")
@@ -177,7 +177,7 @@ rule pssm2mat:
         aa_count = {}
         top_count = {}
         tot_aa = 0
-        with open(input) as f:
+        with open(input[0]) as f:
             for line in f:
                 row = line.strip().split()
                 if line1:
@@ -241,7 +241,7 @@ rule pssm2mat:
                         # print("na"+str(q_j)+" ",end="")
                         # print("0 ",end="")
                         line2write+="0,"
-            print(line2write[:-1])
+            # print(line2write[:-1])
             out.write(line2write[:-1]+"\n")
             # print("\n\n\n\n\n\n\n")
 
