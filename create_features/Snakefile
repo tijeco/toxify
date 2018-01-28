@@ -212,7 +212,10 @@ rule pssm2mat:
                 # print("\n\n\n\n\n\n\n\n")
                 aa_prob = {}
                 for i in aa_count:
-                    aa_prob[i] = aa_count[i]/tot_aa
+                    if tot_aa != 0:
+                        aa_prob[i] = aa_count[i]/tot_aa
+                    else:
+                        aa_prob[i] = 0
                 aa = "ACDEFGHIKLMNPQRSTVWY"
                 # print(" A  R  N  D  C  Q  E  G  H  I  L  K  M  F  P  S  T  W  Y  V  B  Z  X")
                 line2write =""
