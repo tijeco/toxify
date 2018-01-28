@@ -213,7 +213,7 @@ rule pssm2mat:
         line2write =""
         # print( "A R N D C Q E G H I L K M F P S T W Y V B Z X")
         # print(line2write)
-        with open("pssm.csv") as out:
+        with open("pssm.csv","w") as out:
 
             for row in aa:
                 # print(row+" ",end="")
