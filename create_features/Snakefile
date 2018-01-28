@@ -55,7 +55,8 @@ rule mafft:
     output:
         "{header}.aln"
     shell:
-        "mafft --auto -t -1 {input} > {output}"
+        "mafft --auto --thread -1 {input} > {output}"
+
 rule align2pssm:
     input:
         "{header}.aln"
@@ -63,6 +64,7 @@ rule align2pssm:
         "{header}.pssm"
     run:
         line1 = True
+        line2write =""
 
         qseq = {}
         sseq = { "A":{},
@@ -87,60 +89,50 @@ rule align2pssm:
                 "Y":{}
 
         }
-        for ff in fasta_iter("test.blast.aln"):
-            headerStr, seq = ff
-            if line1:
-                for num in range(len(seq)):
-                    if seq[num] != "-":
-                        qseq[num] = seq[num]
-                line1 = False
-            else:
-                for num in range(len(seq)):
-                    if num in qseq:
+        with open(output[0]) as out:
+            for ff in fasta_iter(input):
+                headerStr, seq = ff
+                if line1:
+                    for num in range(len(seq)):
                         if seq[num] != "-":
-                            try:
-
+                            qseq[num] = seq[num]
+                    line1 = False
+                else:
+                    for num in range(len(seq)):
+                        if num in qseq:
+                            if seq[num] != "-":
                                 try:
-                                    sseq[seq[num]][num] +=1
+
+                                    try:
+                                        sseq[seq[num]][num] +=1
+                                    except:
+                                        sseq[seq[num]][num] = 1
                                 except:
-                                    sseq[seq[num]][num] = 1
-                            except:
-                                0
-                            # print(seq[num],num)
-                            # print(sseq[seq[num]])
+                                    0
 
+            # print("\t", end="")
+            line2write +="\t"
+            for i in sorted(qseq.keys()):
+                # print(qseq[i]+"\t", end="")
+                line2write+=str(qseq[i]+"\t")
 
-        # print(qseq)
-        # print(sseq)
-        # print(1000000)
-        # print(1000000)
-        # print(1000000)
-        # print(1000000)
-        # print(1000000)
-        # print(1000000)
-        # print(1000000)
-        # print(1000000)
-        # print(1000000)
-        # print(1000000)
-        # print(1000000)
+            # print()
+            out.write(line2write+"\n")
+            # for i in sorted(sseq.keys()):
+            #     print(str(i)+"\t", end="")
+            #     for j in sorted(sseq[i].keys()):
+            #         print(str(j)+"\t", end="")
+            #     print()
 
-
-        print("\t", end="")
-        for i in sorted(qseq.keys()):
-            print(qseq[i]+"\t", end="")
-
-        print()
-        # for i in sorted(sseq.keys()):
-        #     print(str(i)+"\t", end="")
-        #     for j in sorted(sseq[i].keys()):
-        #         print(str(j)+"\t", end="")
-        #     print()
-
-        for i in sseq:
-            print(i+"\t",end="")
-            for j in sorted(qseq.keys()):
-                try:
-                    print(str(sseq[i][j])+"\t",end="")
-                except:
-                    print("0\t",end="")
-            print()
+            for i in sseq:
+                # print(i+"\t",end="")
+                line2write +=str(i)+"\t"
+                for j in sorted(qseq.keys()):
+                    try:
+                        print(str(sseq[i][j])+"\t",end="")
+                        line2write+=str(sseq[i][j])+"\t"
+                    except:
+                        # print("0\t",end="")
+                        line2write+="0\t"
+                # print()
+                out.write(line2write+"\t")
