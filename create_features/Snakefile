@@ -1,8 +1,16 @@
+def fasta_iter(fasta_name):
+    fh = open(fasta_name)
+    faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
+    for header in faiter:
+        headerStr = header.__next__()[1:].strip().split()[0]#Entire line, add .split[0] for just first column
+        seq = "".join(s.strip() for s in faiter.__next__())
+        yield (headerStr, seq)
 SAMPLES, = glob_wildcards("{sample}.fa")
 
 
 rule final:
-    input: expand("{sample}.blastout",sample=SAMPLES)
+    # input: expand("{sample}.blastout",sample=SAMPLES)
+    input: dynamic("{header}.fasta")
 
 rule diamond:
     input:
@@ -12,24 +20,27 @@ rule diamond:
     threads:100
     shell:
         "diamond blastp -d /home/brewerlab/nr_database/diamond_db.dmnd -q {input} -o {output} -p {threads}   -f 6 sseqid sseq qseqid qseq  -k 1000 --unal 1"
-# rule blast2fa:
-#     input:
-#         "{sample}.blastout"
-#     output:
-#         "{sample}.fa"
-#
-#         used_dict = {}
-#
-#         with open(input) as f:
-#             for line in f:
-#
-#                 row = line.split()
-#                 with open(output[0],"a") as out:
-#                     if row[2] not in used_dict:
-#                         used_dict[row[2]] = True
-#                         out.write(">"+row[2]+"\n")
-#                         out.write(row[3]+"\n")
-#
-#                         # line1 = False
-#                     out.write(">"+row[0]+"\n")
-#                     out.write(row[1]+"\n")
+rule blast2fa:
+    input:
+        "{sample}.blastout",
+        "{sample}.fa"
+    output:
+        dynamic("{header}.fasta")
+    run:
+        qdict = {}
+        for ff in fasta_iter(input[1]):
+            headerStr, seq = ff
+            qdict[headerStr] = seq
+
+        used_dict = {}
+
+        with open(input[0]) as f:
+            for line in f:
+
+
+                row = line.split()
+                with open(output[0],"a") as out:
+                    out.write(">"+row[2]+"\n")
+                    out.write(qdict[row[2]]+"\n")
+                    out.write(">"+row[0]+"\n")
+                    out.write(row[1]+"\n")
