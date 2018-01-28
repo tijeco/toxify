@@ -62,7 +62,7 @@ rule blast2fa:
 
 
                 row = line.split()
-                with open("pssm_dir/"row[2].replace("|","_")+".fasta","a") as out:
+                with open("pssm_dir/"+row[2].replace("|","_")+".fasta","a") as out:
                     if row[2] not in used_dict:
                         used_dict[row[2]] = True
                         out.write(">"+row[2]+"\n")
