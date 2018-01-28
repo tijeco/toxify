@@ -1,5 +1,6 @@
 from itertools import groupby
 import math
+import re
 
 
 def fasta_iter(fasta_name):
@@ -223,7 +224,7 @@ rule pssm2mat:
                 # print( "A R N D C Q E G H I L K M F P S T W Y V B Z X")
                 # print(line2write)
 
-
+                line2write+=re.search(r'alignments/(.*?).pssm', current_file).group(1)+","
                 for row in aa:
                     # print(row+" ",end="")
                     # line2write+=row+" "
