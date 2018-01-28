@@ -1,5 +1,6 @@
 from itertools import groupby
 import math
+import PIL.ImageDraw as ImageDraw,PIL.Image as Image, PIL.ImageShow as ImageShow
 
 def fasta_iter(fasta_name):
     fh = open(fasta_name)
@@ -8,27 +9,45 @@ def fasta_iter(fasta_name):
         headerStr = header.__next__()[1:].strip().split()[0]#Entire line, add .split[0] for just first column
         seq = "".join(s.strip() for s in faiter.__next__())
         yield (headerStr, seq)
+def distance(x1,y1,x2,y2):
+    d = math.sqrt((x1-x2)**2 + (y1-y2)**2)
+    return d
+
+def makeSquare(size,scale):
+    midpoint = size/2
+    Dist2center = distance(0,0,midpoint,midpoint)
+    # print(Dist2center)
+    top_pointDist2center = Dist2center - Dist2center*(scale)
+    # print(Dist2center,scale)
+    top_point_coord = int(top_pointDist2center/math.sqrt(2))
+
+    bottomDist2center =  Dist2center + Dist2center*(scale)
+    bottom_point_coord = int(bottomDist2center/math.sqrt(2))
+    return (top_point_coord, top_point_coord, bottom_point_coord, bottom_point_coord)
+
 SAMPLES, = glob_wildcards("{sample}.fa")
 
 
 rule final:
     # input: expand("{sample}.blastout",sample=SAMPLES)
-    input: dynamic("{header}.aln")
+    # input: dynamic("{header}.aln")
+    input:"pssm.csv"
 
 rule diamond:
     input:
         expand("{sample}.fa",sample=SAMPLES)
     output:
-        expand("{sample}.blastout",sample=SAMPLES)
+        expand("pssm_dir/{sample}.blastout",sample=SAMPLES)
     threads:100
     shell:
         "diamond blastp -d /home/brewerlab/nr_database/diamond_db.dmnd -q {input} -o {output} -p {threads}   -f 6 sseqid sseq qseqid qseq  -k 1000 --unal 1"
+
 rule blast2fa:
     input:
-        expand("{sample}.blastout",sample=SAMPLES),
+        expand("pssm_dir/{sample}.blastout",sample=SAMPLES),
         expand("{sample}.fa",sample=SAMPLES)
     output:
-        dynamic("{header}.fasta")
+        dynamic("pssm_dir/alignments/{header}.fasta")
     run:
 
         qdict = {}
@@ -52,17 +71,17 @@ rule blast2fa:
                     out.write(row[1]+"\n")
 rule mafft:
     input:
-        "{header}.fasta"
+        "pssm_dir/alignments/{header}.fasta"
     output:
-        "{header}.aln"
+        "pssm_dir/alignments/{header}.aln"
     shell:
         "mafft --auto --thread -1 {input} > {output} || mafft --auto --thread -1 --anysymbol {input} > {output}"
 
 rule align2pssm:
     input:
-        "{header}.aln"
+        "pssm_dir/alignments/{header}.aln"
     output:
-        "{header}.pssm"
+        "pssm_dir/alignments/{header}.pssm"
     run:
         line1 = True
         line2write =""
@@ -137,9 +156,12 @@ rule align2pssm:
                         line2write+="0\t"
                 # print()
                 out.write(line2write+"\t")
+
+
+
 rule pssm2mat:
     input:
-        "{header}.pssm"
+        "pssm_dir/alignments/{header}.pssm"
     output:
         "pssm.csv"
     run:
@@ -226,3 +248,62 @@ rule pssm2mat:
             # print(top_count)
             #
             # print(pair_dict["WW"])
+
+rule splitSeqs:
+    input:
+        "pssm_dir/alignments/{header}.fasta"
+    output:
+        "sequences/{header}.seq"
+    shell:
+        "head -n 1 {input} > {output}"
+
+rule seq2png:
+    input:
+        "sequences/{header}.seq"
+    output:
+        "seq_pics/{header}.png"
+    run:
+        scale_factor = 360/20
+        seqDict = {
+            "A":(scale_factor*0,scale_factor*1),
+            "C":(scale_factor*1,scale_factor*2),
+            "D":(scale_factor*2,scale_factor*3),
+            "E":(scale_factor*3,scale_factor*4),
+            "F":(scale_factor*4,scale_factor*5),
+            "G":(scale_factor*5,scale_factor*6),
+            "H":(scale_factor*6,scale_factor*7),
+            "I":(scale_factor*7,scale_factor*8),
+            "K":(scale_factor*8,scale_factor*9),
+            "L":(scale_factor*9,scale_factor*10),
+            "M":(scale_factor*10,scale_factor*11),
+            "N":(scale_factor*11,scale_factor*12),
+            "P":(scale_factor*12,scale_factor*13),
+            "Q":(scale_factor*13,scale_factor*14),
+            "R":(scale_factor*14,scale_factor*15),
+            "S":(scale_factor*15,scale_factor*16),
+            "T":(scale_factor*16,scale_factor*17),
+            "V":(scale_factor*17,scale_factor*18),
+            "W":(scale_factor*18,scale_factor*19),
+            "Y":(scale_factor*19,scale_factor*20)
+            }
+        num = 1000
+        midpoint = num/2
+
+        # sequence_iterator = fasta_iter(sys.argv[1])
+        sequence_iterator = fasta_iter(input)
+        for ff in sequence_iterator:
+            image = Image.new('RGB', (num, num), 'white')
+            draw = ImageDraw.Draw(image)
+            draw.ellipse((0, 0, num, num), 'white', 'black')  # made this a little smaller..
+            headerStr, seq = ff
+            for aa in range(len(seq)):
+
+
+                this_square = makeSquare(num,float(aa)/len(seq))
+                # print(this_square)
+                try:
+                    draw.arc(this_square, seqDict[seq[aa]][0], seqDict[seq[aa]][1], 'black')  # draw an arc in black
+                except:
+                    0 #print("NO")
+
+            image.save(output[0],"PNG")
