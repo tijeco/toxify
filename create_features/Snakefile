@@ -47,3 +47,10 @@ rule blast2fa:
                     out.write(qdict[row[2]]+"\n")
                     out.write(">"+row[0]+"\n")
                     out.write(row[1]+"\n")
+rule mafft:
+    input:
+        "{header}.fasta"
+    output:
+        "{header}.aln"
+    shell:
+        "mafft --auto -t -1 {input} > {output}"
