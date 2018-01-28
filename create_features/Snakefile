@@ -111,6 +111,7 @@ rule align2pssm:
         }
         print(output[0],input)
         with open(output[0],"w") as out:
+            print(output,"opened")
             for ff in fasta_iter(input):
                 headerStr, seq = ff
                 if line1:
@@ -130,7 +131,7 @@ rule align2pssm:
                                         sseq[seq[num]][num] = 1
                                 except:
                                     0
-            print(qseq)
+
 
             # print("\t", end="")
             line2write +="\t"
