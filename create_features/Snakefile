@@ -239,6 +239,7 @@ rule pssm2mat:
                             p_i = aa_prob[row]
                             q_j = aa_prob[col]
                             p_ij = (frequency/aa_count[col]) * (frequency/top_count[row])
+                            new_ij = (frequency/aa_count[col])
                             s_ij = (1/0.75)*math.log(p_ij/(p_i*q_j),2)
 
                             # except:si
