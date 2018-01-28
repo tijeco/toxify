@@ -191,7 +191,7 @@ rule pssm2mat:
                         else:
                             for i in range(len(row)):
 
-                                if i in top_dict :
+                                if i in top_dict and i not != 0 :
                                     # print(row[0],top_dict[i],row[i])
                                     try:
                                         pair_dict[top_dict[i]+row[0]]+= int(row[i])
