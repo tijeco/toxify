@@ -245,7 +245,7 @@ rule pssm2mat:
                             # except:si
                             #     print("ERROR",row)
                             # print(str(int(s_ij))+" ",end="")
-                            line2write+=str(new_ij)+","
+                            line2write+=str(s_ij)+","
                             # print(str(s_ij)+" ",end="")
                         except:
                             # print("na"+str(q_j)+" ",end="")
