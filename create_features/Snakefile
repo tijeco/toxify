@@ -1,4 +1,5 @@
 from itertools import groupby
+import math
 
 def fasta_iter(fasta_name):
     fh = open(fasta_name)
@@ -136,3 +137,92 @@ rule align2pssm:
                         line2write+="0\t"
                 # print()
                 out.write(line2write+"\t")
+rule pssm2mat:
+    input:
+        "{header}.pssm"
+    output:
+        "pssm.csv"
+    run:
+
+
+        # print(math.log(10,10))
+        line1 = True
+        top_dict = {}
+        pair_dict ={}
+        aa_count = {}
+        top_count = {}
+        tot_aa = 0
+        with open(input) as f:
+            for line in f:
+                row = line.strip().split()
+                if line1:
+                    for i in range(len(row)):
+                        top_dict[i+1] = row[i]
+                    line1=False
+                else:
+                    for i in range(len(row)):
+
+                        if i in top_dict :
+                            # print(row[0],top_dict[i],row[i])
+                            try:
+                                pair_dict[top_dict[i]+row[0]]+= int(row[i])
+                            except:
+                                pair_dict[top_dict[i]+row[0]] = int(row[i])
+                            try:
+                                aa_count[row[0]] += int(row[i])
+                            except:
+                                aa_count[row[0]] = int(row[i])
+                            try:
+                                top_count[top_dict[i]]+=int(row[i])
+                            except:
+                                top_count[top_dict[i]]=int(row[i])
+
+                            tot_aa += int(row[i])
+
+        # print(pair_dict)
+        # print("\n\n\n\n\n\n\n\n")
+        aa_prob = {}
+        for i in aa_count:
+            aa_prob[i] = aa_count[i]/tot_aa
+        aa = "ACDEFGHIKLMNPQRSTVWY"
+        # print(" A  R  N  D  C  Q  E  G  H  I  L  K  M  F  P  S  T  W  Y  V  B  Z  X")
+        line2write =""
+        # print( "A R N D C Q E G H I L K M F P S T W Y V B Z X")
+        # print(line2write)
+        with open("pssm.csv") as out:
+
+            for row in aa:
+                # print(row+" ",end="")
+                # line2write+=row+" "
+                for col in aa:
+
+                    # print(row+col,end='n')
+
+                    try:
+                        frequency = pair_dict[row+col]
+                        # try:
+                        # prob = frequency/1000
+                        p_i = aa_prob[row]
+                        q_j = aa_prob[col]
+                        p_ij = (frequency/aa_count[col]) * (frequency/top_count[row])
+                        s_ij = (1/0.75)*math.log(p_ij/(p_i*q_j),2)
+
+                        # except:si
+                        #     print("ERROR",row)
+                        # print(str(int(s_ij))+" ",end="")
+                        line2write+=str(s_ij)+","
+                        # print(str(s_ij)+" ",end="")
+                    except:
+                        # print("na"+str(q_j)+" ",end="")
+                        # print("0 ",end="")
+                        line2write+="0,"
+            print(line2write[:-1])
+            out.write(line2write[:-1]+"\n")
+            # print("\n\n\n\n\n\n\n")
+
+                # print()
+            # print(tot_aa)
+            # print(aa_count)
+            # print(top_count)
+            #
+            # print(pair_dict["WW"])
