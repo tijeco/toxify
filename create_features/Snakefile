@@ -56,7 +56,7 @@ rule mafft:
     output:
         "{header}.aln"
     shell:
-        "mafft --auto --thread -1 {input} > {output}"
+        "mafft --auto --thread -1 {input} > {output} || mafft --auto --thread -1 --anysymbol {input} > {output}"
 
 rule align2pssm:
     input:
