@@ -10,7 +10,7 @@ rule diamond:
     output:
         "{sample}.blastout"
     shell:
-        "diamond blastp -d /home/brewerlab/nr_database/diamond_db.dmnd -q {input} -o {output} -p {threads}   -f 6 sseqid sseq qseqid qseq  -k 1000 -unal 1"
+        "diamond blastp -d /home/brewerlab/nr_database/diamond_db.dmnd -q {input} -o {output} -p {threads}   -f 6 sseqid sseq qseqid qseq  -k 1000 --unal 1"
 # rule blast2fa:
 #     input:
 #         "{sample}.blastout"
