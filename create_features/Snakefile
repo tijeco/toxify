@@ -1,4 +1,4 @@
-SAMPLES, = glob_wildcards("{sample}.fasta")
+SAMPLES, = glob_wildcards("{sample}.fa")
 
 
 rule final:
@@ -6,7 +6,7 @@ rule final:
 
 rule diamond:
     input:
-        "{sample}.fasta"
+        "{sample}.fa"
     output:
         "{sample}.blastout"
     shell:
