@@ -175,14 +175,15 @@ rule pssm2mat:
 
         # print(math.log(10,10))
 
-        top_dict = {}
-        pair_dict ={}
-        aa_count = {}
-        top_count = {}
-        tot_aa = 0
+
         with open("pssm.csv","w") as out:
             for current_file in input:
                 line1 = True
+                top_dict = {}
+                pair_dict ={}
+                aa_count = {}
+                top_count = {}
+                tot_aa = 0
                 with open(current_file) as f:
                     for line in f:
                         row = line.strip().split()
