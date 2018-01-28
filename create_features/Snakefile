@@ -161,7 +161,7 @@ rule align2pssm:
 
 rule pssm2mat:
     input:
-        "pssm_dir/alignments/{header}.pssm"
+        dynamic("pssm_dir/alignments/{header}.pssm")
     output:
         "pssm.csv"
     run:
