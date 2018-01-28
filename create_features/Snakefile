@@ -1,13 +1,34 @@
-SAMPLES, = glob_wildcards("{sequence}.seq")
+SAMPLES, = glob_wildcards("{sample}.fasta")
 
 
 rule final:
-    input: expand("{sequence}.blastout",sequence=SAMPLES)
+    input: expand("{sample}.blastout",sample=SAMPLES)
 
 rule diamond:
     input:
-        "{sequence}.seq"
+        "{sample}.fasta"
     output:
-        "{sequence}.blastout"
+        "{sample}.blastout"
     shell:
-        "diamond blastp -d /home/brewerlab/nr_database/diamond_db.dmnd -q {input} -o {output} -p {threads}   -f 6 sseqid sseq qseqid qseq  -k 1000"
+        "diamond blastp -d /home/brewerlab/nr_database/diamond_db.dmnd -q {input} -o {output} -p {threads}   -f 6 sseqid sseq qseqid qseq  -k 1000 -unal 1"
+# rule blast2fa:
+#     input:
+#         "{sample}.blastout"
+#     output:
+#         "{sample}.fa"
+#
+#         used_dict = {}
+#
+#         with open(input) as f:
+#             for line in f:
+#
+#                 row = line.split()
+#                 with open(output[0],"a") as out:
+#                     if row[2] not in used_dict:
+#                         used_dict[row[2]] = True
+#                         out.write(">"+row[2]+"\n")
+#                         out.write(row[3]+"\n")
+#
+#                         # line1 = False
+#                     out.write(">"+row[0]+"\n")
+#                     out.write(row[1]+"\n")
