@@ -43,8 +43,10 @@ rule blast2fa:
 
                 row = line.split()
                 with open(row[2].replace("|","_")+".fasta","a") as out:
-                    out.write(">"+row[2]+"\n")
-                    out.write(qdict[row[2]]+"\n")
+                    if row[2] not in used_dict:
+                        used_dict[row[2]] = True
+                        out.write(">"+row[2]+"\n")
+                        out.write(qdict[row[2]]+"\n")
                     out.write(">"+row[0]+"\n")
                     out.write(row[1]+"\n")
 rule mafft:
@@ -54,3 +56,91 @@ rule mafft:
         "{header}.aln"
     shell:
         "mafft --auto -t -1 {input} > {output}"
+rule align2pssm:
+    input:
+        "{header}.aln"
+    output:
+        "{header}.pssm"
+    run:
+        line1 = True
+
+        qseq = {}
+        sseq = { "A":{},
+                "C":{},
+                "D":{},
+                "E":{},
+                "F":{},
+                "G":{},
+                "H":{},
+                "I":{},
+                "K":{},
+                "L":{},
+                "M":{},
+                "N":{},
+                "P":{},
+                "Q":{},
+                "R":{},
+                "S":{},
+                "T":{},
+                "V":{},
+                "W":{},
+                "Y":{}
+
+        }
+        for ff in fasta_iter("test.blast.aln"):
+            headerStr, seq = ff
+            if line1:
+                for num in range(len(seq)):
+                    if seq[num] != "-":
+                        qseq[num] = seq[num]
+                line1 = False
+            else:
+                for num in range(len(seq)):
+                    if num in qseq:
+                        if seq[num] != "-":
+                            try:
+
+                                try:
+                                    sseq[seq[num]][num] +=1
+                                except:
+                                    sseq[seq[num]][num] = 1
+                            except:
+                                0
+                            # print(seq[num],num)
+                            # print(sseq[seq[num]])
+
+
+        # print(qseq)
+        # print(sseq)
+        # print(1000000)
+        # print(1000000)
+        # print(1000000)
+        # print(1000000)
+        # print(1000000)
+        # print(1000000)
+        # print(1000000)
+        # print(1000000)
+        # print(1000000)
+        # print(1000000)
+        # print(1000000)
+
+
+        print("\t", end="")
+        for i in sorted(qseq.keys()):
+            print(qseq[i]+"\t", end="")
+
+        print()
+        # for i in sorted(sseq.keys()):
+        #     print(str(i)+"\t", end="")
+        #     for j in sorted(sseq[i].keys()):
+        #         print(str(j)+"\t", end="")
+        #     print()
+
+        for i in sseq:
+            print(i+"\t",end="")
+            for j in sorted(qseq.keys()):
+                try:
+                    print(str(sseq[i][j])+"\t",end="")
+                except:
+                    print("0\t",end="")
+            print()
