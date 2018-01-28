@@ -1,6 +1,6 @@
 from itertools import groupby
 import math
-import PIL.ImageDraw as ImageDraw,PIL.Image as Image, PIL.ImageShow as ImageShow
+
 
 def fasta_iter(fasta_name):
     fh = open(fasta_name)
@@ -263,6 +263,7 @@ rule seq2png:
     output:
         "seq_pics/{header}.png"
     run:
+        import PIL.ImageDraw as ImageDraw,PIL.Image as Image, PIL.ImageShow as ImageShow
         scale_factor = 360/20
         seqDict = {
             "A":(scale_factor*0,scale_factor*1),
