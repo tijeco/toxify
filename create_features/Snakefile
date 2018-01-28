@@ -32,7 +32,8 @@ SAMPLES, = glob_wildcards("{sample}.fa")
 rule final:
     # input: expand("{sample}.blastout",sample=SAMPLES)
     # input: dynamic("{header}.aln")
-    input:"pssm.csv"
+    # input:"pssm.csv"
+    input:dynamic("seq_pics/{header}.png")
 
 rule diamond:
     input:
