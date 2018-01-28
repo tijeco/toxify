@@ -130,6 +130,7 @@ rule align2pssm:
                                         sseq[seq[num]][num] = 1
                                 except:
                                     0
+            print(qseq)
 
             # print("\t", end="")
             line2write +="\t"
