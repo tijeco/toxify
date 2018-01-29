@@ -706,5 +706,6 @@ rule aaFactors:
                 try:
                     out.write(makeCompFeatures(seq)+",replace_with_number\n")
                 except:
+                    out.write(makeCompFeatures(seq)+",replace_with_number\n")
                     # out.write(makeCompFeatures(seq)+",0"+"\n")
                     None
