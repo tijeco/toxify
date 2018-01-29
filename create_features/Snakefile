@@ -49,6 +49,14 @@ def makeCompFeatures(seq):
     "Y":{3:True,6:True,12:True}
 
     }
+    seq_q1 = seq[0:quarter_len]
+    seq_q2 = seq[quarter_len:quarter_len*2]
+    seq_q3 = seq[quarter_len*2:quarter_len*3]
+    seq_q4 = seq[quarter_len*3:]
+    seq_half1 = seq[0:2*quarter_len]
+    seq_q1_3 = seq[0:3*quarter_len]
+    seq_q2_3 = seq[quarter_len:3*quarter_len]
+    seq_half2 = seq[2*quarter_len:]
     line2write = ""
     header2write = ""
     quarter_len = int(len(seq)/4)
@@ -63,7 +71,7 @@ def makeCompFeatures(seq):
                 current_class = feature
 
                 # print(i,current_class,current_factor)
-                if i==1:
+                if i==1:#1
                     #total number of current_class
                     tot_num = 0
                     for aa in seq:
@@ -72,9 +80,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",tot_num)
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
-
-
-                if i==2: # NOTE this is C
+                if i ==2:
                     tot_num = 0
                     for aa in seq:
                         if current_class in aa_descript[aa]:
@@ -82,7 +88,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
-                if i==3:
+                if i ==3:
                     tot_num = 0
                     seq_q1 = seq[0:quarter_len]
                     for aa in seq_q1:
@@ -91,34 +97,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
-                if i==4:
-                    tot_num = 0
-                    seq_q2 = seq[quarter_len:2*quarter_len]
-                    for aa in seq_q2:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
-                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                    line2write+=str(float(tot_num)) +","
-                if i==5:
-                    tot_num = 0
-                    seq_q3 = seq[2*quarter_len:3*quarter_len]
-                    for aa in seq_q3:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
-                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                    line2write+=str(float(tot_num)) +","
-                if i==6:
-                    tot_num = 0
-                    seq_q4 = seq[3*quarter_len:]
-                    for aa in seq_q4:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
-                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                    line2write+=str(float(tot_num)) +","
-                if i==7:
+                if i ==4:
                     tot_num = 0
                     seq_q1 = seq[0:quarter_len]
                     for aa in seq_q1:
@@ -127,36 +106,9 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
-                if i==8:
-                    tot_num = 0
-                    seq_q2 = seq[quarter_len:2*quarter_len]
-                    for aa in seq_q2:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
-                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                    line2write+=str(float(tot_num)/len(seq)) +","
-                if i==9:
-                    tot_num = 0
-                    seq_q3 = seq[2*quarter_len:3*quarter_len]
-                    for aa in seq_q3:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
-                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                    line2write+=str(float(tot_num)/len(seq)) +","
-                if i==10:
-                    tot_num = 0
-                    seq_q4 = seq[3*quarter_len:]
-                    for aa in seq_q4:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
-                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                    line2write+=str(float(tot_num)/len(seq)) +","
-                if i==11:
+                if i == 5:
                     q1_num = 0
-                    seq_q1 = seq[0:quarter_len]
+                    # seq_q1 = seq[0:quarter_len]
                     for aa in seq_q1:
                         if current_class in aa_descript[aa]:
                             q1_num+=1
@@ -168,89 +120,202 @@ def makeCompFeatures(seq):
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(0.0) +","
+                if i ==6:
+                    tot_num = 0
+                    for aa in seq_q2:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+                if i ==7:
+                    tot_num = 0
+                    for aa in seq_q2:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+                if i ==8:
+                    q2_num = 0
+                    for aa in seq_q2:
+                        if current_class in aa_descript[aa]:
+                            q2_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
                     else:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                        line2write+=str(float(q1_num)/tot_num) +","
-                # if i==12:
-                #     # print("@@@@@@@@@@@@@@@@@")
-                # if i==13:
-                #     # print("@@@@@@@@@@@@@@@@@")
-                # if i==14:
-                    # print("@@@@@@@@@@@@@@@@@")
-                if i==15:
+                        line2write+=str(float(q2_num)/tot_num) +","
+                if i ==9:
                     tot_num = 0
-                    seq_half1 = seq[0:2*quarter_len]
+                    for aa in seq_q3:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+                if i ==10:
+                    tot_num = 0
+                    for aa in seq_q3:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+                if i ==11:
+                    q3_num = 0
+                    for aa in seq_q3:
+                        if current_class in aa_descript[aa]:
+                            q3_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+                    else:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(float(q3_num)/tot_num) +","
+
+                if i ==12:
+                    tot_num = 0
+                    for aa in seq_q4:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+                if i ==13:
+                    tot_num = 0
+                    for aa in seq_q4:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+                if i ==14:
+                    q4_num = 0
+                    for aa in seq_q4:
+                        if current_class in aa_descript[aa]:
+                            q4_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+                    else:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(float(q4_num)/tot_num) +","
+
+                if i ==15:
+                    tot_num = 0
+                    for aa in seq_q2:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+                if i ==16:
+                    tot_num = 0
                     for aa in seq_half1:
                         if current_class in aa_descript[aa]:
                             tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                    line2write+=str(float(tot_num)) +","
-                if i==16:
+                    line2write+=str(float(tot_num)/len(seq)) +","
+                if i ==17:
+                    half1_num = 0
+                    for aa in seq_half1:
+                        if current_class in aa_descript[aa]:
+                            half1_num+=1
                     tot_num = 0
-                    seq_q1_3 = seq[0:3*quarter_len]
-                    for aa in seq_q1_3:
+                    for aa in seq:
                         if current_class in aa_descript[aa]:
                             tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
-                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                    line2write+=str(float(tot_num)) +","
-                if i==17:
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+                    else:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(float(half1_num)/tot_num) +","
+                if i ==18:
                     tot_num = 0
-                    seq_q2_3 = seq[quarter_len:3*quarter_len]
                     for aa in seq_q2_3:
                         if current_class in aa_descript[aa]:
                             tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
-                if i==18:
+                if i ==19:
                     tot_num = 0
-                    seq_half2 = seq[2*quarter_len:]
+                    for aa in seq_q2_3:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+                if i ==20:
+                    q2_3_num = 0
+                    for aa in seq_q2_3:
+                        if current_class in aa_descript[aa]:
+                            q2_3_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+                    else:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(float(q2_3_num)/tot_num) +","
+                if i ==21:
+                    tot_num = 0
                     for aa in seq_half2:
                         if current_class in aa_descript[aa]:
                             tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
-                if i==19:
+                if i ==22:
                     tot_num = 0
-                    seq_half1 = seq[0:2*quarter_len]
-                    for aa in seq_half1:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
-                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                    line2write+=str(float(tot_num)/len(seq)) +","
-                if i==20:
-                    tot_num = 0
-                    seq_q1_3 = seq[0:3*quarter_len]
-                    for aa in seq_q1_3:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
-                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                    line2write+=str(float(tot_num)/len(seq)) +","
-                if i==21:
-                    tot_num = 0
-                    seq_q2_3 = seq[quarter_len:3*quarter_len]
-                    for aa in seq_q2_3:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
-                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
-                    line2write+=str(float(tot_num)/len(seq)) +","
-                if i==22:
-                    tot_num = 0
-                    seq_half2 = seq[2*quarter_len:]
                     for aa in seq_half2:
                         if current_class in aa_descript[aa]:
                             tot_num+=1
-                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
-                if i==23: #NOTE this is D
+                if i ==23:
+                    half2_num = 0
+                    for aa in seq_half2:
+                        if current_class in aa_descript[aa]:
+                            half2_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if current_class in aa_descript[aa]:
+                            tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+                    else:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(float(half2_num)/tot_num) +","
+
+                if i==24: #NOTE this is D
 
                     seq_q1 = seq[0:quarter_len]
                     seq_q2 = seq[quarter_len:2*quarter_len]
