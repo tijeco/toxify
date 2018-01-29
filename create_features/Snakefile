@@ -395,6 +395,104 @@ def makeCompFeatures(seq):
 
 
 
+def makeFeatures(seq,sym):
+    quarter_len = int(len(seq)/4)
+    seq_q1 = seq[0:quarter_len]
+    seq_q2 = seq[quarter_len:quarter_len*2]
+    seq_q3 = seq[quarter_len*2:quarter_len*3]
+    seq_q4 = seq[quarter_len*3:]
+    seq_half1 = seq[0:2*quarter_len]
+    seq_q1_3 = seq[0:3*quarter_len]
+    seq_q2_3 = seq[quarter_len:3*quarter_len]
+    seq_half2 = seq[2*quarter_len:]
+
+    pair_dict = {}
+    line2write=""
+    for i in sym:
+        line2write+=str(seq.count(i)/len(seq))+","
+        line2write+=str(seq.count(i))+","
+
+
+        line2write+=str(seq_q1.count(i)/len(seq_q1))+","
+        line2write+=str(seq_q1.count(i))+","
+        try:
+            line2write+=str(seq_q1.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        line2write+=str(seq_q2.count(i)/len(seq_q2))+","
+        line2write+=str(seq_q2.count(i))+","
+        try:
+            line2write+=str(seq_q2.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        line2write+=str(seq_q3.count(i)/len(seq_q3))+","
+        line2write+=str(seq_q3.count(i))+","
+        try:
+            line2write+=str(seq_q3.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        line2write+=str(seq_q4.count(i)/len(seq_q4))+","
+        line2write+=str(seq_q4.count(i))+","
+        try:
+            line2write+=str(seq_q4.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        line2write+=str(seq_half1.count(i)/len(seq_half1))+","
+        line2write+=str(seq_half1.count(i))+","
+        try:
+            line2write+=str(seq_half1.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        # line2write+=str(seq_q1_3.count(i)/len(seq_q1_3))+","
+        # line2write+=str(seq_q1_3.count(i))+","
+        # try:
+        #     line2write+=str(seq_q1_3.count(i)/seq.count(i))+","
+        # except:
+        #     line2write+=str(0)+","
+        line2write+=str(seq_q2_3.count(i)/len(seq_q2_3))+","
+        line2write+=str(seq_q2_3.count(i))+","
+        try:
+            line2write+=str(seq_q2_3.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        line2write+=str(seq_half2.count(i)/len(seq_half2))+","
+        line2write+=str(seq_half2.count(i))+","
+        try:
+            line2write+=str(seq_half2.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+
+        #end C
+
+        for j in sym:
+            if (sorted((i,j))[0],sorted((i,j))[1]) not in pair_dict:
+
+                pair_dict[(sorted((i,j))[0],sorted((i,j))[1])]=seq.count(i+j)+seq.count(j+i)
+                line2write+=str(pair_dict[(sorted((i,j))[0],sorted((i,j))[1])]/len(seq) )+","
+        #end T
+
+        line2write+=str((seq.find(i))/len(seq))+","
+        line2write+=str((seq_q2.find(i)+quarter_len)/len(seq))+","
+        line2write+=str((seq_q3.find(i)+quarter_len*2)/len(seq))+","
+        line2write+=str((seq_q4.find(i)+quarter_len*3)/len(seq))+","
+        line2write+=str((len(seq)-seq[::-1].find(i)-1)/len(seq))+","
+        #end D
+
+        # print(i,sym.find(i),(sym.find(i)+1)%len(sym))
+        # left=sym[sym.find(i)]
+        # right=sym[(sym.find(i)+1)%len(sym)]
+        # print(left,right)
+        # # if sym.find(i)+1 != len(sym):
+        # #     # print(i,sym.find(i),(sym.find(i)+1))
+        # #     left = sym[sym.find(i)]
+        # #     right = sym[sym.find(i)+1]
+        # #     print(left,right,sym.count(left+right))
+
+
+
+    return line2write[:-1]
+
+
 SAMPLES, = glob_wildcards("{sample}.fa")
 
 
@@ -404,7 +502,8 @@ rule final:
     # input:"pssm.csv"
     # input:dynamic("seq_pics/{header}.png")
     # input:"shahib.csv"
-    input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
+    # input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
+    input:"sspro.csv"
 
 rule diamond:
     input:
@@ -722,3 +821,42 @@ rule Raptorx:
         "/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all"
     shell:
         "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input} 64 0 || echo too_small > {output}"
+rule ssComp:
+    input:
+        dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
+    output:
+        "sspro.csv"
+    run:
+        ss_dict = {
+            "ss3":"HEC",
+            "ss8":"HGIEBTSL",
+            "acc":"MBE",
+            "diso":"*."
+            }
+        with open(output[0],"w") as out:
+
+            for current_file in input:
+                with open(current_file) as f:
+                    lineNum = 1
+                    for line in f:
+                        line2write=""
+                        if lineNum == 1:
+                            if line.strip() != "too_small":
+                                header =line.strip().replace(">","")
+                            else:
+                                line2write = "NA,"*100 +"NA"
+                                break
+
+                        elif lineNum == 3:
+                            line2write = makeFeatures(line.strip(),ss_dict["ss3"]) +","
+                        elif lineNum == 4:
+                            line2write = makeFeatures(line.strip(),ss_dict["ss8"]) +","
+                        elif lineNum == 5:
+                            line2write = makeFeatures(line.strip(),ss_dict["acc"]) +","
+                        elif lineNum == 6:
+                            line2write = makeFeatures(line.strip(),ss_dict["diso"])
+                        elif lineNum > 6:
+                            break
+
+                        lineNum+=1
+                        out.write(line2write+"\n")
