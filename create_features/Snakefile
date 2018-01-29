@@ -908,7 +908,7 @@ rule ssComp:
 
                         if lineNum == 1:
                             if line.strip() != "too_small":
-                                header =line.strip().replace(">","")
+                                header =line.strip().replace(">","").replace("|","_")
                             else:
                                 line2write = "NA,"*498 +"NA"
                                 break
