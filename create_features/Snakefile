@@ -809,9 +809,10 @@ rule aaFactors:
             for ff in input_fasta:
                 headerStr, seq = ff
                 try:
-                    out.write(makeCompFeatures(seq)+",replace_with_number\n")
+                    out.write(headerStr+",")
+                    out.write(makeCompFeatures(seq)+"\n")
                 except:
-                    out.write(makeCompFeatures(seq)+",replace_with_number\n")
+
                     # out.write(makeCompFeatures(seq)+",0"+"\n")
                     None
 rule Raptorx:
