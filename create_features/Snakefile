@@ -721,4 +721,4 @@ rule Raptorx:
     output:
         "/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all"
     shell:
-        "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input} 64 0"
+        "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input} 64 0 || echo too_small > {output}"
