@@ -503,7 +503,7 @@ rule final:
     # input:dynamic("seq_pics/{header}.png")
     # input:"shahib.csv"
     # input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
-    input:"sspro.csv"
+    input:"shahib.csv"
 
 rule diamond:
     input:
