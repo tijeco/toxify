@@ -128,6 +128,8 @@ def makeCompFeatures(seq):
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(0.0) +","
+                    else:
+                        line2write+=str(float(q1_num)/tot_num) +","
                 if i ==6:
                     tot_num = 0
                     for aa in seq_q2:
