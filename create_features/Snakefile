@@ -845,7 +845,7 @@ rule ssComp:
                             if line.strip() != "too_small":
                                 header =line.strip().replace(">","")
                             else:
-                                line2write = "NA,"*100 +"NA"
+                                line2write = "NA,"*58 +"NA"
                                 break
 
                         elif lineNum == 3:
