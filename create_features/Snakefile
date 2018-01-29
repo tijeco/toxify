@@ -902,14 +902,15 @@ rule ssComp:
 
             for current_file in input:
                 with open(current_file) as f:
+                    header = current_file.strip().split("/")[-1].replace(".all","")
                     lineNum = 1
                     line2write=""
                     for line in f:
 
                         if lineNum == 1:
-                            if line.strip() != "too_small":
-                                header =line.strip().replace(">","").replace("|","_")
-                            else:
+                            if line.strip() == "too_small":
+                            #     header =line.strip().replace(">","").replace("|","_")
+                            # else:
                                 line2write = "NA,"*498 +"NA"
                                 break
 
