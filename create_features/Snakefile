@@ -566,7 +566,7 @@ rule final:
     # input:dynamic("seq_pics/{header}.png")
     # input:"shahib.csv"
     # input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
-    input:"sspro.csv"
+    input:"all.combined.csv"
 
 rule diamond:
     input:
@@ -880,6 +880,7 @@ rule aaFactors:
                     None
 rule Raptorx:
     input:
+        "seq_pics/{header}.png",
         "sequences/{header}.seq"
     output:
         "/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all"
@@ -928,3 +929,12 @@ rule ssComp:
                         lineNum+=1
                     out.write(header+",")
                     out.write(line2write+"\n")
+rule combineFiles:
+    input:
+        pssm="pssm.csv",
+        sspro="sspro.csv",
+        shahib="shahib.csv",
+    output:
+        "all.combined.csv"
+    shell:
+        "paste -d,  {input.pssm} {input.sspro} {input.shahib} > {output}"
