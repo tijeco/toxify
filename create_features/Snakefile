@@ -872,7 +872,7 @@ rule aaFactors:
             for ff in input_fasta:
                 headerStr, seq = ff
                 try:
-                    out.write(headerStr+",")
+                    out.write(headerStr.replace("|","_")+",")
                     out.write(makeCompFeatures(seq)+"\n")
                 except:
 
