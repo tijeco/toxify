@@ -838,8 +838,9 @@ rule ssComp:
             for current_file in input:
                 with open(current_file) as f:
                     lineNum = 1
+                    line2write=""
                     for line in f:
-                        line2write=""
+
                         if lineNum == 1:
                             if line.strip() != "too_small":
                                 header =line.strip().replace(">","")
@@ -859,4 +860,4 @@ rule ssComp:
                             break
 
                         lineNum+=1
-                        out.write(line2write+"\n")
+                    out.write(line2write+"\n")
