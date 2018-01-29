@@ -531,7 +531,7 @@ rule final:
     # input:dynamic("seq_pics/{header}.png")
     # input:"shahib.csv"
     # input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
-    input:"shahib.csv"
+    input:"sspro.csv"
 
 rule diamond:
     input:
@@ -878,13 +878,13 @@ rule ssComp:
                                 break
 
                         elif lineNum == 3:
-                            line2write += makeFeatures(line.strip(),ss_dict["ss3"]) +","
+                            line2write = makeFeatures(line.strip(),ss_dict["ss3"]) +","
                         elif lineNum == 4:
-                            line2write += makeFeatures(line.strip(),ss_dict["ss8"]) +","
+                            line2write = makeFeatures(line.strip(),ss_dict["ss8"]) +","
                         elif lineNum == 5:
-                            line2write += makeFeatures(line.strip(),ss_dict["acc"]) +","
+                            line2write = makeFeatures(line.strip(),ss_dict["acc"]) +","
                         elif lineNum == 6:
-                            line2write += makeFeatures(line.strip(),ss_dict["diso"])
+                            line2write = makeFeatures(line.strip(),ss_dict["diso"])
                         elif lineNum > 6:
                             break
 
