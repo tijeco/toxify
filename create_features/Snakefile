@@ -83,6 +83,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",tot_num)
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
+
                 if i ==2:
                     tot_num = 0
                     for aa in seq:
@@ -92,6 +93,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
+
                 if i ==3:
                     tot_num = 0
                     seq_q1 = seq[0:quarter_len]
@@ -102,6 +104,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
+
                 if i ==4:
                     tot_num = 0
                     seq_q1 = seq[0:quarter_len]
@@ -112,6 +115,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
+
                 if i == 5:
                     q1_num = 0
                     # seq_q1 = seq[0:quarter_len]
@@ -128,6 +132,7 @@ def makeCompFeatures(seq):
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(0.0) +","
+
                     else:
                         line2write+=str(float(q1_num)/tot_num) +","
                 if i ==6:
@@ -139,6 +144,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
+
                 if i ==7:
                     tot_num = 0
                     for aa in seq_q2:
@@ -147,6 +153,7 @@ def makeCompFeatures(seq):
                                 tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
+
                 if i ==8:
                     q2_num = 0
                     for aa in seq_q2:
@@ -162,10 +169,12 @@ def makeCompFeatures(seq):
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(0.0) +","
+
                     else:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(float(q2_num)/tot_num) +","
+
                 if i ==9:
                     tot_num = 0
                     for aa in seq_q3:
@@ -175,6 +184,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
+
                 if i ==10:
                     tot_num = 0
                     for aa in seq_q3:
@@ -183,6 +193,7 @@ def makeCompFeatures(seq):
                                 tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
+
                 if i ==11:
                     q3_num = 0
                     for aa in seq_q3:
@@ -198,10 +209,12 @@ def makeCompFeatures(seq):
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(0.0) +","
+
                     else:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(float(q3_num)/tot_num) +","
+
 
                 if i ==12:
                     tot_num = 0
@@ -212,6 +225,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
+
                 if i ==13:
                     tot_num = 0
                     for aa in seq_q4:
@@ -220,6 +234,7 @@ def makeCompFeatures(seq):
                                 tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
+
                 if i ==14:
                     q4_num = 0
                     for aa in seq_q4:
@@ -235,10 +250,12 @@ def makeCompFeatures(seq):
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(0.0) +","
+
                     else:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(float(q4_num)/tot_num) +","
+
 
                 if i ==15:
                     tot_num = 0
@@ -249,6 +266,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
+
                 if i ==16:
                     tot_num = 0
                     for aa in seq_half1:
@@ -257,6 +275,7 @@ def makeCompFeatures(seq):
                                 tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
+
                 if i ==17:
                     half1_num = 0
                     for aa in seq_half1:
@@ -272,10 +291,12 @@ def makeCompFeatures(seq):
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(0.0) +","
+
                     else:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(float(half1_num)/tot_num) +","
+
                 if i ==18:
                     tot_num = 0
                     for aa in seq_q2_3:
@@ -285,6 +306,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
+
                 if i ==19:
                     tot_num = 0
                     for aa in seq_q2_3:
@@ -293,6 +315,7 @@ def makeCompFeatures(seq):
                                 tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
+
                 if i ==20:
                     q2_3_num = 0
                     for aa in seq_q2_3:
@@ -308,10 +331,12 @@ def makeCompFeatures(seq):
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(0.0) +","
+
                     else:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(float(q2_3_num)/tot_num) +","
+
                 if i ==21:
                     tot_num = 0
                     for aa in seq_half2:
@@ -321,6 +346,7 @@ def makeCompFeatures(seq):
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
+
                 if i ==22:
                     tot_num = 0
                     for aa in seq_half2:
@@ -329,6 +355,7 @@ def makeCompFeatures(seq):
                                 tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
+
                 if i ==23:
                     half2_num = 0
                     for aa in seq_half2:
@@ -344,10 +371,12 @@ def makeCompFeatures(seq):
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(0.0) +","
+
                     else:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                         line2write+=str(float(half2_num)/tot_num) +","
+
 
                 if i==24: #NOTE this is D
 
@@ -366,7 +395,8 @@ def makeCompFeatures(seq):
                     class_dict = {}
                     numsWeWant = ""
                     for aa in range(len(seq)):
-                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                        # print(aa,seq[aa] != "X" and seq[aa] != "Z" and seq[aa]!="U" and seq[aa]!="B")
+                        if seq[aa] != "X" and seq[aa] != "Z" and seq[aa]!="U" and seq[aa]!="B":
                             # if first_classFound == False:
                             if current_class in aa_descript[seq[aa]]:
                                 if seq.find(seq[aa])==aa:
@@ -400,16 +430,19 @@ def makeCompFeatures(seq):
                     for q in ["q1","q2","q3","q4","last"]:
                         try:
                             line2write+=str(class_dict[q])+","
+                            # print(class_dict[q])
                         except:
                             line2write+="NA,"
+                            # print("NA")
 
     pair_dict = {}
     for i in range(len(seq)-1):
-        for left in aa_descript[seq[i]]:
-            for right in aa_descript[seq[i+1]]:
-                if (sorted([left,right])[0],sorted([left,right])[1]) not in pair_dict:
-                    pair_dict[(sorted([left,right])[0],sorted([left,right])[1])] =1
-                pair_dict[(sorted([left,right])[0],sorted([left,right])[1])] += 1
+        if seq[i] != "X" and seq[i] != "Z" and seq[i]!="U" and seq[i]!="B" and seq[i+1] != "X" and seq[i+1] != "Z" and seq[i+1]!="U" and seq[i+1]!="B" :
+            for left in aa_descript[seq[i]]:
+                for right in aa_descript[seq[i+1]]:
+                    if (sorted([left,right])[0],sorted([left,right])[1]) not in pair_dict:
+                        pair_dict[(sorted([left,right])[0],sorted([left,right])[1])] =1
+                    pair_dict[(sorted([left,right])[0],sorted([left,right])[1])] += 1
 
     usedBeforeDict = {}
     for left in range(2,14):
@@ -417,13 +450,13 @@ def makeCompFeatures(seq):
             if (sorted([left,right])[0],sorted([left,right])[1]) not in usedBeforeDict:
                 if  (sorted([left,right])[0],sorted([left,right])[1]) in pair_dict:
                     line2write+=str(pair_dict[(sorted([left,right])[0],sorted([left,right])[1])]/len(seq))+","
-
+                    # print(pair_dict[(sorted([left,right])[0],sorted([left,right])[1])]/len(seq))
                 else:
                     line2write+="NA,"
+                    # print("NA")
+
                 usedBeforeDict[(sorted([left,right])[0],sorted([left,right])[1])] = True
     return line2write[:-1]
-
-
 
 def makeFeatures(seq,sym):
     quarter_len = int(len(seq)/4)
