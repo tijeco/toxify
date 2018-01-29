@@ -49,6 +49,7 @@ def makeCompFeatures(seq):
     "Y":{3:True,6:True,12:True}
 
     }
+    quarter_len = int(len(seq)/4)
     seq_q1 = seq[0:quarter_len]
     seq_q2 = seq[quarter_len:quarter_len*2]
     seq_q3 = seq[quarter_len*2:quarter_len*3]
