@@ -404,7 +404,7 @@ rule final:
     # input:"pssm.csv"
     # input:dynamic("seq_pics/{header}.png")
     # input:"shahib.csv"
-    input:dynamic("sequences/tmp/{header}/{header}.all")
+    input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
 
 rule diamond:
     input:
@@ -719,6 +719,6 @@ rule Raptorx:
     input:
         "sequences/{header}.seq"
     output:
-        "sequences/tmp/{header}/{header}.all"
+        "/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all"
     shell:
-        "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input} 64 0 && cp -r /home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header} sequences/"
+        "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input} 64 0"
