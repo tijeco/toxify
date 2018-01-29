@@ -80,16 +80,18 @@ def makeCompFeatures(seq):
                     #total number of current_class
                     tot_num = 0
                     for aa in seq:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",tot_num)
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
                 if i ==2:
                     tot_num = 0
                     for aa in seq:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
@@ -97,8 +99,9 @@ def makeCompFeatures(seq):
                     tot_num = 0
                     seq_q1 = seq[0:quarter_len]
                     for aa in seq_q1:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
@@ -106,8 +109,9 @@ def makeCompFeatures(seq):
                     tot_num = 0
                     seq_q1 = seq[0:quarter_len]
                     for aa in seq_q1:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
@@ -115,12 +119,14 @@ def makeCompFeatures(seq):
                     q1_num = 0
                     # seq_q1 = seq[0:quarter_len]
                     for aa in seq_q1:
-                        if current_class in aa_descript[aa]:
-                            q1_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                q1_num+=1
                     tot_num = 0
                     for aa in seq:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     if tot_num == 0:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
@@ -128,27 +134,31 @@ def makeCompFeatures(seq):
                 if i ==6:
                     tot_num = 0
                     for aa in seq_q2:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
                 if i ==7:
                     tot_num = 0
                     for aa in seq_q2:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
                 if i ==8:
                     q2_num = 0
                     for aa in seq_q2:
-                        if current_class in aa_descript[aa]:
-                            q2_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                q2_num+=1
                     tot_num = 0
                     for aa in seq:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     if tot_num == 0:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
@@ -160,27 +170,31 @@ def makeCompFeatures(seq):
                 if i ==9:
                     tot_num = 0
                     for aa in seq_q3:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
                 if i ==10:
                     tot_num = 0
                     for aa in seq_q3:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
                 if i ==11:
                     q3_num = 0
                     for aa in seq_q3:
-                        if current_class in aa_descript[aa]:
-                            q3_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                q3_num+=1
                     tot_num = 0
                     for aa in seq:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     if tot_num == 0:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
@@ -193,27 +207,31 @@ def makeCompFeatures(seq):
                 if i ==12:
                     tot_num = 0
                     for aa in seq_q4:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
                 if i ==13:
                     tot_num = 0
                     for aa in seq_q4:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
                 if i ==14:
                     q4_num = 0
                     for aa in seq_q4:
-                        if current_class in aa_descript[aa]:
-                            q4_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                q4_num+=1
                     tot_num = 0
                     for aa in seq:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     if tot_num == 0:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
@@ -226,27 +244,31 @@ def makeCompFeatures(seq):
                 if i ==15:
                     tot_num = 0
                     for aa in seq_q2:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
                 if i ==16:
                     tot_num = 0
                     for aa in seq_half1:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
                 if i ==17:
                     half1_num = 0
                     for aa in seq_half1:
-                        if current_class in aa_descript[aa]:
-                            half1_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                half1_num+=1
                     tot_num = 0
                     for aa in seq:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     if tot_num == 0:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
@@ -258,27 +280,31 @@ def makeCompFeatures(seq):
                 if i ==18:
                     tot_num = 0
                     for aa in seq_q2_3:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
                 if i ==19:
                     tot_num = 0
                     for aa in seq_q2_3:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
                 if i ==20:
                     q2_3_num = 0
                     for aa in seq_q2_3:
-                        if current_class in aa_descript[aa]:
-                            q2_3_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                q2_3_num+=1
                     tot_num = 0
                     for aa in seq:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     if tot_num == 0:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
@@ -290,27 +316,31 @@ def makeCompFeatures(seq):
                 if i ==21:
                     tot_num = 0
                     for aa in seq_half2:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)) +","
                 if i ==22:
                     tot_num = 0
                     for aa in seq_half2:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     header2write+="f"+str(current_factor)+"c"+str(current_class)+","
                     line2write+=str(float(tot_num)/len(seq)) +","
                 if i ==23:
                     half2_num = 0
                     for aa in seq_half2:
-                        if current_class in aa_descript[aa]:
-                            half2_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                half2_num+=1
                     tot_num = 0
                     for aa in seq:
-                        if current_class in aa_descript[aa]:
-                            tot_num+=1
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
                     if tot_num == 0:
                         # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
                         header2write+="f"+str(current_factor)+"c"+str(current_class)+","
@@ -337,33 +367,34 @@ def makeCompFeatures(seq):
                     class_dict = {}
                     numsWeWant = ""
                     for aa in range(len(seq)):
-                        # if first_classFound == False:
-                        if current_class in aa_descript[seq[aa]]:
-                            if seq.find(seq[aa])==aa:
-                                if "q1" not in class_dict:
-                                    # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
-                                    # print("q1",current_class,seq.find(seq[aa]))
-                                    class_dict["q1"] = (seq.find(seq[aa]))/len(seq)
-                            if seq_q2.find(seq[aa])+quarter_len==aa:
-                                if "q2" not in class_dict:
-                                    # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
-                                    # print("q2",current_class,seq_q2.find(seq[aa])+quarter_len)
-                                    class_dict["q2"] = (seq_q2.find(seq[aa])+quarter_len)/len(seq)
-                            if seq_q3.find(seq[aa])+quarter_len*2==aa:
-                                if "q3" not in class_dict:
-                                    # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
-                                    # print("q3",current_class,seq_q3.find(seq[aa])+quarter_len*2)
-                                    class_dict["q3"] = (seq_q3.find(seq[aa])+quarter_len*2)/len(seq)
-                            if seq_q4.find(seq[aa])+quarter_len*3==aa:
-                                if "q4" not in class_dict:
-                                    # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
-                                    # print("q4",current_class,seq_q4.find(seq[aa])+quarter_len*3)
-                                    class_dict["q4"] = (seq_q4.find(seq[aa])+quarter_len*3)/len(seq)
-                            if len(seq)-seq[::-1].find(seq[aa])-1==aa:
-                                if "last" not in class_dict:
-                                    # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
-                                    # print("last",current_class,len(seq)-seq[::-1].find(seq[aa])-1)
-                                    class_dict["last"] = (len(seq)-seq[::-1].find(seq[aa])-1)/len(seq)
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B":
+                            # if first_classFound == False:
+                            if current_class in aa_descript[seq[aa]]:
+                                if seq.find(seq[aa])==aa:
+                                    if "q1" not in class_dict:
+                                        # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
+                                        # print("q1",current_class,seq.find(seq[aa]))
+                                        class_dict["q1"] = (seq.find(seq[aa]))/len(seq)
+                                if seq_q2.find(seq[aa])+quarter_len==aa:
+                                    if "q2" not in class_dict:
+                                        # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
+                                        # print("q2",current_class,seq_q2.find(seq[aa])+quarter_len)
+                                        class_dict["q2"] = (seq_q2.find(seq[aa])+quarter_len)/len(seq)
+                                if seq_q3.find(seq[aa])+quarter_len*2==aa:
+                                    if "q3" not in class_dict:
+                                        # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
+                                        # print("q3",current_class,seq_q3.find(seq[aa])+quarter_len*2)
+                                        class_dict["q3"] = (seq_q3.find(seq[aa])+quarter_len*2)/len(seq)
+                                if seq_q4.find(seq[aa])+quarter_len*3==aa:
+                                    if "q4" not in class_dict:
+                                        # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
+                                        # print("q4",current_class,seq_q4.find(seq[aa])+quarter_len*3)
+                                        class_dict["q4"] = (seq_q4.find(seq[aa])+quarter_len*3)/len(seq)
+                                if len(seq)-seq[::-1].find(seq[aa])-1==aa:
+                                    if "last" not in class_dict:
+                                        # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
+                                        # print("last",current_class,len(seq)-seq[::-1].find(seq[aa])-1)
+                                        class_dict["last"] = (len(seq)-seq[::-1].find(seq[aa])-1)/len(seq)
 
                     # print(current_class,class_dict)
                     # nums2print = ""
