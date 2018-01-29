@@ -891,6 +891,7 @@ rule ssComp:
     output:
         "sspro.csv"
     run:
+        header=""
         ss_dict = {
             "ss3":"HEC",
             "ss8":"HGIEBTSL",
@@ -924,4 +925,5 @@ rule ssComp:
                             break
 
                         lineNum+=1
+                    out.write(header+",")
                     out.write(line2write+"\n")
