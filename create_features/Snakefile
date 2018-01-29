@@ -403,7 +403,8 @@ rule final:
     # input: dynamic("{header}.aln")
     # input:"pssm.csv"
     # input:dynamic("seq_pics/{header}.png")
-    input:"shahib.csv"
+    # input:"shahib.csv"
+    input:dynamic("sequences/tmp/{header}.all")
 
 rule diamond:
     input:
@@ -714,3 +715,10 @@ rule aaFactors:
                     out.write(makeCompFeatures(seq)+",replace_with_number\n")
                     # out.write(makeCompFeatures(seq)+",0"+"\n")
                     None
+rule Raptorx:
+    input:
+        "sequences/{header}.seq"
+    output:
+        "sequences/tmp/{header}.all"
+    shell:
+        "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input} 64 0 && cp /home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/ sequences/"
