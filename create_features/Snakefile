@@ -46,7 +46,8 @@ def makeCompFeatures(seq):
     "T":{3:True,8:True,12:True},
     "V":{3:True,4:True,5:True},
     "W":{3:True,4:True,6:True,12:True},
-    "Y":{3:True,6:True,12:True}
+    "Y":{3:True,6:True,12:True},
+    "X":False
 
     }
     quarter_len = int(len(seq)/4)
