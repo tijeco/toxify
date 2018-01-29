@@ -270,7 +270,7 @@ rule splitSeqs:
     output:
         "sequences/{header}.seq"
     shell:
-        "head -n 1 {input} > {output}"
+        "head -n 2 {input} > {output}"
 
 rule seq2png:
     input:
