@@ -883,7 +883,7 @@ rule Raptorx:
         "seq_pics/{header}.png",
         "sequences/{header}.seq"
     output:
-        "/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all"
+        "{header}.seq.dumb/{header}.all"
     shell:
         "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input} 64 0 || echo too_small > {output}"
 rule ssComp:
