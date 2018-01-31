@@ -888,7 +888,7 @@ rule Raptorx:
         "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input} 64 0 || echo too_small > {output}"
 rule ssComp:
     input:
-        dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
+        dynamic("{header}.seq.dumb/{header}.all")
     output:
         "sspro.csv"
     run:
