@@ -884,12 +884,12 @@ rule Raptorx:
         png="seq_pics/{header}.png"
 
     output:
-        "{header}.seq.dumb/{header}.all"
+        "{header}.seq.dumb/{header}/{header}.all"
     shell:
         "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input.seq} 64 0 || echo too_small > {output}"
 rule ssComp:
     input:
-        dynamic("{header}.seq.dumb/{header}.all")
+        dynamic("{header}.seq.dumb/{header}/{header}.all")
     output:
         "sspro.csv"
     run:
