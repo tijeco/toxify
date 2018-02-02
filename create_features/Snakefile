@@ -902,6 +902,7 @@ rule ssComp:
         with open(output[0],"w") as out:
 
             for current_file in input:
+                print("opening:",current_file)
                 with open(current_file) as f:
                     header = current_file.strip().split("/")[-1].replace(".all","")
                     lineNum = 1
