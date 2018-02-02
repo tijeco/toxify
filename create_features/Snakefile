@@ -880,12 +880,13 @@ rule aaFactors:
                     None
 rule Raptorx:
     input:
-        "seq_pics/{header}.png",
-        "sequences/{header}.seq"
+        seq="sequences/{header}.seq",
+        png="seq_pics/{header}.png"
+
     output:
         "{header}.seq.dumb/{header}.all"
     shell:
-        "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input} 64 0 || echo too_small > {output}"
+        "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input.seq} 64 0 || echo too_small > {output}"
 rule ssComp:
     input:
         dynamic("{header}.seq.dumb/{header}.all")
