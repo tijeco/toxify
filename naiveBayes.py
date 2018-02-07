@@ -37,31 +37,7 @@ print(mean_array,"\n\n\n")
 print(var_array)
 
 
-# print(training_data.describe().index['mean'])
-
-# print(test_data.iloc[:,0:num_cols])
-#
-# print(test_data.loc[test_data[4] == 0])
-
-# print(train_var,train_mean)
-# print(training_data.iloc[:,0:num_cols].mean())
-# pop_mean = training_data.iloc[:,0:num_cols].mean()
-# # print(training_data.iloc[:,0:num_cols].var())
-# pop_var = training_data.iloc[:,0:num_cols].var()
-# print(pop_var)
-# print(math.sqrt(25),math.pi)
-# # print(1/(math.sqrt(2*math.pi*pop_var)))
-# print(1/((2*pop_var*math.pi)**0.5))
-# pop_base = 1/((2*pop_var*math.pi)**0.5)
-# # print(training_data[:2].mean())
-# # print(training_data.var())
-# print(pop_mean[0])
-
-
 print("#################")
-# for i in test_data:
-#     print(i)
-#     print(test_data.iloc[i])
 
 for index, row in test_data.iterrows():
     blank_array = np.zeros((num_classes,num_cols))
@@ -75,34 +51,40 @@ for index, row in test_data.iterrows():
         base = 1.0/((2.0*var_array[i]*math.pi)**0.5)
         blank_array[i] = base**exponent
         evidence += np.prod(blank_array[i]) * 0.33
-    # print(blank_array)
+
     print("Actual value:",row[num_cols])
     for i in range(num_classes):
         print(i, (np.prod(blank_array[i])*0.33)/evidence)
+def getProb(test,mean,var):
+    exponent = -(test-mean)**2/(2*var)
+    base = 1/((2*var*math.pi)**0.5)
+    print("Answer:",base**exponent)
 
-    # evidence = 0
-    # for i in range(num_cols):
-    #     exponent = -(test_value-pop_mean[i])**2/(2*pop_var[i])
-    #     pop_base = 1/((2*pop_var[i]*math.pi)**0.5)
-    #     blank_array[i] =  pop_base**exponent
-    #     evidence+=np.prod(blank_array[i])*0.33
-    #     # print(i,np.prod(blank_array[i]))
-    #     # print(i)
-    # print(blank_array)
-    # for i in blank_array:
-    #     print(np.prod(i)/evidence)
-    # print("evidence:",evidence)
-    # print(test_data.shape[1]-1)
-    0
 
-    # print(-(test_value-pop_mean)**2/(2*pop_var))
-    # exponent = -(test_value-pop_mean)**2/(2*pop_var)
-    # print(pop_base**exponent)
-    # print(np.prod(pop_base**exponent))
-    # print(test_value)
-# print(np.zeros((4,4)))
-# blank_array = np.zeros((4,4))
-# blank_array[0] = 0
-# blank_array[1] = 1
-#
-# print(blank_array)
+#setosa f1-4
+
+getProb(5.9,4.9952381,0.12387921)
+getProb(3.0,3.3952381,0.14192799)
+getProb(4.2,1.45238095,0.02499419)
+getProb(1.5,0.25,0.01085366)
+print(0.6610380878866131*0.9689694474022094*1.9501164314264408e-61*1.0633848358756781e-42*0.33)
+#versicolor f1-4
+getProb(5.9,5.93055556,0.32389683)
+getProb(3.0,2.76111111,0.0955873)
+getProb(4.2,4.26388889,0.25837302)
+getProb(1.5,1.32222222,0.04234921)
+print(1.0005121742072234*0.9267268626172791*1.0019154744133636*0.7811330463210072*0.33)
+# virginica f1-4
+getProb(5.9,6.62142857,0.42562718)
+getProb(3.0,2.9952381,0.10826945)
+getProb(4.2,5.57619048,0.33502904)
+getProb(1.5,2.03571429,0.07503484)
+print(1.3508229413461246*0.9999798284750201*2.863161926047021*0.4872476945796461*0.33)
+
+setosa = 0.6610380878866131*0.9689694474022094*1.9501164314264408e-61*1.0633848358756781e-42*0.33
+versicolor = 1.0005121742072234*0.9267268626172791*1.0019154744133636*0.7811330463210072*0.33
+virginica = 1.3508229413461246*0.9999798284750201*2.863161926047021*0.4872476945796461*0.33
+
+denom = setosa + versicolor + virginica
+print(setosa, versicolor, virginica)
+print(setosa/denom, versicolor/denom, virginica/denom)
