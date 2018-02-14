@@ -27,6 +27,9 @@ def path_file(file,opt):
             print(currentFile)
             currentData = pd.read_csv(currentFile, header=None)
             print(list(currentData))
+            currentHeaders = list(currentData)
+            newHeaders = ["N:" + header for header in currentHeaders]
+            print(newHeaders)
             currentData['C:venom'] = opt
             print(currentData.shape)
 
