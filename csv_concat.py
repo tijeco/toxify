@@ -44,4 +44,4 @@ path_file(neg_path,0)
 all_combined = pd.concat(df_dict)
 print(all_combined.shape)
 
-all_combined.to_tsv('all_data.tsv')
+all_combined.to_csv('all_data.csv')
