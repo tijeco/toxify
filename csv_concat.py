@@ -26,8 +26,9 @@ def path_file(file,opt):
             currentFile = line.strip()
             print(currentFile)
             currentData = pd.read_csv(currentFile, header=None)
+            print(list(currentData))
             currentData['C:venom'] = opt
             print(currentData.shape)
-            print(list(currentData))
+
 path_file(pos_path,1)
 path_file(neg_path,0)
