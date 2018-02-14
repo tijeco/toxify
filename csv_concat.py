@@ -27,6 +27,6 @@ def path_file(file,opt):
             print(currentFile)
             posOrNeg = opt
             currentData = pd.read_csv(currentFile, header=None)
-            print(currentData.shape())
+            print(currentData.shape)
 path_file(pos_path,1)
 path_file(neg_path,0)
