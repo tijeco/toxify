@@ -26,7 +26,7 @@ def path_file(file,opt):
 
             currentFile = line.strip()
             print(currentFile)
-            print(currentFile.split("/")[-2]+"_"+currentFile.split("/")[-3])
+            df_name = currentFile.split("/")[-2]+"_"+currentFile.split("/")[-3]
             currentData = pd.read_csv(currentFile, header=None)
             currentHeaders = list(currentData)
             newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
@@ -34,8 +34,12 @@ def path_file(file,opt):
             # print(currentHeaders)
             # print(newHeaders)
             currentData['C:venom'] = opt
+            df_dict[df_name] = currentData
             # print(list(currentData))
             # print(currentData.shape)
 
 path_file(pos_path,1)
 path_file(neg_path,0)
+
+all_combined = pd.concat(df_dict)
+print(all_combined.shape)
