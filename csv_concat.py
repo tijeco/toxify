@@ -1,5 +1,6 @@
 import sys
 import pandas as pd
+import numpy as np
 
 def getOptionValue(option):
     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
@@ -45,3 +46,11 @@ all_combined = pd.concat(df_dict)
 print(all_combined.shape)
 
 all_combined.to_csv('all_data.csv')
+msk = np.random.rand(len(all_combined)) < 0.7
+
+train = df[msk]
+
+test = df[~msk]
+
+train.to_csv('train.csv')
+test.to_csv('test.csv')
