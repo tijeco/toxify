@@ -48,9 +48,9 @@ print(all_combined.shape)
 all_combined.to_csv('all_data.csv')
 msk = np.random.rand(len(all_combined)) < 0.7
 
-train = df[msk]
+train = all_combined[msk]
 
-test = df[~msk]
+test = all_combined[~msk]
 
 train.to_csv('train.csv')
 test.to_csv('test.csv')
