@@ -33,6 +33,7 @@ def path_file(file,opt):
             print(currentHeaders)
             print(newHeaders)
             currentData['C:venom'] = opt
+            print(list(currentData))
             print(currentData.shape)
 
 path_file(pos_path,1)
