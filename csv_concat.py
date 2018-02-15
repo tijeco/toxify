@@ -44,7 +44,7 @@ path_file(neg_path,0)
 
 all_combined = pd.concat(df_dict)
 print(all_combined.shape)
-print(df_dict)
+# print(df_dict)
 
 all_combined.to_csv('all_data.csv')
 msk = np.random.rand(len(all_combined)) < 0.7
@@ -53,5 +53,5 @@ train = all_combined[msk]
 
 test = all_combined[~msk]
 
-train.to_csv('train.csv')
-test.to_csv('test.csv')
+train.to_csv('train.csv',na_rep='NA', sep='\t', index=False,quoting=3)
+test.to_csv('test.csv',na_rep='NA', sep='\t', index=False,quoting=3)
