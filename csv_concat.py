@@ -44,6 +44,7 @@ path_file(neg_path,0)
 
 all_combined = pd.concat(df_dict)
 print(all_combined.shape)
+print(df_dict)
 
 all_combined.to_csv('all_data.csv')
 msk = np.random.rand(len(all_combined)) < 0.7
