@@ -50,8 +50,10 @@ all_combined.to_csv('all_data.csv')
 msk = np.random.rand(len(all_combined)) < 0.7
 
 train = all_combined[msk]
+train['.'] = train.index + 1
 
 test = all_combined[~msk]
+test['.'] = test.index + 1
 
 train.to_csv('train.csv',na_rep='NA', sep='\t', index=False,quoting=3)
 test.to_csv('test.csv',na_rep='NA', sep='\t', index=False,quoting=3)
