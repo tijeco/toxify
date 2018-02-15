@@ -28,7 +28,7 @@ def path_file(file,opt):
             currentFile = line.strip()
             print(currentFile)
             df_name = currentFile.split("/")[-2]+"_"+currentFile.split("/")[-3]
-            currentData = pd.read_csv(currentFile, header=None, na_values=['NaN'])
+            currentData = pd.read_csv(currentFile, header=None)
             currentHeaders = list(currentData)
             newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
             currentData.columns = newHeaders
