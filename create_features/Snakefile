@@ -1,6 +1,7 @@
 from itertools import groupby
 import math
 import re
+import random
 
 
 def fasta_iter(fasta_name):
@@ -557,6 +558,52 @@ def makeFeatures(seq,sym):
 
     return line2write[:-1]
 
+def revTrans(prot):
+    cod = {
+    "F":{1:"T",2:"T",3:"TC"},
+    "L":{1:"C",2:"T",3:"AGTC"},
+    "I":{1:"A",2:"T",3:"TCA"},
+    "M":{1:"A",2:"T",3:"G"},
+    "V":{1:"G",2:"T",3:"TGAC"},
+
+    "S":{1:"T",2:"C",3:"TCAG"},
+    "P":{1:"C",2:"C",3:"AGTC"},
+    "T":{1:"A",2:"C",3:"TCAG"},
+    "A":{1:"G",2:"C",3:"TGAC"},
+
+    "Y":{1:"T",2:"A",3:"TC"},
+    "H":{1:"C",2:"A",3:"TC"},
+    "Q":{1:"C",2:"A",3:"AG"},
+    "N":{1:"A",2:"A",3:"TC"},
+    "K":{1:"A",2:"A",3:"AG"},
+    "D":{1:"G",2:"A",3:"TC"},
+    "E":{1:"G",2:"A",3:"GA"},
+
+    "C":{1:"T",2:"G",3:"TC"},
+    "W":{1:"T",2:"G",3:"G"},
+    "R":{1:"C",2:"G",3:"TCGA"},
+    "S":{1:"A",2:"G",3:"TC"},
+    "G":{1:"G",2:"G",3:"AGTC"},
+
+
+    "B":{1:"AG",2:"A",3:"TC"},
+    "J":{1:"AC",2:"T",3:"TGAC"},
+    "Z":{1:"GC",2:"A",3:"AG"},
+
+    "X":{1:"N",2:"N",3:"N"},
+    "U":{1:"N",2:"N",3:"N"},
+    "O":{1:"N",2:"N",3:"N"}
+    # U for selenocysteine and O for pyrrolysine
+    # B = D or N, J = I or L, X = unknown, Z = E or Q
+    }
+    cds = "ATG"
+    for aa in prot:
+        cds += random.choice(cod[aa][1])
+        cds += random.choice(cod[aa][2])
+        cds += random.choice(cod[aa][3])
+        # cds += " "
+    cds += "TAA"
+    return cds
 
 SAMPLES, = glob_wildcards("{sample}.fa")
 
@@ -568,7 +615,8 @@ rule final:
     # input:dynamic("seq_pics/{header}.png")
     # input:"shahib.csv"
     # input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
-    input:"all.combined.csv"
+    # input:"all.combined.csv"
+    input:dynamic("coding_sequences/{header}.cds")
 
 rule diamond:
     input:
@@ -806,6 +854,19 @@ rule splitSeqs:
         "sequences/{header}.seq"
     shell:
         "head -n 2 {input} > {output}"
+
+rule revTrans:
+    input:
+        "sequences/{header}.seq"
+    output:
+        "coding_sequences/{header}.cds"
+    run:
+
+        for ff in fasta_iter(input[0]):
+            headerStr, seq = ff
+            with open(output[0],"w") as out:
+                out.write(revTrans(seq))
+
 
 rule seq2png:
     input:
