@@ -873,8 +873,8 @@ rule evolveAGene:
         seq="sequences/{header}.seq"
     output:
         "coding_sequences/{header}_pep_Unaligned.FASTA"
-    run:
-        shell(r"""EvolveAGene -f  {input.cds}   -n 8 -o Phy -b 0.04 ||( head -n 1  {input.seq}  && tail -n 1 {input.seq} |awk '{print "M"$1"*"}' > {output})""")
+    shell:
+        "EvolveAGene -f  {input.cds}   -n 8 -o Phy -b 0.04 || ( head -n 1  {input.seq}  && printf M && tail -n 1 {input.seq} > {output})"
 rule cleanSeq:
     input:
         "coding_sequences/{header}_pep_Unaligned.FASTA"
@@ -886,7 +886,7 @@ rule cleanSeq:
             for ff in fasta_iter(input[0]):
                 headerStr, seq = ff
                 out.write(">"+header+"_"+headerStr+"\n")
-                out.write(seq[1:-1]+"\n")
+                out.write(seq[1:].replace("*","")+"\n")
 
 
 rule seq2png:
