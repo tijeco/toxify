@@ -616,7 +616,7 @@ rule final:
     # input:"shahib.csv"
     # input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
     # input:"all.combined.csv"
-    input:dynamic("coding_sequences/{header}.cds")
+    input:dynamic("coding_sequences/{header}_pep_Unaligned.FASTA")
 
 rule diamond:
     input:
@@ -866,6 +866,14 @@ rule revTrans:
             headerStr, seq = ff
             with open(output[0],"w") as out:
                 out.write(revTrans(seq))
+
+rule evolveAGene:
+    input:
+        "coding_sequences/{header}.cds"
+    output:
+        "coding_sequences/{header}_pep_Unaligned.FASTA"
+    shell:
+        "EvolveAGene -f  {input}   -n 8 -o Phy -b 0.04"
 
 
 rule seq2png:
