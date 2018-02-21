@@ -884,7 +884,7 @@ rule cleanSeq:
         with open(output[0],"w") as out:
             for ff in fasta_iter(input[0]):
                 headerStr, seq = ff
-                out.write(header+"_"+headerStr+"\n")
+                out.write(">"+header+"_"+headerStr+"\n")
                 out.write(seq[1:-1]+"\n")
 
 
