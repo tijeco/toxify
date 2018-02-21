@@ -874,7 +874,7 @@ rule evolveAGene:
     output:
         "coding_sequences/{header}_pep_Unaligned.FASTA"
     shell:
-        "EvolveAGene -f  {input.cds}   -n 8 -o Phy -b 0.04 ||( head -n 1  {input.seq}  && tail -n 1 {input.seq} |awk '{print ""M""$1""*""}' > {output})"
+        """EvolveAGene -f  {input.cds}   -n 8 -o Phy -b 0.04 ||( head -n 1  {input.seq}  && tail -n 1 {input.seq} |awk '{print "M"$1"*"}' > {output})"""
 rule cleanSeq:
     input:
         "coding_sequences/{header}_pep_Unaligned.FASTA"
