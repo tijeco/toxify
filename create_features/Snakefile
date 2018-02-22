@@ -615,8 +615,7 @@ rule final:
     # input:dynamic("seq_pics/{header}.png")
     # input:"shahib.csv"
     # input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
-    # input:"all.combined.csv"
-    input:dynamic("pep_sequences/{header}.pep")
+    input:"all.combined.csv"
 
 rule diamond:
     input:
