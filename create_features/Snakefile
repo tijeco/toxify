@@ -847,6 +847,47 @@ rule pssm2mat:
                 # print(pair_dict["WW"])
 
 
+rule splitSeqs:
+    input:
+        "pssm_dir/alignments/{header}.fasta"
+    output:
+        "sequences/{header}.seq"
+    shell:
+        "head -n 2 {input} > {output}"
+
+# rule revTrans:
+#     input:
+#         "sequences/{header}.seq"
+#     output:
+#         "coding_sequences/{header}.cds"
+#     run:
+#
+#         for ff in fasta_iter(input[0]):
+#             headerStr, seq = ff
+#             with open(output[0],"w") as out:
+#                 out.write(revTrans(seq))
+#
+# rule evolveAGene:
+#     input:
+#         cds="coding_sequences/{header}.cds",
+#         seq="sequences/{header}.seq"
+#     output:
+#         "coding_sequences/{header}_pep_Unaligned.FASTA"
+#     shell:
+#         "EvolveAGene -f  {input.cds}   -n 8 -o Phy -b 0.04 || ( head -n 1  {input.seq}  && printf M && tail -n 1 {input.seq} > {output})"
+# rule cleanSeq:
+#     input:
+#         "coding_sequences/{header}_pep_Unaligned.FASTA"
+#     output:
+#         "pep_sequences/{header}.pep"
+#     run:
+#         header = output[0].split("/")[1].replace(".pep","")
+#         with open(output[0],"w") as out:
+#             for ff in fasta_iter(input[0]):
+#                 headerStr, seq = ff
+#                 out.write(">"+header+"_"+headerStr+"\n")
+#                 out.write(seq[1:].replace("*","")+"\n")
+#
 
 rule seq2png:
     input:
