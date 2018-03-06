@@ -640,7 +640,7 @@ rule blast2fa:
             qdict[headerStr] = seq
 
         used_dict = {}
-        print(used_dict)
+        print(qdict)
 
         with open(input[0]) as f:
             for line in f:
