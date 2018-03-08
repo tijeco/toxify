@@ -17,4 +17,4 @@ with open(outpath, 'w') as out:
 
 
 with open(outpath, 'a') as f:
-    df1.to_csv(f, header=False)
+    df1.to_csv(f, header=False,index = False)
