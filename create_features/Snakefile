@@ -1024,4 +1024,4 @@ rule combineFiles:
     output:
         "all.combined.csv"
     shell:
-        "paste -d,  {input.pssm} {input.sspro} {input.shahib} > {output}"
+        "cut -f1 --complement {input.sspro} > sspro.noHead.csv; cut -f1 --complement {input.shahib} > shahib.noHead.csv; paste -d,  {input.pssm} sspro.noHead.csv shahib.noHead.csv > {output}"
