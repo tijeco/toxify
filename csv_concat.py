@@ -56,5 +56,5 @@ test = all_combined[~msk]
 test.insert(0, '.', range(1, 1 + len(test)))
 
 
-train.to_csv('train.csv',na_rep='nan', sep='\t', index=False,quoting=3)
-test.to_csv('test.csv',na_rep='nan', sep='\t', index=False,quoting=3)
+train.to_csv(pos_path.replace(".txt",".train.csv"),na_rep='nan', sep='\t', index=False,quoting=3)
+test.to_csv(pos_path.replace(".txt",".test.csv"),na_rep='nan', sep='\t', index=False,quoting=3)
