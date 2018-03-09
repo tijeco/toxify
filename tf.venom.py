@@ -48,7 +48,7 @@ print(feature_columns)
 classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns,
                                   hidden_units=[50,50,50],
                                       n_classes=2,
-                                      dropout=0.02,
+                                      # dropout=0.02,
                                       model_dir="tmp/venom_model",
                                       # optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.01, l1_regularization_strength=0.001)
                                       )
@@ -59,7 +59,7 @@ train_input_fn = tf.estimator.inputs.numpy_input_fn(
     y=np.array(training_set.target),
     num_epochs=3,
     shuffle=True)
-classifier.train(input_fn=train_input_fn, steps=10000)
+classifier.train(input_fn=train_input_fn, steps=1000)
 
 test_input_fn = tf.estimator.inputs.numpy_input_fn(
     x={"x": np.array(test_set.data)},
