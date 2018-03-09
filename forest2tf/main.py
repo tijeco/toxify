@@ -22,6 +22,7 @@ with open(outpath, 'a') as f:
 df_norm = (df1 - df1.mean()) / (df1.max() - df1.min())
 outpath = fpath.replace(".fm",".norm.csv")
 
+df_norm.iloc[:,-1] = df1.iloc[:,-1]
 with open(outpath, 'w') as out:
     out.write(str(df_norm.shape[0])+","+str(df_norm.shape[1]-1)+"\n")
 
