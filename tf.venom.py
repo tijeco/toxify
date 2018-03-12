@@ -39,7 +39,7 @@ training_set = tf.contrib.learn.datasets.base.load_csv_with_header(
     filename=training_data,
     target_dtype=np.int,
     features_dtype=np.float32)
-with open(training_set) as f:
+with open(training_data) as f:
     for line in f:
         row = line.strip().split(",")
         if len(row) ==2:
