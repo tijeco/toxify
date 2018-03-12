@@ -43,7 +43,7 @@ with open(training_data) as f:
     for line in f:
         row = line.strip().split(",")
         if len(row) ==2:
-            data_shape = int(row[1]) -1
+            data_shape = int(row[1]) 
         else:
             break
 print("NUM FEATURES:",data_shape)
