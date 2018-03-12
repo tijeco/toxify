@@ -50,6 +50,7 @@ print("NUM FEATURES:",data_shape)
 # data_shape = training_set.shape[1]
 test_set = tf.contrib.learn.datasets.base.load_csv_with_header(
     filename=test_data,
+    na_value='NaN'
     target_dtype=np.int,
     features_dtype=np.float32)
 feature_columns = [tf.feature_column.numeric_column("x", shape=[data_shape])]
@@ -60,7 +61,7 @@ classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns,
                                       # dropout=0.02,
                                       model_dir="tmp/venom_model",
                                       optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.001, l1_regularization_strength=0.001)
-                                      ) 
+                                      )
                                       #Adagrad', 'Adam', 'Ftrl', 'RMSProp', 'SGD'
 
 train_input_fn = tf.estimator.inputs.numpy_input_fn(
