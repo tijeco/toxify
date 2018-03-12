@@ -41,7 +41,7 @@ training_set = tf.contrib.learn.datasets.base.load_csv_with_header(
     features_dtype=np.float32)
 with open(training_set) as f:
     for line in f:
-        row = line.strip().split()
+        row = line.strip().split(",")
         if len(row) ==2:
             data_shape = int(row[1]) -1
         else:
