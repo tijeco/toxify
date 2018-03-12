@@ -60,7 +60,7 @@ classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns,
                                       # dropout=0.02,
                                       model_dir="tmp/venom_model",
                                       optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.001, l1_regularization_strength=0.001)
-                                      )
+                                      ) 
                                       #Adagrad', 'Adam', 'Ftrl', 'RMSProp', 'SGD'
 
 train_input_fn = tf.estimator.inputs.numpy_input_fn(
