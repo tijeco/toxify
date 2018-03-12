@@ -50,7 +50,7 @@ print("NUM FEATURES:",data_shape)
 # data_shape = training_set.shape[1]
 test_set = tf.contrib.learn.datasets.base.load_csv_with_header(
     filename=test_data,
-    na_value='NaN'
+    na_value='NaN',
     target_dtype=np.int,
     features_dtype=np.float32)
 feature_columns = [tf.feature_column.numeric_column("x", shape=[data_shape])]
