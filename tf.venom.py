@@ -55,7 +55,7 @@ test_set = tf.contrib.learn.datasets.base.load_csv_with_header(
 feature_columns = [tf.feature_column.numeric_column("x", shape=[data_shape])]
 print(feature_columns)
 classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns,
-                                  hidden_units=[50,50,50],
+                                  hidden_units=[500,500,500],
                                       n_classes=2,
                                       # dropout=0.02,
                                       model_dir="tmp/venom_model",
