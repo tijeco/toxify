@@ -52,7 +52,7 @@ test_set = tf.contrib.learn.datasets.base.load_csv_with_header(
     filename=test_data,
     target_dtype=np.int,
     features_dtype=np.float32)
-feature_columns = [tf.feature_column.numeric_column("x", shape=[data_shape])]
+feature_columns = [tf.contrib.layers.real_valued_column("", dimension=data_shape)]
 print(feature_columns)
 classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns,
                                   hidden_units=[500,500,500],
