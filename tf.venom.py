@@ -59,7 +59,9 @@ classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns,
                                       n_classes=2,
                                       # dropout=0.02,
                                       model_dir="tmp/venom_model",
-                                      optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.001, l1_regularization_strength=0.001)
+                                      config=tf.contrib.learn.RunConfig(
+                                                save_checkpoints_secs=1),
+                                      # optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.001, l1_regularization_strength=0.001)
                                       )
                                       #Adagrad', 'Adam', 'Ftrl', 'RMSProp', 'SGD'
 
