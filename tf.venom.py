@@ -50,44 +50,35 @@ print("NUM FEATURES:",data_shape)
 # data_shape = training_set.shape[1]
 test_set = tf.contrib.learn.datasets.base.load_csv_with_header(
     filename=test_data,
+    # na_value='NaN'
     target_dtype=np.int,
     features_dtype=np.float32)
-feature_columns = [tf.contrib.layers.real_valued_column("", dimension=data_shape)]
+feature_columns = [tf.feature_column.numeric_column("x", shape=[data_shape])]
 print(feature_columns)
-classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns,
+classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns,
                                   hidden_units=[500,500,500],
                                       n_classes=2,
                                       # dropout=0.02,
                                       model_dir="tmp/venom_model",
-                                      config=tf.contrib.learn.RunConfig(
-                                                save_checkpoints_secs=1),
-                                      # optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.001, l1_regularization_strength=0.001)
+                                      optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.001, l1_regularization_strength=0.001)
                                       )
                                       #Adagrad', 'Adam', 'Ftrl', 'RMSProp', 'SGD'
 
-# train_input_fn = tf.estimator.inputs.numpy_input_fn(
-#     x={"x": np.array(training_set.data)},
-#     y=np.array(training_set.target),
-#     num_epochs=3,
-#     shuffle=True)
+train_input_fn = tf.estimator.inputs.numpy_input_fn(
+    x={"x": np.array(training_set.data)},
+    y=np.array(training_set.target),
+    num_epochs=3,
+    shuffle=True)
+classifier.train(input_fn=train_input_fn, steps=1000)
 
-classifier.fit(x=training_set.data,
-               y=training_set.target,
-               steps=2000)
-# classifier.train(input_fn=train_input_fn, steps=1000)
+test_input_fn = tf.estimator.inputs.numpy_input_fn(
+    x={"x": np.array(test_set.data)},
+    y=np.array(test_set.target),
+    num_epochs=1,
+    shuffle=False)
+accuracy_score = classifier.evaluate(input_fn=test_input_fn)["accuracy"]
 
-# test_input_fn = tf.estimator.inputs.numpy_input_fn(
-#     x={"x": np.array(test_set.data)},
-#     y=np.array(test_set.target),
-#     num_epochs=1,
-#     shuffle=False)
-# accuracy_score = classifier.evaluate(input_fn=test_input_fn)["accuracy"]
-
-# # Evaluate accuracy.
-accuracy_score = classifier.evaluate(x=test_set.data,
-                                     y=test_set.target)["accuracy"]
-print('Accuracy: {0:f}'.format(accuracy_score))
-# print("\nTest Accuracy: {0:f}\n".format(accuracy_score))
+print("\nTest Accuracy: {0:f}\n".format(accuracy_score))
 
 
 """
