@@ -63,21 +63,29 @@ classifier = tf.contrib.learn.DNNClassifier(feature_columns=feature_columns,
                                       )
                                       #Adagrad', 'Adam', 'Ftrl', 'RMSProp', 'SGD'
 
-train_input_fn = tf.estimator.inputs.numpy_input_fn(
-    x={"x": np.array(training_set.data)},
-    y=np.array(training_set.target),
-    num_epochs=3,
-    shuffle=True)
-classifier.train(input_fn=train_input_fn, steps=1000)
+# train_input_fn = tf.estimator.inputs.numpy_input_fn(
+#     x={"x": np.array(training_set.data)},
+#     y=np.array(training_set.target),
+#     num_epochs=3,
+#     shuffle=True)
 
-test_input_fn = tf.estimator.inputs.numpy_input_fn(
-    x={"x": np.array(test_set.data)},
-    y=np.array(test_set.target),
-    num_epochs=1,
-    shuffle=False)
-accuracy_score = classifier.evaluate(input_fn=test_input_fn)["accuracy"]
+classifier.fit(x=training_set.data,
+               y=training_set.target,
+               steps=2000)
+# classifier.train(input_fn=train_input_fn, steps=1000)
 
-print("\nTest Accuracy: {0:f}\n".format(accuracy_score))
+# test_input_fn = tf.estimator.inputs.numpy_input_fn(
+#     x={"x": np.array(test_set.data)},
+#     y=np.array(test_set.target),
+#     num_epochs=1,
+#     shuffle=False)
+# accuracy_score = classifier.evaluate(input_fn=test_input_fn)["accuracy"]
+
+# # Evaluate accuracy.
+accuracy_score = classifier.evaluate(x=test_set.data,
+                                     y=test_set.target)["accuracy"]
+print('Accuracy: {0:f}'.format(accuracy_score))
+# print("\nTest Accuracy: {0:f}\n".format(accuracy_score))
 
 
 """
