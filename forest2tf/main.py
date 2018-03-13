@@ -20,7 +20,7 @@ with open(outpath, 'a') as f:
     df1.to_csv(f, na_rep='NaN', header=False,index = False)
 
 # df_norm = (df1 - df1.mean()) / (df1.max() - df1.min())
-df_norm=(df1-df1.mean())/df1.std()
+df_norm=(df1-df1.mean())/(df1.std()+0.000000000001)
 outpath = fpath.replace(".fm",".norm.csv")
 
 df_norm.iloc[:,-1] = df1.iloc[:,-1]
