@@ -4,6 +4,11 @@ import math
 import numpy as np
 import sys
 
+def getOptionValue(option):
+    optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
+    optionValue = sys.argv[optionPos + 1]
+    return optionValue
+
 
 train_data = "train_dataing.csv"
 test_data = "test_data.csv"
