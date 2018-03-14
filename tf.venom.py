@@ -73,6 +73,23 @@ if train_only:
 
 # data_shape = training_set.shape[1]
 if test_only:
+    with open(test_data) as f:
+        for line in f:
+            row = line.strip().split(",")
+            if len(row) ==2:
+                data_shape = int(row[1])
+            else:
+                break
+    print("NUM FEATURES:",data_shape)
+    feature_columns = [tf.feature_column.numeric_column("x", shape=[data_shape])]
+    print(feature_columns)
+    classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns,
+                                      hidden_units=[500,500,500],
+                                          n_classes=2,
+                                          # dropout=0.02,
+                                          model_dir="tmp/venom_model",
+                                          optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.01, l1_regularization_strength=0.001)
+                                          )
     test_set = tf.contrib.learn.datasets.base.load_csv_with_header(
         filename=test_data,
         # na_value='NaN'
