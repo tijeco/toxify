@@ -6,3 +6,4 @@ print(list(df))
 # print(df[2]
 print(df.loc[df[2] == 0])
 pos_df = df.loc[df['column_name'] == 0]
+print(df.loc[pos_df[0] > 0.9])
