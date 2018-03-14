@@ -126,9 +126,8 @@ if "-predict" in sys.argv:
         shuffle=False)
     predictions = classifier.predict(input_fn=test_input_fn)
     # print(predictions.probabilities)
-    for i,j in predictions:
-        print(i)
-        print(j)
+    for pred_dict in predictions:
+        print(pred_dict['probabilities'])
 
 
     # for pred_dict, expec in zip(predictions, expected):
