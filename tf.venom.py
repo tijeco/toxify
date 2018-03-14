@@ -125,8 +125,8 @@ if "-predict" in sys.argv:
         num_epochs=1,
         shuffle=False)
     predictions = classifier.predict(input_fn=test_input_fn)
-    for i in predictions:
-        print(i)
+    print(predictions["classes"],predictions['probabilities'])
+
 
     # for pred_dict, expec in zip(predictions, expected):
     #     template = ('\nPrediction is "{}" ({:.1f}%), expected "{}"')
