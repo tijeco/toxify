@@ -54,12 +54,12 @@ for index, row in test_data.iterrows():
         exponent = -(test_value-mean_array[i])**2/(2*var_array[i]+0.00000000000001)
         base = 1.0/((2.0*var_array[i]*math.pi)**0.5+0.00000000000001)
         blank_array[i] = base*math.e**exponent
-        evidence += np.prod(blank_array[i]) * 0.33
+        evidence += np.prod(blank_array[i]) * 0.5
     line2write = ""
     # print("Actual value:",row[num_cols])
     for i in range(num_classes):
         # print(i, (np.prod(blank_array[i])*0.33)/evidence)
-        line2write+=str((np.prod(blank_array[i])*0.33)/evidence+0.00000000000001)+","
+        line2write+=str((np.prod(blank_array[i])*0.5)/evidence+0.00000000000001)+","
         # if i == row[num_cols]:
         #     print(i,(np.prod(blank_array[i])*0.33)/evidence)
     line2write+=str(row[num_cols])
