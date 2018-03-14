@@ -126,7 +126,7 @@ if "-predict" in sys.argv:
         shuffle=False)
     predictions = classifier.predict(input_fn=test_input_fn)
     # print(predictions.probabilities)
-    with open(test_data+"_predictions.csv","w") as out:
+    with open(test_data+"_predictions","w") as out:
         for pred_dict in predictions:
             out.write(str(pred_dict['probabilities'][0])+","+str(pred_dict['probabilities'][1])+","+str(pred_dict['class_ids'][0])+"\n")
 
