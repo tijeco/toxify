@@ -21,18 +21,25 @@ def getOptionValue(option):
     optionValue = sys.argv[optionPos + 1]
     return optionValue
 
+train_only = False
+test_only = False
+train_and_test = False
+if "-train" in sys.argv or "-test" in sys.argv:
 
-if "-train" in sys.argv:
-    training_data = getOptionValue("-train")
+    if "-train" in sys.argv:
+        training_data = getOptionValue("-train")
+        train_only = True
+    if "-test" in sys.argv:
+        test_data = getOptionValue("-test")
+        test_only = True
+    if train_only and test_only:
+        train_and_test = True
+
 else:
     print("please provide training data with -train")
-    sys.exit()
-
-if "-test" in sys.argv:
-    test_data = getOptionValue("-test")
-else:
     print("please provide test data with -test")
     sys.exit()
+
 
 
 training_set = tf.contrib.learn.datasets.base.load_csv_with_header(
