@@ -111,33 +111,21 @@ if test_only:
 
 if "-predict" in sys.argv:
     # predict_data = getOptionValue("-train")
-    def eval_input_fn(features, labels=None, batch_size=None):
-        """An input function for evaluation or prediction"""
-        if labels is None:
-            # No labels, use only features.
-            inputs = features
-        else:
-            inputs = (features, labels)
+    predict_set = tf.contrib.learn.datasets.base.load_csv_with_header(
+        filename=test_data,
+        # na_value='NaN'
+        target_dtype=np.int,
+        features_dtype=np.float32)
 
-        # Convert inputs to a tf.dataset object.
-        dataset = tf.data.Dataset.from_tensor_slices(inputs)
 
-        # Batch the examples
-        assert batch_size is not None, "batch_size must not be None"
-        dataset = dataset.batch(batch_size)
 
-        # Return the read end of the pipeline.
-        return dataset.make_one_shot_iterator().get_next()
-    predict_x = {}
-    for feature in ["feature_" + str(header) for header in range(1,1314)]:
-        predict_x[feature] = [x/200-0.5 for x in random.sample(range(200), 2)]
-    predictions = classifier.predict(
-        input_fn=lambda:eval_input_fn(predict_x, batch_size=2))
-    SPECIES = ['Venom', 'NotVenom']
-    expected = ['Venom', 'NotVenom']
-    g1 = predictions
-
-    print([g1.__next__() for i in range(100)])
+    test_input_fn = tf.estimator.inputs.numpy_input_fn(
+        x={"x": np.array(predict_set.data)},
+        y=np.array(predict_set.target),
+        num_epochs=1,
+        shuffle=False)
+    predictions = classifier.predict(input_fn=test_input_fn)
+    print(predictions)
 
     # for pred_dict, expec in zip(predictions, expected):
     #     template = ('\nPrediction is "{}" ({:.1f}%), expected "{}"')
