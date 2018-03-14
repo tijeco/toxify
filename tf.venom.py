@@ -135,7 +135,8 @@ if "-predict" in sys.argv:
         input_fn=lambda:eval_input_fn(predict_x, batch_size=2))
     SPECIES = ['Venom', 'NotVenom']
     expected = ['Venom', 'NotVenom']
-    print(predictions)
+    print(list(predictions))
+
     # for pred_dict, expec in zip(predictions, expected):
     #     template = ('\nPrediction is "{}" ({:.1f}%), expected "{}"')
     #
