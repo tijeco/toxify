@@ -25,12 +25,12 @@ else:
     sys.exit()
 
 training_data = pd.read_csv(train_data, skiprows=[0], header=None)
-training_headers = pd.read_csv(train_data, skiprows=[0], header=None)
+# training_headers = pd.read_csv(train_data, skiprows=[0], header=None)
 
 test_data = pd.read_csv(test_data, skiprows=[0], header=None)
-print(test_data)
-print(pd.read_csv(test_data, skiprows=[0], header=None))
-test_headers = pd.read_csv(test_data, skiprows=[0], header=None)
+# print(test_data)
+# print(pd.read_csv(test_data, skiprows=[0], header=None))
+# test_headers = pd.read_csv(test_data, skiprows=[0], header=None)
 num_cols = test_data.shape[1]-1
 
 num_classes =  len(training_data[num_cols].unique())
