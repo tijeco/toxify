@@ -61,7 +61,7 @@ if train_only:
                                       hidden_units=[500,500,500],
                                           n_classes=2,
                                           # dropout=0.02,
-                                          model_dir="tmp/venom_model",
+                                          model_dir="tmp/"+training_data+"_model",
                                           optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.01, l1_regularization_strength=0.001)
                                           )
                                           #Adagrad', 'Adam', 'Ftrl', 'RMSProp', 'SGD'
