@@ -135,12 +135,13 @@ if "-predict" in sys.argv:
         input_fn=lambda:eval_input_fn(predict_x, batch_size=2))
     SPECIES = ['Venom', 'NotVenom']
     expected = ['Venom', 'NotVenom']
-    for pred_dict, expec in zip(predictions, expected):
-        template = ('\nPrediction is "{}" ({:.1f}%), expected "{}"')
-
-        class_id = pred_dict['class_ids'][0]
-        probability = pred_dict['probabilities'][class_id]
-        print(template.format(SPECIES[class_id], 100 * probability, expec))
+    print(predictions)
+    # for pred_dict, expec in zip(predictions, expected):
+    #     template = ('\nPrediction is "{}" ({:.1f}%), expected "{}"')
+    #
+    #     class_id = pred_dict['class_ids'][0]
+    #     probability = pred_dict['probabilities'][class_id]
+    #     print(template.format(SPECIES[class_id], 100 * probability, expec))
 
 """
 49044 venom.train.csv
