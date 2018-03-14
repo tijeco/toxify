@@ -132,7 +132,7 @@ if "-predict" in sys.argv:
     for feature in ["feature_" + str(header) for header in range(1,1314)]:
         predict_x[feature] = [x/200-0.5 for x in random.sample(range(200), 2)]
     predictions = classifier.predict(
-        input_fn=lambda:eval_input_fn(predict_x, batch_size=args.batch_size))
+        input_fn=lambda:eval_input_fn(predict_x, batch_size=2))
     SPECIES = ['Venom', 'NotVenom']
     expected = ['Venom', 'NotVenom']
     for pred_dict, expec in zip(predictions, expected):
