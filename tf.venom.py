@@ -125,7 +125,7 @@ if "-predict" in sys.argv:
         num_epochs=1,
         shuffle=False)
     predictions = classifier.predict(input_fn=test_input_fn)
-    print(predictions.keys())
+    print(predictions.probabilities)
 
 
     # for pred_dict, expec in zip(predictions, expected):
