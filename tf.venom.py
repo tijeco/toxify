@@ -13,6 +13,7 @@ import urllib.request
 import sys
 import numpy as np
 import tensorflow as tf
+import random
 # training_data = "venom.binary.train.csv"
 # test_data = "venom.binary.test.csv"
 
@@ -107,6 +108,39 @@ if test_only:
 
     print("\nTest Accuracy: {0:f}\n".format(accuracy_score))
 
+
+if "-predict" in sys.argv:
+    predict_data = getOptionValue("-train")
+    def eval_input_fn(features, labels=None, batch_size=None):
+        """An input function for evaluation or prediction"""
+        if labels is None:
+            # No labels, use only features.
+            inputs = features
+        else:
+            inputs = (features, labels)
+
+        # Convert inputs to a tf.dataset object.
+        dataset = tf.data.Dataset.from_tensor_slices(inputs)
+
+        # Batch the examples
+        assert batch_size is not None, "batch_size must not be None"
+        dataset = dataset.batch(batch_size)
+
+        # Return the read end of the pipeline.
+        return dataset.make_one_shot_iterator().get_next()
+    predict_x = {}
+    for feature in ["feature_" + str(header) for header in range(1,1314)]:
+        predict_x[feature] = [x/200-0.5 for x in random.sample(range(200), 2)]
+    predictions = classifier.predict(
+        input_fn=lambda:eval_input_fn(predict_x, batch_size=args.batch_size))
+    SPECIES = ['Venom', 'NotVenom']
+    expected = ['Venom', 'NotVenom']
+    for pred_dict, expec in zip(predictions, expected):
+        template = ('\nPrediction is "{}" ({:.1f}%), expected "{}"')
+
+        class_id = pred_dict['class_ids'][0]
+        probability = pred_dict['probabilities'][class_id]
+        print(template.format(SPECIES[class_id], 100 * probability, expec))
 
 """
 49044 venom.train.csv
