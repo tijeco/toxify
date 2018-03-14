@@ -61,7 +61,7 @@ if train_only:
                                       hidden_units=[500,500,500],
                                           n_classes=2,
                                           # dropout=0.02,
-                                          model_dir="tmp/"+training_data+"_model",
+                                          model_dir="tmp/"+training_data.replace("train","model"),
                                           optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.01, l1_regularization_strength=0.001)
                                           )
                                           #Adagrad', 'Adam', 'Ftrl', 'RMSProp', 'SGD'
@@ -88,7 +88,7 @@ if test_only:
                                       hidden_units=[500,500,500],
                                           n_classes=2,
                                           # dropout=0.02,
-                                          model_dir="tmp/venom_model",
+                                          model_dir="tmp/"+testing_data.replace("test","model"),
                                           optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.01, l1_regularization_strength=0.001)
                                           )
     test_set = tf.contrib.learn.datasets.base.load_csv_with_header(
