@@ -110,7 +110,7 @@ if test_only:
 
 
 if "-predict" in sys.argv:
-    predict_data = getOptionValue("-train")
+    # predict_data = getOptionValue("-train")
     def eval_input_fn(features, labels=None, batch_size=None):
         """An input function for evaluation or prediction"""
         if labels is None:
