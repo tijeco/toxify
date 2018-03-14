@@ -30,7 +30,7 @@ if "-train" in sys.argv or "-test" in sys.argv:
     if "-train" in sys.argv:
         training_data = getOptionValue("-train")
         train_only = True
-    else:
+    if "-test" in sys.argv:
         test_data = getOptionValue("-test")
         test_only = True
     # if train_only and test_only:
