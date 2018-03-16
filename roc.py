@@ -5,22 +5,22 @@ df = pd.read_csv(sys.argv[1],header=None)
 # print(list(df))
 # print(df[2]
 # print(df.loc[df[2] == 0])
-pos_df = df.loc[df[2] == 0]
+neg_df = df.loc[df[2] == 0]
 # print(df.shape)
 for i in range(1,1000):
-    TP=pos_df.loc[pos_df[0] > i/1000.0].shape[0]/pos_df.shape[0]
-    FP=pos_df.loc[pos_df[1] > i/1000.0].shape[0]/pos_df.shape[0]
+    TP=neg_df.loc[neg_df[0] > i/1000.0].shape[0]/neg_df.shape[0]
+    FP=neg_df.loc[neg_df[1] > i/1000.0].shape[0]/neg_df.shape[0]
     # print(i,TP,FP)
 
-neg_df = df.loc[df[2] == 1]
+pos_df = df.loc[df[2] == 1]
 # print(df.shape)
 for i in range(1,1000):
-    FP=neg_df.loc[neg_df[0] > i/1000.0].shape[0]/neg_df.shape[0]
-    TP=neg_df.loc[neg_df[1] > i/1000.0].shape[0]/neg_df.shape[0]
+    FP=pos_df.loc[pos_df[0] > i/1000.0].shape[0]/pos_df.shape[0]
+    TP=pos_df.loc[pos_df[1] > i/1000.0].shape[0]/pos_df.shape[0]
     # print(i,TP,FP)
-print(neg_df.describe())
 print(pos_df.describe())
-# print(pos_df.loc[pos_df[0] > 0.9])
-# print(pos_df.loc[pos_df[0] > 0.9].shape)
-# print(pos_df.loc[pos_df[1] > 0.9])
-# print(pos_df.loc[pos_df[1] > 0.9].shape)
+print(neg_df.describe())
+# print(neg_df.loc[neg_df[0] > 0.9])
+# print(neg_df.loc[neg_df[0] > 0.9].shape)
+# print(neg_df.loc[neg_df[1] > 0.9])
+# print(neg_df.loc[neg_df[1] > 0.9].shape)
