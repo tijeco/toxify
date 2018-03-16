@@ -24,6 +24,7 @@ def getOptionValue(option):
 
 train_only = False
 test_only = False
+predict_only = False
 # train_and_test = False
 if "-train" in sys.argv or "-test" in sys.argv:
 
@@ -35,6 +36,10 @@ if "-train" in sys.argv or "-test" in sys.argv:
         test_only = True
     # if train_only and test_only:
     #     train_and_test = True
+elif "-predict" in sys.argv and "-model" in sys.argv:
+    predict_data = getOptionValue("-predict")
+    modelDir = getOptionValue("-model")
+    predict_only = True
 
 else:
     print("please provide training data with -train")
@@ -109,24 +114,42 @@ if test_only:
     print("\nTest Accuracy: {0:f}\n".format(accuracy_score))
 
 
-if "-predict" in sys.argv:
-    # predict_data = getOptionValue("-train")
+if predict_only:
+    # predict_data = getOptionValue("-predict")
+
+    with open(predict_data) as f:
+        for line in f:
+            row = line.strip().split(",")
+            if len(row) ==2:
+                data_shape = int(row[1])
+            else:
+                break
+    print("NUM FEATURES:",data_shape)
+    feature_columns = [tf.feature_column.numeric_column("x", shape=[data_shape])]
+
     predict_set = tf.contrib.learn.datasets.base.load_csv_with_header(
-        filename=test_data,
+        filename=predict_data,
         # na_value='NaN'
         target_dtype=np.int,
         features_dtype=np.float32)
 
 
 
-    test_input_fn = tf.estimator.inputs.numpy_input_fn(
+    predict_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"x": np.array(predict_set.data)},
         y=np.array(predict_set.target),
         num_epochs=1,
         shuffle=False)
-    predictions = classifier.predict(input_fn=test_input_fn)
+    classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns,
+                                      hidden_units=[500,500,500],
+                                          n_classes=2,
+                                          # dropout=0.02,
+                                          model_dir=modelDir,
+                                          optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.01, l1_regularization_strength=0.001)
+                                          )
+    predictions = classifier.predict(input_fn=predict_input_fn)
     # print(predictions.probabilities)
-    with open(test_data+"_predictions","w") as out:
+    with open(predict_data+"_predictions","w") as out:
         for pred_dict in predictions:
             out.write(str(pred_dict['probabilities'][0])+","+str(pred_dict['probabilities'][1])+"\n")
 

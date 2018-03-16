@@ -3,6 +3,7 @@ import io
 import math
 import numpy as np
 import sys
+from sklearn.naive_bayes import GaussianNB
 
 def getOptionValue(option):
     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
@@ -27,40 +28,49 @@ else:
 training_data = pd.read_csv(train_data, skiprows=[0], header=None)
 # training_headers = pd.read_csv(train_data, skiprows=[0], header=None)
 
-test_data = pd.read_csv(test_data, skiprows=[0], header=None)
+testing_data = pd.read_csv(test_data, skiprows=[0], header=None)
 # print(test_data)
 # print(pd.read_csv(test_data, skiprows=[0], header=None))
 # test_headers = pd.read_csv(test_data, skiprows=[0], header=None)
-num_cols = test_data.shape[1]-1
+num_cols = testing_data.shape[1]-1
 
 num_classes =  len(training_data[num_cols].unique())
-mean_array = np.zeros((num_classes,num_cols))
-var_array = np.zeros((num_classes,num_cols))
+
+gnb = GaussianNB()
+
+print(training_data)
 
 
-for i in range(num_classes):
-    subset = training_data.loc[training_data[num_cols] == i]
-    mean_array[i] = subset.iloc[:,0:num_cols].mean()
-    var_array[i] = subset.iloc[:,0:num_cols].var()
-
-
-
-
-for index, row in test_data.iterrows():
-    blank_array = np.zeros((num_classes,num_cols))
-    test_value = row[:num_cols]
-    evidence = 0
-    for i in range(num_classes):
-        exponent = -(test_value-mean_array[i])**2/(2*var_array[i]+0.00000000000001)
-        base = 1.0/((2.0*var_array[i]*math.pi)**0.5+0.00000000000001)
-        blank_array[i] = base*math.e**exponent
-        evidence += np.prod(blank_array[i]) * 0.5
-    line2write = ""
-    # print("Actual value:",row[num_cols])
-    for i in range(num_classes):
-        # print(i, (np.prod(blank_array[i])*0.33)/evidence)
-        line2write+=str((np.prod(blank_array[i])*0.5)/evidence+0.00000000000001)+","
-        # if i == row[num_cols]:
-        #     print(i,(np.prod(blank_array[i])*0.33)/evidence)
-    line2write+=str(row[num_cols])
-    print(line2write)
+# y_fit = gnb.predict_proba(training_data)
+# y_pred = gnb.predict_proba(testing_data)
+# print(y_pred)
+# mean_array = np.zeros((num_classes,num_cols))
+# var_array = np.zeros((num_classes,num_cols))
+#
+#
+# for i in range(num_classes):
+#     subset = training_data.loc[training_data[num_cols] == i]
+#     mean_array[i] = subset.iloc[:,0:num_cols].mean()
+#     var_array[i] = subset.iloc[:,0:num_cols].var()
+#
+#
+#
+#
+# for index, row in test_data.iterrows():
+#     blank_array = np.zeros((num_classes,num_cols))
+#     test_value = row[:num_cols]
+#     evidence = 0
+#     for i in range(num_classes):
+#         exponent = -(test_value-mean_array[i])**2/(2*var_array[i]+0.00000000000001)
+#         base = 1.0/((2.0*var_array[i]*math.pi)**0.5+0.00000000000001)
+#         blank_array[i] = base*math.e**exponent
+#         evidence += np.prod(blank_array[i]) * 0.5
+#     line2write = ""
+#     # print("Actual value:",row[num_cols])
+#     for i in range(num_classes):
+#         # print(i, (np.prod(blank_array[i])*0.33)/evidence)
+#         line2write+=str((np.prod(blank_array[i])*0.5)/evidence+0.00000000000001)+","
+#         # if i == row[num_cols]:
+#         #     print(i,(np.prod(blank_array[i])*0.33)/evidence)
+#     line2write+=str(row[num_cols])
+#     print(line2write)
