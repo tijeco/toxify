@@ -150,6 +150,7 @@ if predict_only:
     predictions = classifier.predict(input_fn=predict_input_fn)
     # print(predictions.probabilities)
     print("Writing to ",predict_data+"_predictions")
+    print(feature_columns.shape)
     with open(predict_data+"_predictions","w") as out:
         for pred_dict in predictions:
             out.write(str(pred_dict['probabilities'][0])+","+str(pred_dict['probabilities'][1])+"\n")
