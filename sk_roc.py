@@ -46,7 +46,7 @@ num_colums = df.shape[1] -1
 # print(df)
 # print(df[num_colums])
 df_labels = df[num_colums].as_matrix()
-df_labels = label_binarize(df_labels, classes=[0, 1])
+df_labels = label_binarize(df_labels, classes=[0, 1,2])
 # print(df.drop([num_colums], axis=1))
 df_values = df.drop([num_colums], axis=1).as_matrix()
 
