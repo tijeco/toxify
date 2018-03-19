@@ -15,7 +15,7 @@ roc_data = pd.read_csv(sys.argv[1],delim_whitespace=True,header=None)
 y_values = roc_data[1]
 x_values = roc_data[2]
 
-plt.plot([0]+x_values.tolist()+[1], [0]+y_values.tolist()+[1])
+plt.plot([1]+x_values.tolist()+[0], [1]+y_values.tolist()+[0])
 plt.plot([0]+[1], [0]+[1])
 plt.axis([0, 1, 0, 1])
 # plt.show()
