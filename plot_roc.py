@@ -17,6 +17,6 @@ x_values = roc_data[2]
 
 plt.plot([1]+x_values.tolist()+[0], [1]+y_values.tolist()+[0])
 plt.plot([0]+[1], [0]+[1])
-plt.axis([0, 1, 0, 1])
+# plt.axis([0, 1, 0, 1])
 # plt.show()
 plt.savefig(sys.argv[1]+".png")
