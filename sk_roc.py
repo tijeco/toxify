@@ -50,7 +50,8 @@ df_labels = label_binarize(df_labels, classes=[0, 1, 2])
 # print(df.drop([num_colums], axis=1))
 df_values = df.drop([num_colums], axis=1).as_matrix()
 
-
+print(df_labels.shape)
+print(df_values.shape)
 
 # print(df_labels)
 # print(df_values)
