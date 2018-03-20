@@ -46,14 +46,37 @@ num_colums = df.shape[1] -1
 # print(df)
 # print(df[num_colums])
 df_labels = df[num_colums].as_matrix()
-df_labels = label_binarize(df_labels, classes=[1, 0])
+# print(np.unique(df_labels))
+num_classes = len(np.unique(df_labels))
+def oneHot(mat,n):
+    new_mat = np.zeros((len(mat), n) ,dtype=np.int)
+    for row in range(len(mat)):
+        # print(mat[row])
+        for col in range(n):
+            if mat[row] == col:
+                new_mat[row][col] = 1
+            else:
+                new_mat[row][col] = 0
+    return new_mat
+# print(df_labels)
+
+# df_labels = label_binarize(df_labels, classes=[0,1, 2])
+df_labels = oneHot(df_labels,num_classes)
 # print(df.drop([num_colums], axis=1))
 df_values = df.drop([num_colums], axis=1).as_matrix()
 
 print(df_labels)
 print(df_labels.shape)
-
 print(df_values.shape)
+#NOTE
+"""
+
+I need to make a new function that binarizes labels for binary, tots dumb
+"""
+# print(df_labels)
+# print(df_labels.shape)
+#
+# print(df_values.shape)
 
 # print(df_labels)
 # print(df_values)
