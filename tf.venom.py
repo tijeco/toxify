@@ -73,7 +73,7 @@ if train_only and test_only:
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"x": np.array(training_set.data)},
         y=np.array(training_set.target),
-        num_epochs=3,
+        num_epochs=1000,
         shuffle=True)
     classifier.train(input_fn=train_input_fn, steps=10000000)
 
