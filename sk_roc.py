@@ -1,7 +1,7 @@
 import sys
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')
+# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from itertools import cycle
 import pandas as pd
@@ -12,33 +12,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import label_binarize
 from sklearn.multiclass import OneVsRestClassifier
 from scipy import interp
-# iris = datasets.load_iris()
-# X = iris.data
-# y = iris.target
-
-
-# y = label_binarize(y, classes=[0, 1, 2])
-# print(y.flatten())
-# n_classes = y.shape[1]
-
-# Add noisy features to make the problem harder
-# random_state = np.random.RandomState(0)
-# n_samples, n_features = X.shape
-# X = np.c_[X, random_state.randn(n_samples, 200 * n_features)]
-
-# shuffle and split training and test sets
-# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.5,
-                                                    # random_state=0)
-
-# Learn to predict each class against the other
-# classifier = OneVsRestClassifier(svm.SVC(kernel='linear', probability=True))
-# y_fit = classifier.fit(X_train, y_train)
-# y_score = y_fit.predict_proba(X_test)
-
-# print(y_score)
-# print(X)
-
-
 
 df = pd.read_csv(sys.argv[1],header=None)
 # print()
@@ -65,30 +38,9 @@ df_labels = oneHot(df_labels,num_classes)
 # print(df.drop([num_colums], axis=1))
 df_values = df.drop([num_colums], axis=1).as_matrix()
 
-print(df_labels)
-print(df_labels.shape)
-print(df_values.shape)
-#NOTE
-"""
-
-I need to make a new function that binarizes labels for binary, tots dumb
-"""
 # print(df_labels)
 # print(df_labels.shape)
-#
 # print(df_values.shape)
-
-# print(df_labels)
-# print(df_values)
-#
-# print(y_test.flatten())
-# print(y_test.shape)
-# print(y_test.ravel())
-# print(y_score)
-# print(y_score.ravel())
-# print(y_score.flatten())
-# print(y_score.ravel().shape)
-
 
 # Compute ROC curve and ROC area for each class
 fpr = dict()
@@ -97,10 +49,29 @@ roc_auc = dict()
 
 # print(y_test)
 # print(df_labels)
+print(df_labels[:,1])
+print(df_labels)
+print(df_values)
 
 for i in range(num_colums):
     fpr[i], tpr[i], _ = roc_curve(df_labels[:, i], df_values[:, i])
+    # print(fpr[i],tpr[i])
     roc_auc[i] = auc(fpr[i], tpr[i])
+print(fpr)
+new_labels = df[num_colums]
+new_values = df[num_colums-1]
+print(roc_curve(new_labels,new_values))
+new_labels = df[num_colums]
+new_values = df[num_colums-2]
+new_fpr, new_tpr, thresholds = roc_curve(new_labels,new_values)
+print(thresholds)
+for i in thresholds:
+    print(i)
+# plt.figure()
+# plt.plot(new_fpr,new_tpr)
+# plt.show()
+#
+# print(auc(new_fpr,new_tpr))
 
 #y_test is labels, y_score is probabilities
 fpr["micro"], tpr["micro"], _ = roc_curve(df_labels.flatten(), df_values.flatten())
