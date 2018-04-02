@@ -11,5 +11,7 @@ setup(name='toxify',
       author_email='coleti16@students.ecu.edu',
       license='GNU',
       packages=['toxify'],
-      include_package_data = True,
+      package_data={  # Optional
+        'toxify': ['file.txt'],
+    },
       zip_safe=False)
