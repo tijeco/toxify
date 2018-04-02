@@ -1,5 +1,29 @@
 #!/usr/bin/env python3
 
 import toxify
+from toxify import getApple
+import os
+import urllib.request
+import sys
+import numpy as np
+import tensorflow as tf
+import random
 
+
+data_dir = os.path.dirname(getApple.__file__)
+def getOptionValue(option):
+    optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
+    optionValue = sys.argv[optionPos + 1]
+    return optionValue
+
+if "--create-features" in sys.argv:
+    fasta_dir = getOptionValue("--create-features")
+    snake_file = data_dir+"/data/Snakefile"
+    os.system("snakemake --snakefile "+snake_file+" -d "+fasta_dir)
+
+with open(data_dir+"/data/file.txt") as f:
+    print(f)
+
+
+print(data_dir)
 print("hello")
