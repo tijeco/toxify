@@ -10,5 +10,5 @@ setup(name='toxify',
       scripts = ['bin/toxify'],
       author_email='coleti16@students.ecu.edu',
       license='GNU',
-      packages=find_packages(),
+      packages=['toxify'],
       zip_safe=False)
