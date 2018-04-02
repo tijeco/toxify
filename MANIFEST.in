@@ -1,2 +1,2 @@
 include file.txt
-recursive-include toxify/data*
+recursive-include toxify/data *
