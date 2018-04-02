@@ -1,4 +1,3 @@
 include file.txt
-recursive-include data *
 graft toxify/data
 graft data
