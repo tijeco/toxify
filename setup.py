@@ -12,6 +12,6 @@ setup(name='toxify',
       license='GNU',
       packages=['toxify'],
       package_data={  # Optional
-        'toxify': ['file.txt'],
+        'toxify': ['data/file.txt'],
     },
       zip_safe=False)
