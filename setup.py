@@ -11,5 +11,4 @@ setup(name='toxify',
       license='GNU',
       packages=['toxify'],
       package_data={'toxify':['data/RaptorX_Property_Fast/']},
-      include_package_data = True,
       zip_safe=False)
