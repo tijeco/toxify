@@ -1,6 +1,6 @@
 
-from distutils.core import setup
-#from setuptools import setup, find_packages
+# from distutils.core import setup
+from setuptools import setup, find_packages
 # replace LIB_PATH definition
 setup(name='toxify',
       version='0.1',
