@@ -1,0 +1,1040 @@
+from itertools import groupby
+import math
+import re
+import random
+
+
+
+def fasta_iter(fasta_name):
+    fh = open(fasta_name)
+    faiter = (x[1] for x in groupby(fh, lambda line: line[0] == ">"))
+    for header in faiter:
+        headerStr = header.__next__()[1:].strip().split()[0]#Entire line, add .split[0] for just first column
+        seq = "".join(s.strip() for s in faiter.__next__())
+        yield (headerStr, seq)
+def distance(x1,y1,x2,y2):
+    d = math.sqrt((x1-x2)**2 + (y1-y2)**2)
+    return d
+
+def makeSquare(size,scale):
+    midpoint = size/2
+    Dist2center = distance(0,0,midpoint,midpoint)
+    # print(Dist2center)
+    top_pointDist2center = Dist2center - Dist2center*(scale)
+    # print(Dist2center,scale)
+    top_point_coord = int(top_pointDist2center/math.sqrt(2))
+
+    bottomDist2center =  Dist2center + Dist2center*(scale)
+    bottom_point_coord = int(bottomDist2center/math.sqrt(2))
+    return (top_point_coord, top_point_coord, bottom_point_coord, bottom_point_coord)
+def makeCompFeatures(seq):
+    aa_descript = {
+    "A":{3:True,4:True,7:True},
+    "C":{3:True,4:True},
+    "D":{2:True,9:True,11:True,12:True},
+    "E":{2:True,9:True,11:True,12:True},
+    "F":{3:True,4:True,6:True},
+    "G":{3:True,4:True,7:True},
+    "H":{3:True,6:True,9:True,10:True,12:True},
+    "I":{2:True,4:True,9:True,10:True,12:True},
+    "K":{3:True,4:True,5:True},
+    "L":{3:True,4:True,5:True},
+    "M":{3:True,4:True,8:True},
+    "N":{2:True,8:True,12:True,13:True},
+    "P":{2:True,8:True},
+    "Q":{2:True,8:True,12:True,13:True},
+    "R":{2:True,9:True,10:True,12:True},
+    "S":{2:True,4:True,7:True,12:True},
+    "T":{3:True,8:True,12:True},
+    "V":{3:True,4:True,5:True},
+    "W":{3:True,4:True,6:True,12:True},
+    "Y":{3:True,6:True,12:True}
+
+
+    }
+    quarter_len = int(len(seq)/4)
+    seq_q1 = seq[0:quarter_len]
+    seq_q2 = seq[quarter_len:quarter_len*2]
+    seq_q3 = seq[quarter_len*2:quarter_len*3]
+    seq_q4 = seq[quarter_len*3:]
+    seq_half1 = seq[0:2*quarter_len]
+    seq_q1_3 = seq[0:3*quarter_len]
+    seq_q2_3 = seq[quarter_len:3*quarter_len]
+    seq_half2 = seq[2*quarter_len:]
+    line2write = ""
+    header2write = ""
+    quarter_len = int(len(seq)/4)
+    factor_dict = {}
+    #NOTE 6-71 deal with 2
+    current_number = 2
+    for feature in range(2,14):
+        for i in range(1,67):
+            num = (i+5)
+            if True:
+                current_factor = (   (66*(feature - 1)) - 66  ) +(i+5)
+                current_class = feature
+
+                # print(i,current_class,current_factor)
+                if i==1:#1
+                    #total number of current_class
+                    tot_num = 0
+                    for aa in seq:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",tot_num)
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+
+                if i ==2:
+                    tot_num = 0
+                    for aa in seq:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+
+                if i ==3:
+                    tot_num = 0
+                    seq_q1 = seq[0:quarter_len]
+                    for aa in seq_q1:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+
+                if i ==4:
+                    tot_num = 0
+                    seq_q1 = seq[0:quarter_len]
+                    for aa in seq_q1:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num)/len(seq))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+
+                if i == 5:
+                    q1_num = 0
+                    # seq_q1 = seq[0:quarter_len]
+                    for aa in seq_q1:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                q1_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+
+                    else:
+                        line2write+=str(float(q1_num)/tot_num) +","
+                if i ==6:
+                    tot_num = 0
+                    for aa in seq_q2:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+
+                if i ==7:
+                    tot_num = 0
+                    for aa in seq_q2:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+
+                if i ==8:
+                    q2_num = 0
+                    for aa in seq_q2:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                q2_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+
+                    else:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(float(q2_num)/tot_num) +","
+
+                if i ==9:
+                    tot_num = 0
+                    for aa in seq_q3:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+
+                if i ==10:
+                    tot_num = 0
+                    for aa in seq_q3:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+
+                if i ==11:
+                    q3_num = 0
+                    for aa in seq_q3:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                q3_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+
+                    else:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(float(q3_num)/tot_num) +","
+
+
+                if i ==12:
+                    tot_num = 0
+                    for aa in seq_q4:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+
+                if i ==13:
+                    tot_num = 0
+                    for aa in seq_q4:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+
+                if i ==14:
+                    q4_num = 0
+                    for aa in seq_q4:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                q4_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+
+                    else:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(float(q4_num)/tot_num) +","
+
+
+                if i ==15:
+                    tot_num = 0
+                    for aa in seq_q2:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+
+                if i ==16:
+                    tot_num = 0
+                    for aa in seq_half1:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+
+                if i ==17:
+                    half1_num = 0
+                    for aa in seq_half1:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                half1_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+
+                    else:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(float(half1_num)/tot_num) +","
+
+                if i ==18:
+                    tot_num = 0
+                    for aa in seq_q2_3:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+
+                if i ==19:
+                    tot_num = 0
+                    for aa in seq_q2_3:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+
+                if i ==20:
+                    q2_3_num = 0
+                    for aa in seq_q2_3:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                q2_3_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+
+                    else:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(float(q2_3_num)/tot_num) +","
+
+                if i ==21:
+                    tot_num = 0
+                    for aa in seq_half2:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",float(tot_num))
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)) +","
+
+                if i ==22:
+                    tot_num = 0
+                    for aa in seq_half2:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                    line2write+=str(float(tot_num)/len(seq)) +","
+
+                if i ==23:
+                    half2_num = 0
+                    for aa in seq_half2:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                half2_num+=1
+                    tot_num = 0
+                    for aa in seq:
+                        if aa != "X" and aa != "Z" and aa!="U" and aa!="B" and aa!="O":
+                            if current_class in aa_descript[aa]:
+                                tot_num+=1
+                    if tot_num == 0:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",0.0)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(0.0) +","
+
+                    else:
+                        # print("FACTOR:",current_factor,"CLASS:",current_class,"is:",q1_num/tot_num)
+                        header2write+="f"+str(current_factor)+"c"+str(current_class)+","
+                        line2write+=str(float(half2_num)/tot_num) +","
+
+
+                if i==24: #NOTE this is D
+
+                    seq_q1 = seq[0:quarter_len]
+                    seq_q2 = seq[quarter_len:2*quarter_len]
+                    seq_q3 = seq[2*quarter_len:3*quarter_len]
+                    seq_q4 = seq[3*quarter_len:]
+                    # print(seq_q1)
+                    # print(seq_q2)
+                    # print(seq_q3)
+                    # print(seq_q4)
+
+                    tot_num = 0
+                    # first_classFound = False
+                    # first_noneFound = False
+                    class_dict = {}
+                    numsWeWant = ""
+                    for aa in range(len(seq)):
+                        # print(aa,seq[aa] != "X" and seq[aa] != "Z" and seq[aa]!="U" and seq[aa]!="B" seq[aa]!="O")
+                        if seq[aa] != "X" and seq[aa] != "Z" and seq[aa]!="U" and seq[aa]!="B"  and seq[aa]!="O":
+                            # if first_classFound == False:
+                            if current_class in aa_descript[seq[aa]]:
+                                if seq.find(seq[aa])==aa:
+                                    if "q1" not in class_dict:
+                                        # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
+                                        # print("q1",current_class,seq.find(seq[aa]))
+                                        class_dict["q1"] = (seq.find(seq[aa]))/len(seq)
+                                if seq_q2.find(seq[aa])+quarter_len==aa:
+                                    if "q2" not in class_dict:
+                                        # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
+                                        # print("q2",current_class,seq_q2.find(seq[aa])+quarter_len)
+                                        class_dict["q2"] = (seq_q2.find(seq[aa])+quarter_len)/len(seq)
+                                if seq_q3.find(seq[aa])+quarter_len*2==aa:
+                                    if "q3" not in class_dict:
+                                        # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
+                                        # print("q3",current_class,seq_q3.find(seq[aa])+quarter_len*2)
+                                        class_dict["q3"] = (seq_q3.find(seq[aa])+quarter_len*2)/len(seq)
+                                if seq_q4.find(seq[aa])+quarter_len*3==aa:
+                                    if "q4" not in class_dict:
+                                        # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
+                                        # print("q4",current_class,seq_q4.find(seq[aa])+quarter_len*3)
+                                        class_dict["q4"] = (seq_q4.find(seq[aa])+quarter_len*3)/len(seq)
+                                if len(seq)-seq[::-1].find(seq[aa])-1==aa:
+                                    if "last" not in class_dict:
+                                        # print(seq,current_class,aa,seq[aa],aa_descript[seq[aa]])
+                                        # print("last",current_class,len(seq)-seq[::-1].find(seq[aa])-1)
+                                        class_dict["last"] = (len(seq)-seq[::-1].find(seq[aa])-1)/len(seq)
+
+                    # print(current_class,class_dict)
+                    # nums2print = ""
+                    for q in ["q1","q2","q3","q4","last"]:
+                        try:
+                            line2write+=str(class_dict[q])+","
+                            # print(class_dict[q])
+                        except:
+                            line2write+="NA,"
+                            # print("NA")
+
+    pair_dict = {}
+    for i in range(len(seq)-1):
+        if seq[i] != "X" and seq[i] != "Z" and seq[i]!="U" and seq[i]!="B" and seq[i]!="O" and seq[i+1] != "X" and seq[i+1] != "Z" and seq[i+1]!="U" and seq[i+1]!="B" and seq[i+1]!="O" :
+            for left in aa_descript[seq[i]]:
+                for right in aa_descript[seq[i+1]]:
+                    if (sorted([left,right])[0],sorted([left,right])[1]) not in pair_dict:
+                        pair_dict[(sorted([left,right])[0],sorted([left,right])[1])] =1
+                    pair_dict[(sorted([left,right])[0],sorted([left,right])[1])] += 1
+
+    usedBeforeDict = {}
+    for left in range(2,14):
+        for right in range(2,14):
+            if (sorted([left,right])[0],sorted([left,right])[1]) not in usedBeforeDict:
+                if  (sorted([left,right])[0],sorted([left,right])[1]) in pair_dict:
+                    line2write+=str(pair_dict[(sorted([left,right])[0],sorted([left,right])[1])]/len(seq))+","
+                    # print(pair_dict[(sorted([left,right])[0],sorted([left,right])[1])]/len(seq))
+                else:
+                    line2write+="NA,"
+                    # print("NA")
+
+                usedBeforeDict[(sorted([left,right])[0],sorted([left,right])[1])] = True
+    return line2write[:-1]
+
+
+
+def makeFeatures(seq,sym):
+    quarter_len = int(len(seq)/4)
+    seq_q1 = seq[0:quarter_len]
+    seq_q2 = seq[quarter_len:quarter_len*2]
+    seq_q3 = seq[quarter_len*2:quarter_len*3]
+    seq_q4 = seq[quarter_len*3:]
+    seq_half1 = seq[0:2*quarter_len]
+    seq_q1_3 = seq[0:3*quarter_len]
+    seq_q2_3 = seq[quarter_len:3*quarter_len]
+    seq_half2 = seq[2*quarter_len:]
+
+    pair_dict = {}
+    line2write=""
+    for i in sym:
+        line2write+=str(seq.count(i)/len(seq))+","
+        line2write+=str(seq.count(i))+","
+
+
+        line2write+=str(seq_q1.count(i)/len(seq_q1))+","
+        line2write+=str(seq_q1.count(i))+","
+        try:
+            line2write+=str(seq_q1.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        line2write+=str(seq_q2.count(i)/len(seq_q2))+","
+        line2write+=str(seq_q2.count(i))+","
+        try:
+            line2write+=str(seq_q2.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        line2write+=str(seq_q3.count(i)/len(seq_q3))+","
+        line2write+=str(seq_q3.count(i))+","
+        try:
+            line2write+=str(seq_q3.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        line2write+=str(seq_q4.count(i)/len(seq_q4))+","
+        line2write+=str(seq_q4.count(i))+","
+        try:
+            line2write+=str(seq_q4.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        line2write+=str(seq_half1.count(i)/len(seq_half1))+","
+        line2write+=str(seq_half1.count(i))+","
+        try:
+            line2write+=str(seq_half1.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        # line2write+=str(seq_q1_3.count(i)/len(seq_q1_3))+","
+        # line2write+=str(seq_q1_3.count(i))+","
+        # try:
+        #     line2write+=str(seq_q1_3.count(i)/seq.count(i))+","
+        # except:
+        #     line2write+=str(0)+","
+        line2write+=str(seq_q2_3.count(i)/len(seq_q2_3))+","
+        line2write+=str(seq_q2_3.count(i))+","
+        try:
+            line2write+=str(seq_q2_3.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+        line2write+=str(seq_half2.count(i)/len(seq_half2))+","
+        line2write+=str(seq_half2.count(i))+","
+        try:
+            line2write+=str(seq_half2.count(i)/seq.count(i))+","
+        except:
+            line2write+=str(0)+","
+
+        #end C
+
+        for j in sym:
+            if (sorted((i,j))[0],sorted((i,j))[1]) not in pair_dict:
+
+                pair_dict[(sorted((i,j))[0],sorted((i,j))[1])]=seq.count(i+j)+seq.count(j+i)
+                line2write+=str(pair_dict[(sorted((i,j))[0],sorted((i,j))[1])]/len(seq) )+","
+        #end T
+
+        line2write+=str((seq.find(i))/len(seq))+","
+        line2write+=str((seq_q2.find(i)+quarter_len)/len(seq))+","
+        line2write+=str((seq_q3.find(i)+quarter_len*2)/len(seq))+","
+        line2write+=str((seq_q4.find(i)+quarter_len*3)/len(seq))+","
+        line2write+=str((len(seq)-seq[::-1].find(i)-1)/len(seq))+","
+        #end D
+
+        # print(i,sym.find(i),(sym.find(i)+1)%len(sym))
+        # left=sym[sym.find(i)]
+        # right=sym[(sym.find(i)+1)%len(sym)]
+        # print(left,right)
+        # # if sym.find(i)+1 != len(sym):
+        # #     # print(i,sym.find(i),(sym.find(i)+1))
+        # #     left = sym[sym.find(i)]
+        # #     right = sym[sym.find(i)+1]
+        # #     print(left,right,sym.count(left+right))
+
+
+
+    return line2write[:-1]
+
+def revTrans(prot):
+    cod = {
+    "F":{1:"T",2:"T",3:"TC"},
+    "L":{1:"C",2:"T",3:"AGTC"},
+    "I":{1:"A",2:"T",3:"TCA"},
+    "M":{1:"A",2:"T",3:"G"},
+    "V":{1:"G",2:"T",3:"TGAC"},
+
+    "S":{1:"T",2:"C",3:"TCAG"},
+    "P":{1:"C",2:"C",3:"AGTC"},
+    "T":{1:"A",2:"C",3:"TCAG"},
+    "A":{1:"G",2:"C",3:"TGAC"},
+
+    "Y":{1:"T",2:"A",3:"TC"},
+    "H":{1:"C",2:"A",3:"TC"},
+    "Q":{1:"C",2:"A",3:"AG"},
+    "N":{1:"A",2:"A",3:"TC"},
+    "K":{1:"A",2:"A",3:"AG"},
+    "D":{1:"G",2:"A",3:"TC"},
+    "E":{1:"G",2:"A",3:"GA"},
+
+    "C":{1:"T",2:"G",3:"TC"},
+    "W":{1:"T",2:"G",3:"G"},
+    "R":{1:"C",2:"G",3:"TCGA"},
+    "S":{1:"A",2:"G",3:"TC"},
+    "G":{1:"G",2:"G",3:"AGTC"},
+
+
+    "B":{1:"AG",2:"A",3:"TC"},
+    "J":{1:"AC",2:"T",3:"TGAC"},
+    "Z":{1:"GC",2:"A",3:"AG"},
+
+    "X":{1:"N",2:"N",3:"N"},
+    "U":{1:"N",2:"N",3:"N"},
+    "O":{1:"N",2:"N",3:"N"}
+    # U for selenocysteine and O for pyrrolysine
+    # B = D or N, J = I or L, X = unknown, Z = E or Q
+    }
+    cds = "ATG"
+    for aa in prot:
+        cds += random.choice(cod[aa][1])
+        cds += random.choice(cod[aa][2])
+        cds += random.choice(cod[aa][3])
+        # cds += " "
+    cds += "TAA"
+    return cds
+
+SAMPLES, = glob_wildcards("{sample}.fa")
+
+
+rule final:
+    # input: expand("{sample}.blastout",sample=SAMPLES)
+    # input: dynamic("{header}.aln")
+    # input:"pssm.csv"
+    # input:dynamic("seq_pics/{header}.png")
+    # input:"shahib.csv"
+    # input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
+    input:"all.combined.csv"
+"""
+I need to add a clean rule here to
+    1. replace headers with small heaader
+    2. put those headers in a json file
+    3. make option in toxify main to convert back to dumb headers
+"""
+
+rule diamond:
+    input:
+        expand("{sample}.fa",sample=SAMPLES)
+    conda:"envs/diamond.yaml"
+    output:
+        expand("{sample}.blastout",sample=SAMPLES)
+    threads:100
+    shell:
+        "diamond blastp -d {config[diamond_db]} -q {input} -o {output} -p {threads}   -f 6 sseqid sseq qseqid qseq  -k 1000 --unal 1"
+
+rule blast2fa:
+    input:
+        expand("{sample}.blastout",sample=SAMPLES),
+        expand("{sample}.fa",sample=SAMPLES)
+    output:
+        dynamic("pssm_dir/alignments/{header}.fasta")
+    run:
+
+        qdict = {}
+        for ff in fasta_iter(input[1]):
+            headerStr, seq = ff
+            qdict[headerStr] = seq
+
+        used_dict = {}
+        print(qdict)
+
+        with open(input[0]) as f:
+            for line in f:
+
+
+                row = line.split()
+                with open("pssm_dir/alignments/"+row[2].replace("|","_")+".fasta","a") as out:
+                    if row[2] not in used_dict:
+                        used_dict[row[2]] = True
+                        out.write(">"+row[2]+"\n")
+                        out.write(qdict[row[2]]+"\n")
+                    out.write(">"+row[0]+"\n")
+                    out.write(row[1]+"\n")
+rule mafft:
+    input:
+        "pssm_dir/alignments/{header}.fasta"
+    output:
+        "pssm_dir/alignments/{header}.aln"
+    conda:"envs/mafft.yaml"
+    shell:
+        "mafft --auto --thread -1 {input} > {output} || mafft --auto --thread -1 --anysymbol {input} > {output}"
+
+rule align2pssm:
+    input:
+        "pssm_dir/alignments/{header}.aln"
+    output:
+        "pssm_dir/alignments/{header}.pssm"
+    run:
+        line1 = True
+        line2write =""
+
+        qseq = {}
+        sseq = { "A":{},
+                "C":{},
+                "D":{},
+                "E":{},
+                "F":{},
+                "G":{},
+                "H":{},
+                "I":{},
+                "K":{},
+                "L":{},
+                "M":{},
+                "N":{},
+                "P":{},
+                "Q":{},
+                "R":{},
+                "S":{},
+                "T":{},
+                "V":{},
+                "W":{},
+                "Y":{}
+
+        }
+        # print(output[0],input)
+        with open(output[0],"w") as out:
+            # print(output,"opened")
+            for ff in fasta_iter(input[0]):
+                headerStr, seq = ff
+                if line1:
+                    for num in range(len(seq)):
+                        if seq[num] != "-":
+                            qseq[num] = seq[num]
+                    line1 = False
+                else:
+                    for num in range(len(seq)):
+                        if num in qseq:
+                            if seq[num] != "-":
+                                try:
+
+                                    try:
+                                        sseq[seq[num]][num] +=1
+                                    except:
+                                        sseq[seq[num]][num] = 1
+                                except:
+                                    0
+
+
+            # print("\t", end="")
+            line2write +="\t"
+            for i in sorted(qseq.keys()):
+                # print(qseq[i]+"\t", end="")
+                line2write+=str(qseq[i]+"\t")
+
+            # print()
+            out.write(line2write+"\n")
+            line2write=""
+            # for i in sorted(sseq.keys()):
+            #     print(str(i)+"\t", end="")
+            #     for j in sorted(sseq[i].keys()):
+            #         print(str(j)+"\t", end="")
+            #     print()
+
+            for i in sseq:
+                # print(i+"\t",end="")
+                line2write +=str(i)+"\t"
+                for j in sorted(qseq.keys()):
+                    try:
+                        # print(str(sseq[i][j])+"\t",end="")
+                        line2write+=str(sseq[i][j])+"\t"
+                    except:
+                        # print("0\t",end="")
+                        line2write+="0\t"
+                # print()
+                out.write(line2write+"\t"+"\n")
+                line2write=""
+
+
+
+rule pssm2mat:
+    input:
+        dynamic("pssm_dir/alignments/{header}.pssm")
+    output:
+        "pssm.csv"
+    run:
+
+
+        # print(math.log(10,10))
+
+
+        with open("pssm.csv","w") as out:
+            for current_file in input:
+                line1 = True
+                top_dict = {}
+                pair_dict ={}
+                aa_count = {}
+                top_count = {}
+                tot_aa = 0
+                with open(current_file) as f:
+                    for line in f:
+                        row = line.strip().split()
+                        if line1:
+                            for i in range(len(row)):
+                                top_dict[i+1] = row[i]
+                            line1=False
+                        else:
+                            for i in range(len(row)):
+
+                                if i in top_dict and i  != 0 :
+                                    # print(row[0],top_dict[i],row[i])
+                                    try:
+                                        pair_dict[top_dict[i]+row[0]]+= int(row[i])
+                                    except:
+                                        pair_dict[top_dict[i]+row[0]] = int(row[i])
+                                    try:
+                                        aa_count[row[0]] += int(row[i])
+                                    except:
+                                        aa_count[row[0]] = int(row[i])
+                                    try:
+                                        top_count[top_dict[i]]+=int(row[i])
+                                    except:
+                                        top_count[top_dict[i]]=int(row[i])
+
+                                    tot_aa += int(row[i])
+
+                # print(pair_dict)
+                # print("\n\n\n\n\n\n\n\n")
+                aa_prob = {}
+                for i in aa_count:
+                    if tot_aa != 0:
+                        aa_prob[i] = aa_count[i]/tot_aa
+                    else:
+                        aa_prob[i] = 0
+                aa = "ACDEFGHIKLMNPQRSTVWY"
+                # print(" A  R  N  D  C  Q  E  G  H  I  L  K  M  F  P  S  T  W  Y  V  B  Z  X")
+                line2write =""
+                # print( "A R N D C Q E G H I L K M F P S T W Y V B Z X")
+                # print(line2write)
+
+                line2write+=re.search(r'alignments/(.*?).pssm', current_file).group(1)+","
+                for row in aa:
+                    # print(row+" ",end="")
+                    # line2write+=row+" "
+                    for col in aa:
+
+                        # print(row+col,end='n')
+
+                        try:
+                            frequency = pair_dict[row+col]
+                            # try:
+                            # prob = frequency/1000
+                            p_i = aa_prob[row]
+                            q_j = aa_prob[col]
+                            p_ij = (frequency/aa_count[col]) * (frequency/top_count[row])
+                            new_ij = (frequency/aa_count[col])
+                            s_ij = (1/0.75)*math.log(p_ij/(p_i*q_j),2)
+
+                            # except:si
+                            #     print("ERROR",row)
+                            # print(str(int(s_ij))+" ",end="")
+                            line2write+=str(s_ij)+","
+                            # print(str(s_ij)+" ",end="")
+                        except:
+                            # print("na"+str(q_j)+" ",end="")
+                            # print("0 ",end="")
+                            line2write+="NA,"
+                # print(line2write[:-1])
+                out.write(line2write[:-1]+"\n")
+                # print("\n\n\n\n\n\n\n")
+
+                    # print()
+                # print(tot_aa)
+                # print(aa_count)
+                # print(top_count)
+                #
+                # print(pair_dict["WW"])
+
+
+rule splitSeqs:
+    input:
+        "pssm_dir/alignments/{header}.fasta"
+    output:
+        "sequences/{header}.seq"
+    shell:
+        "head -n 2 {input} > {output}"
+
+# rule revTrans:
+#     input:
+#         "sequences/{header}.seq"
+#     output:
+#         "coding_sequences/{header}.cds"
+#     run:
+#
+#         for ff in fasta_iter(input[0]):
+#             headerStr, seq = ff
+#             with open(output[0],"w") as out:
+#                 out.write(revTrans(seq))
+#
+# rule evolveAGene:
+#     input:
+#         cds="coding_sequences/{header}.cds",
+#         seq="sequences/{header}.seq"
+#     output:
+#         "coding_sequences/{header}_pep_Unaligned.FASTA"
+#     shell:
+#         "EvolveAGene -f  {input.cds}   -n 8 -o Phy -b 0.04 || ( head -n 1  {input.seq}  && printf M && tail -n 1 {input.seq} > {output})"
+# rule cleanSeq:
+#     input:
+#         "coding_sequences/{header}_pep_Unaligned.FASTA"
+#     output:
+#         "pep_sequences/{header}.pep"
+#     run:
+#         header = output[0].split("/")[1].replace(".pep","")
+#         with open(output[0],"w") as out:
+#             for ff in fasta_iter(input[0]):
+#                 headerStr, seq = ff
+#                 out.write(">"+header+"_"+headerStr+"\n")
+#                 out.write(seq[1:].replace("*","")+"\n")
+#
+
+rule seq2png:
+    input:
+        "sequences/{header}.seq"
+    output:
+        "seq_pics/{header}.png"
+    # conda: "envs/pil.yaml"
+    run:
+        import PIL.ImageDraw as ImageDraw,PIL.Image as Image, PIL.ImageShow as ImageShow
+        scale_factor = 360/20
+        seqDict = {
+            "A":(scale_factor*0,scale_factor*1),
+            "C":(scale_factor*1,scale_factor*2),
+            "D":(scale_factor*2,scale_factor*3),
+            "E":(scale_factor*3,scale_factor*4),
+            "F":(scale_factor*4,scale_factor*5),
+            "G":(scale_factor*5,scale_factor*6),
+            "H":(scale_factor*6,scale_factor*7),
+            "I":(scale_factor*7,scale_factor*8),
+            "K":(scale_factor*8,scale_factor*9),
+            "L":(scale_factor*9,scale_factor*10),
+            "M":(scale_factor*10,scale_factor*11),
+            "N":(scale_factor*11,scale_factor*12),
+            "P":(scale_factor*12,scale_factor*13),
+            "Q":(scale_factor*13,scale_factor*14),
+            "R":(scale_factor*14,scale_factor*15),
+            "S":(scale_factor*15,scale_factor*16),
+            "T":(scale_factor*16,scale_factor*17),
+            "V":(scale_factor*17,scale_factor*18),
+            "W":(scale_factor*18,scale_factor*19),
+            "Y":(scale_factor*19,scale_factor*20)
+            }
+        num = 1000
+        midpoint = num/2
+
+        # sequence_iterator = fasta_iter(sys.argv[1])
+        sequence_iterator = fasta_iter(input[0])
+        for ff in sequence_iterator:
+            image = Image.new('RGB', (num, num), 'white')
+            draw = ImageDraw.Draw(image)
+            draw.ellipse((0, 0, num, num), 'white', 'black')  # made this a little smaller..
+            headerStr, seq = ff
+            for aa in range(len(seq)):
+
+
+                this_square = makeSquare(num,float(aa)/len(seq))
+                # print(this_square)
+                try:
+                    draw.arc(this_square, seqDict[seq[aa]][0], seqDict[seq[aa]][1], 'black')  # draw an arc in black
+                except:
+                    0 #print("NO")
+
+            image.save(output[0],"PNG")
+
+
+rule aaFactors:
+    input:
+        expand("{sample}.fa",sample=SAMPLES)
+    output:
+        "shahib.csv"
+    run:
+
+        input_fasta = fasta_iter(input[0])
+
+        with open(output[0],"w") as out:
+            for ff in input_fasta:
+                headerStr, seq = ff
+                # try:
+                out.write(headerStr.replace("|","_")+",")
+                out.write(makeCompFeatures(seq)+"\n")
+                # except:
+
+                    # out.write(makeCompFeatures(seq)+",0"+"\n")
+                    # None
+rule Raptorx:
+    input:
+        seq="sequences/{header}.seq",
+        png="seq_pics/{header}.png"
+
+    output:
+        "{header}.seq.dumb/{header}/{header}.all"
+    shell:
+        "bash /home/brewerlab/Jeffrey/RaptorX_Property_Fast/oneline_command.sh {input.seq} 64 0 || echo too_small > {output}"
+rule ssComp:
+    input:
+        dynamic("{header}.seq.dumb/{header}/{header}.all")
+    output:
+        "sspro.csv"
+    run:
+        header=""
+        ss_dict = {
+            "ss3":"HEC",
+            "ss8":"HGIEBTSL",
+            "acc":"MBE",
+            "diso":"*."
+            }
+        with open(output[0],"w") as out:
+
+            for current_file in input:
+                print("opening:",current_file)
+                with open(current_file) as f:
+                    header = current_file.strip().split("/")[-1].replace(".all","")
+                    lineNum = 1
+                    line2write=""
+                    for line in f:
+
+                        if lineNum == 1:
+                            if line.strip() == "too_small":
+                            #     header =line.strip().replace(">","").replace("|","_")
+                            # else:
+                                line2write = "NA,"*498 +"NA"
+                                break
+
+                        elif lineNum == 3:
+                            line2write += makeFeatures(line.strip(),ss_dict["ss3"]) +","
+                        elif lineNum == 4:
+                            line2write += makeFeatures(line.strip(),ss_dict["ss8"]) +","
+                        elif lineNum == 5:
+                            line2write += makeFeatures(line.strip(),ss_dict["acc"]) +","
+                        elif lineNum == 6:
+                            line2write += makeFeatures(line.strip(),ss_dict["diso"])
+                        elif lineNum > 6:
+                            break
+
+                        lineNum+=1
+                    out.write(header+",")
+                    out.write(line2write+"\n")
+rule combineFiles:
+    input:
+        pssm="pssm.csv",
+        sspro="sspro.csv",
+        shahib="shahib.csv",
+    output:
+        "all.combined.csv"
+    shell:
+        "touch {output}"
+
+
+
+# "cut -d, -f1 --complement {input.sspro} > sspro.noHead.csv; cut -d, -f1 --complement {input.shahib} > shahib.noHead.csv; paste -d,  {input.pssm} sspro.noHead.csv shahib.noHead.csv > {output}"
