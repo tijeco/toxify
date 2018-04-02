@@ -1,3 +1,2 @@
-include file.txt
 graft toxify/data
 graft data
