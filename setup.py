@@ -10,6 +10,5 @@ setup(name='toxify',
       author_email='coleti16@students.ecu.edu',
       license='GNU',
       packages=['toxify'],
-      package_data={'toxify':['data/RaptorX_Property_Fast/']},
       include_package_data = True,
       zip_safe=False)
