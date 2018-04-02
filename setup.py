@@ -1,5 +1,5 @@
 
-
+import os
 from setuptools import setup
 CURRENT_ABSOLUTE = os.path.dirname(os.path.realpath(__file__))
 # replace LIB_PATH definition
