@@ -11,4 +11,5 @@ setup(name='toxify',
       license='GNU',
       packages=['toxify'],
       package_data={'toxify':['data/*']},
+      include_package_data=True,
       zip_safe=False)
