@@ -2,7 +2,7 @@ name: toxify
 channels:
   - bioconda
 dependencies:
-  - diamond
+  - diamond=0.9.10
   - mafft
   - snakemake
   - python=3.6.3
