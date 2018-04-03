@@ -1,0 +1,8 @@
+name: toxify
+channels:
+  - bioconda
+dependencies:
+  - python=3.6.3
+  - numpy
+  - tensorflow
+  - pandas
