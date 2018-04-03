@@ -6,4 +6,4 @@ dependencies:
   - numpy
   - tensorflow
   - pandas
- 
+  - scikit-learn
