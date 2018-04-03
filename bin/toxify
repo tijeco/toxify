@@ -34,7 +34,7 @@ if "--create-features" in sys.argv:
         os.system("touch "+Raptorx_dir+"/build_complete.txt;cd "+Raptorx_dir+"/source_code;make;cd ../../")
     bash_command = "snakemake --snakefile "+snake_file+" -d "+fasta_dir+" --use-conda --config diamond_db="+diamond_db+" --cores "+core_num
     print(bash_command)
-    os.system("snakemake --snakefile "+snake_file+" -d "+fasta_dir+" --use-conda --config diamond_db="+diamond_db+" --cores "+core_num)
+    os.system("snakemake --snakefile "+snake_file+" -d "+fasta_dir+" --use-conda --config Raptorx_dir="+Raptorx_dir+" --config diamond_db="+diamond_db+" --cores "+core_num)
 elif "-train" in sys.argv or "-test" in sys.argv:
 
     if "-train" in sys.argv:
