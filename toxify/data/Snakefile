@@ -1043,9 +1043,11 @@ rule combineFiles:
             newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
             currentData.columns = newHeaders
             df_dict[df_name] = currentData
+            print(currentData.shape)
 
 
         all_combined = pd.concat(df_dict)
+        print(all_combined.shape)
         all_combined.to_csv(output[0],na_rep='nan', sep='\t', index=False,quoting=3)
         # "touch {output}"
 
