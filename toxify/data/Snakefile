@@ -1038,7 +1038,7 @@ rule combineFiles:
         files = [input.sspro,input.shahib,input.pssm]
         for current_file in files:
             df_name = str(current_file)
-            currentData = pd.read_csv(currentFile, header=None)
+            currentData = pd.read_csv(current_file, header=None)
             currentHeaders = list(currentData)
             newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
             currentData.columns = newHeaders
