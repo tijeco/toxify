@@ -1052,7 +1052,9 @@ rule combineFiles:
         currentHeaders = list(all_combined)
         newHeaders = ["N:feature_" + str(header) for header in range(len(currentHeaders))]
         all_combined.columns = newHeaders
+
         print(all_combined.shape)
+        all_combined.insert(0, '.', range(1, 1 + len(all_combined)))
         all_combined.to_csv(output[0],na_rep='nan', sep='\t', index=False,quoting=3)
         # "touch {output}"
 
