@@ -1046,7 +1046,7 @@ rule combineFiles:
             print(currentData.shape)
 
 
-        all_combined = pd.concat(df_dict)
+        all_combined = pd.concat(df_dict,axis=1)
         print(all_combined.shape)
         all_combined.to_csv(output[0],na_rep='nan', sep='\t', index=False,quoting=3)
         # "touch {output}"
