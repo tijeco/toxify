@@ -616,7 +616,7 @@ rule final:
     # input:dynamic("seq_pics/{header}.png")
     # input:"shahib.csv"
     # input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
-    input:"all.combined.csv"
+    input:"all.combined.tsv"
 """
 I need to add a clean rule here to
     1. replace headers with small heaader
@@ -1031,9 +1031,22 @@ rule combineFiles:
         sspro="sspro.csv",
         shahib="shahib.csv",
     output:
-        "all.combined.csv"
-    shell:
-        "touch {output}"
+        "all.combined.tsv"
+    run:
+        df_dict = {}
+        files = [input.sspro,input.shahib,input.pssm]
+        for current_file in files:
+            df_name = str(current_file)
+            currentData = pd.read_csv(currentFile, header=None)
+            currentHeaders = list(currentData)
+            newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
+            currentData.columns = newHeaders
+            df_dict[df_name] = currentData
+
+
+        all_combined = pd.concat(df_dict)
+        all_combined.to_csv(output[0],,na_rep='nan', sep='\t', index=False,quoting=3)
+        # "touch {output}"
 
 
 
