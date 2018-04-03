@@ -9,7 +9,7 @@ Convert fasta protein files to csv files.
 
 
 ```
-snakemake --snakefile create_features/Snakefile -d dir/with/fastas/ --cores
+conda env create -f requirements.yml
 ```
 
 make sure that fasta files end in .fa
