@@ -2,9 +2,9 @@ name: toxify
 channels:
   - bioconda
 dependencies:
+  - snakemake
   - python=3.6.3
   - numpy
   - tensorflow
   - pandas
   - scikit-learn
-  
