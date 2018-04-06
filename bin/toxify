@@ -10,7 +10,7 @@ import tensorflow as tf
 import random
 
 
-data_dir = os.path.dirname(getApple.__file__)
+data_dir = os.path.dirname(dfUtil.__file__)
 def getOptionValue(option):
     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
     optionValue = sys.argv[optionPos + 1]
