@@ -10,3 +10,4 @@ dependencies:
   - tensorflow
   - pandas
   - scikit-learn
+  - pillow
