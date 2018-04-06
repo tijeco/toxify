@@ -976,12 +976,12 @@ rule aaFactors:
 rule Raptorx:
     input:
         seq="sequences/{header}.seq",
-        png="seq_pics/{header}.png" 
+        png="seq_pics/{header}.png"
 
     output:
         "{header}.seq.dumb/{header}/{header}.all"
     shell:
-        "bash {config[Raptorx_dir]}/oneline_command.sh {input.seq} 64 0 || echo too_small > {output}"
+        "bash {config[raptorx_dir]}/oneline_command.sh {input.seq} 64 0 || echo too_small > {output}"
 rule ssComp:
     input:
         dynamic("{header}.seq.dumb/{header}/{header}.all")
