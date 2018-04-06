@@ -32,7 +32,7 @@ if "--create-features" in sys.argv:
     Raptorx_dir = data_dir+"/data/RaptorX_Property_Fast"
     if not os.path.isfile(Raptorx_dir+"/build_complete.txt"):
         os.system("touch "+Raptorx_dir+"/build_complete.txt;cd "+Raptorx_dir+"/source_code;make;cd ../../")
-    bash_command = "snakemake --snakefile "+snake_file+" -d "+fasta_dir+" --config diamond_db="+diamond_db+" --cores "+core_num + " --use-conda --config raptorx_dir="+Raptorx_dir+
+    bash_command = "snakemake --snakefile "+snake_file+" -d "+fasta_dir+" --config diamond_db="+diamond_db+" --cores "+core_num + " --use-conda --config raptorx_dir="+Raptorx_dir
     print(bash_command)
     os.system(bash_command)
 if "--prep-train" in sys.argv:
