@@ -35,6 +35,7 @@ if "--create-features" in sys.argv:
     bash_command = "snakemake --snakefile "+snake_file+" -d "+fasta_dir+" --config diamond_db="+diamond_db+" --cores "+core_num + " --use-conda --config raptorx_dir="+Raptorx_dir
     print(bash_command)
     os.system(bash_command)
+
 if "--prep-train" in sys.argv:
     fasta_paths = getOptionValue("--prep-train")
     pos_list = []
@@ -43,17 +44,17 @@ if "--prep-train" in sys.argv:
         for line in f:
             row = line.strip().split()
             currentFile = row[1]
-            currentDF = input_df = pd.read_csv(currentFile, header=None)
+            currentDF = pd.read_csv(currentFile, header=None)
             if row[0] == "pos":
                 pos_list.append(currentDF)
             if row[0] == "neg":
                 neg_list.append(currentDF)
-        splitTrain(pos_list,neg_list)
+        (train,test) = splitTrain(pos_list,neg_list)
 
 
 
 
-    input_df = pd.read_csv(input_file, header=None)
+    # input_df = pd.read_csv(input_file, header=None)
 
 elif "-train" in sys.argv or "-test" in sys.argv:
 
