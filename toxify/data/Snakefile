@@ -619,7 +619,7 @@ rule final:
     # input:dynamic("seq_pics/{header}.png")
     # input:"shahib.csv"
     # input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
-    input:"all.combined.tsv"
+    input:"all.combined.csv"
 """
 I need to add a clean rule here to
     1. replace headers with small heaader
@@ -1033,7 +1033,7 @@ rule combineFiles:
         sspro="sspro.csv",
         shahib="shahib.csv",
     output:
-        "all.combined.tsv"
+        "all.combined.csv"
     run:
         df_dict = {}
         files = [input.sspro,input.shahib,input.pssm]
@@ -1043,8 +1043,9 @@ rule combineFiles:
             currentHeaders = list(currentData)
             newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
             currentData.columns = newHeaders
-            currentData.to_csv(df_name.split(".")[1]+".tsv",na_rep='nan', sep='\t', index=False,quoting=3)
+            currentData.to_csv(df_name.split(".")[1]+".clean.csv",na_rep='nan', index=False,quoting=3)
             currentData = currentData.drop('N:feature_0', 1)
+            header_df = currentData['N:feature_0']
             df_dict[df_name] = currentData
             print(currentData.shape)
 
@@ -1055,8 +1056,9 @@ rule combineFiles:
         all_combined.columns = newHeaders
 
         print(all_combined.shape)
-        all_combined.insert(0, '.', range(1, 1 + len(all_combined)))
-        all_combined.to_csv(output[0],na_rep='nan', sep='\t', index=False,quoting=3)
+        # all_combined.insert(0, '.', range(1, 1 + len(all_combined)))
+        all_combined.insert(0, 'N:feature_0', header_df)
+        all_combined.to_csv(output[0],na_rep='nan', index=False,quoting=3)
         # "touch {output}"
 
 
