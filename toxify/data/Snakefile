@@ -977,7 +977,7 @@ rule aaFactors:
 rule Raptorx:
     input:
         seq="sequences/{header}.seq",
-        png="seq_pics/{header}.png"
+        # png="seq_pics/{header}.png"
 
     output:
         "{header}.seq.dumb/{header}/{header}.all"
