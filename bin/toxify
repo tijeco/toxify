@@ -37,6 +37,8 @@ if "--create-features" in sys.argv:
     os.system(bash_command)
 
 if "--prep-train" in sys.argv:
+    # should generate six files from list of "all.combined.csv" with relative fasta_paths
+    # two test and two train as fm and tf_csv and flat_csv with header column
     fasta_paths = getOptionValue("--prep-train")
     pos_list = []
     neg_list = []
@@ -50,6 +52,33 @@ if "--prep-train" in sys.argv:
             if row[0] == "neg":
                 neg_list.append(currentDF)
         (train,test) = splitTrain(pos_list,neg_list)
+        train.to_csv('fasta_paths.train.csv', na_rep='0')
+        test.to_csv('fasta_paths.test.csv', na_rep='0')
+
+        train.drop('N:feature_0', 1)
+        test.drop('N:feature_0', 1)
+        train_fm = train.insert(0, '.', range(1, 1 + len(train)))
+        test_fm = test.insert(0, '.', range(1, 1 + len(test)))
+
+
+        train_fm.to_csv(fasta_paths+'.train.fm', na_rep='0',sep='\t')
+        test_fm.to_csv(fasta_paths+'.test.fm', na_rep='0',sep='\t')
+
+        with open(fasta_paths+'.train.tf.csv', 'w') as out:
+            out.write(str(train.shape[0])+","+str(train.shape[1]-1)+"\n")
+
+        with open(fasta_paths+'.test.tf.csv', 'w') as out:
+            out.write(str(test.shape[0])+","+str(test.shape[1]-1)+"\n")
+
+        with open(fasta_paths+'.train.tf.csv', 'a') as f:
+            train.to_csv(f, na_rep='0', header=False,index = False)
+
+        with open(fasta_paths+'.test.tf.csv', 'a') as f:
+            test.to_csv(f, na_rep='0', header=False,index = False)
+
+
+
+
 
 
 
