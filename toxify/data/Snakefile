@@ -1053,7 +1053,7 @@ rule combineFiles:
 
         all_combined = pd.concat(df_dict,axis=1)
         currentHeaders = list(all_combined)
-        newHeaders = ["N:feature_" + str(header) for header in range(len(currentHeaders))]
+        newHeaders = ["N:feature_" + str(header+1) for header in range(len(currentHeaders))]
         all_combined.columns = newHeaders
 
         print(all_combined.shape)
