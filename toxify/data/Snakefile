@@ -620,287 +620,30 @@ rule final:
     # input:"shahib.csv"
     # input:dynamic("/home/brewerlab/Jeffrey/RaptorX_Property_Fast/tmp/{header}/{header}.all")
     input:"all.combined.csv"
-"""
-I need to add a clean rule here to
-    1. replace headers with small heaader
-    2. put those headers in a json file
-    3. make option in toxify main to convert back to dumb headers
-"""
-
-rule diamond:
-    input:
-        expand("{sample}.fa",sample=SAMPLES)
-    conda:"envs/diamond.yaml"
-    output:
-        expand("{sample}.blastout",sample=SAMPLES)
-    threads:100
-    shell:
-        "diamond blastp -d {config[diamond_db]} -q {input} -o {output} -p {threads}   -f 6 sseqid sseq qseqid qseq  -k 1000 --unal 1"
-
-rule blast2fa:
-    input:
-        expand("{sample}.blastout",sample=SAMPLES),
-        expand("{sample}.fa",sample=SAMPLES)
-    output:
-        dynamic("pssm_dir/alignments/{header}.fasta")
-    run:
-
-        qdict = {}
-        for ff in fasta_iter(input[1]):
-            headerStr, seq = ff
-            qdict[headerStr] = seq
-
-        used_dict = {}
-        print(qdict)
-
-        with open(input[0]) as f:
-            for line in f:
-
-
-                row = line.split()
-                with open("pssm_dir/alignments/"+row[2].replace("|","_")+".fasta","a") as out:
-                    if row[2] not in used_dict:
-                        used_dict[row[2]] = True
-                        out.write(">"+row[2]+"\n")
-                        out.write(qdict[row[2]]+"\n")
-                    out.write(">"+row[0]+"\n")
-                    out.write(row[1]+"\n")
-rule mafft:
-    input:
-        "pssm_dir/alignments/{header}.fasta"
-    output:
-        "pssm_dir/alignments/{header}.aln"
-    conda:"envs/mafft.yaml"
-    shell:
-        "mafft --auto --thread -1 {input} > {output} || mafft --auto --thread -1 --anysymbol {input} > {output}"
-
-rule align2pssm:
-    input:
-        "pssm_dir/alignments/{header}.aln"
-    output:
-        "pssm_dir/alignments/{header}.pssm"
-    run:
-        line1 = True
-        line2write =""
-
-        qseq = {}
-        sseq = { "A":{},
-                "C":{},
-                "D":{},
-                "E":{},
-                "F":{},
-                "G":{},
-                "H":{},
-                "I":{},
-                "K":{},
-                "L":{},
-                "M":{},
-                "N":{},
-                "P":{},
-                "Q":{},
-                "R":{},
-                "S":{},
-                "T":{},
-                "V":{},
-                "W":{},
-                "Y":{}
-
-        }
-        # print(output[0],input)
-        with open(output[0],"w") as out:
-            # print(output,"opened")
-            for ff in fasta_iter(input[0]):
-                headerStr, seq = ff
-                if line1:
-                    for num in range(len(seq)):
-                        if seq[num] != "-":
-                            qseq[num] = seq[num]
-                    line1 = False
-                else:
-                    for num in range(len(seq)):
-                        if num in qseq:
-                            if seq[num] != "-":
-                                try:
-
-                                    try:
-                                        sseq[seq[num]][num] +=1
-                                    except:
-                                        sseq[seq[num]][num] = 1
-                                except:
-                                    0
-
-
-            # print("\t", end="")
-            line2write +="\t"
-            for i in sorted(qseq.keys()):
-                # print(qseq[i]+"\t", end="")
-                line2write+=str(qseq[i]+"\t")
-
-            # print()
-            out.write(line2write+"\n")
-            line2write=""
-            # for i in sorted(sseq.keys()):
-            #     print(str(i)+"\t", end="")
-            #     for j in sorted(sseq[i].keys()):
-            #         print(str(j)+"\t", end="")
-            #     print()
-
-            for i in sseq:
-                # print(i+"\t",end="")
-                line2write +=str(i)+"\t"
-                for j in sorted(qseq.keys()):
-                    try:
-                        # print(str(sseq[i][j])+"\t",end="")
-                        line2write+=str(sseq[i][j])+"\t"
-                    except:
-                        # print("0\t",end="")
-                        line2write+="0\t"
-                # print()
-                out.write(line2write+"\t"+"\n")
-                line2write=""
 
 
 
-rule pssm2mat:
-    input:
-        dynamic("pssm_dir/alignments/{header}.pssm")
-    output:
-        "pssm.csv"
-    run:
-
-
-        # print(math.log(10,10))
-
-
-        with open("pssm.csv","w") as out:
-            for current_file in input:
-                line1 = True
-                top_dict = {}
-                pair_dict ={}
-                aa_count = {}
-                top_count = {}
-                tot_aa = 0
-                with open(current_file) as f:
-                    for line in f:
-                        row = line.strip().split()
-                        if line1:
-                            for i in range(len(row)):
-                                top_dict[i+1] = row[i]
-                            line1=False
-                        else:
-                            for i in range(len(row)):
-
-                                if i in top_dict and i  != 0 :
-                                    # print(row[0],top_dict[i],row[i])
-                                    try:
-                                        pair_dict[top_dict[i]+row[0]]+= int(row[i])
-                                    except:
-                                        pair_dict[top_dict[i]+row[0]] = int(row[i])
-                                    try:
-                                        aa_count[row[0]] += int(row[i])
-                                    except:
-                                        aa_count[row[0]] = int(row[i])
-                                    try:
-                                        top_count[top_dict[i]]+=int(row[i])
-                                    except:
-                                        top_count[top_dict[i]]=int(row[i])
-
-                                    tot_aa += int(row[i])
-
-                # print(pair_dict)
-                # print("\n\n\n\n\n\n\n\n")
-                aa_prob = {}
-                for i in aa_count:
-                    if tot_aa != 0:
-                        aa_prob[i] = aa_count[i]/tot_aa
-                    else:
-                        aa_prob[i] = 0
-                aa = "ACDEFGHIKLMNPQRSTVWY"
-                # print(" A  R  N  D  C  Q  E  G  H  I  L  K  M  F  P  S  T  W  Y  V  B  Z  X")
-                line2write =""
-                # print( "A R N D C Q E G H I L K M F P S T W Y V B Z X")
-                # print(line2write)
-
-                line2write+=re.search(r'alignments/(.*?).pssm', current_file).group(1)+","
-                for row in aa:
-                    # print(row+" ",end="")
-                    # line2write+=row+" "
-                    for col in aa:
-
-                        # print(row+col,end='n')
-
-                        try:
-                            frequency = pair_dict[row+col]
-                            # try:
-                            # prob = frequency/1000
-                            p_i = aa_prob[row]
-                            q_j = aa_prob[col]
-                            p_ij = (frequency/aa_count[col]) * (frequency/top_count[row])
-                            new_ij = (frequency/aa_count[col])
-                            s_ij = (1/0.75)*math.log(p_ij/(p_i*q_j),2)
-
-                            # except:si
-                            #     print("ERROR",row)
-                            # print(str(int(s_ij))+" ",end="")
-                            line2write+=str(s_ij)+","
-                            # print(str(s_ij)+" ",end="")
-                        except:
-                            # print("na"+str(q_j)+" ",end="")
-                            # print("0 ",end="")
-                            line2write+="NA,"
-                # print(line2write[:-1])
-                out.write(line2write[:-1]+"\n")
-                # print("\n\n\n\n\n\n\n")
-
-                    # print()
-                # print(tot_aa)
-                # print(aa_count)
-                # print(top_count)
-                #
-                # print(pair_dict["WW"])
 
 
 rule splitSeqs:
     input:
-        "pssm_dir/alignments/{header}.fasta"
+        expand("{sample}.fa",sample=SAMPLES)
     output:
         "sequences/{header}.seq"
-    shell:
-        "head -n 2 {input} > {output}"
 
-# rule revTrans:
-#     input:
-#         "sequences/{header}.seq"
-#     output:
-#         "coding_sequences/{header}.cds"
-#     run:
-#
-#         for ff in fasta_iter(input[0]):
-#             headerStr, seq = ff
-#             with open(output[0],"w") as out:
-#                 out.write(revTrans(seq))
-#
-# rule evolveAGene:
-#     input:
-#         cds="coding_sequences/{header}.cds",
-#         seq="sequences/{header}.seq"
-#     output:
-#         "coding_sequences/{header}_pep_Unaligned.FASTA"
-#     shell:
-#         "EvolveAGene -f  {input.cds}   -n 8 -o Phy -b 0.04 || ( head -n 1  {input.seq}  && printf M && tail -n 1 {input.seq} > {output})"
-# rule cleanSeq:
-#     input:
-#         "coding_sequences/{header}_pep_Unaligned.FASTA"
-#     output:
-#         "pep_sequences/{header}.pep"
-#     run:
-#         header = output[0].split("/")[1].replace(".pep","")
-#         with open(output[0],"w") as out:
-#             for ff in fasta_iter(input[0]):
-#                 headerStr, seq = ff
-#                 out.write(">"+header+"_"+headerStr+"\n")
-#                 out.write(seq[1:].replace("*","")+"\n")
-#
+    run:
+        "head -n 2 {input} > {output}"
+        sequence_iterator = fasta_iter(input[0])
+        for ff in sequence_iterator:
+            headerStr,seq = ff
+            with open("sequences/"+headerStr.replace("|","_")+".seq") as out:
+                out.write(">"+headerStr+"\n")
+                out.write(seq + "\n")
+
+
+
+
+
 
 rule seq2png:
     input:
@@ -1029,7 +772,6 @@ rule ssComp:
                     out.write(line2write+"\n")
 rule combineFiles:
     input:
-        pssm="pssm.csv",
         sspro="sspro.csv",
         shahib="shahib.csv",
     output:
