@@ -629,7 +629,7 @@ rule splitSeqs:
     input:
         expand("{sample}.fa",sample=SAMPLES)
     output:
-        "sequences/{header}.seq"
+        dynamic("sequences/{header}.seq")
 
     run:
         "head -n 2 {input} > {output}"
