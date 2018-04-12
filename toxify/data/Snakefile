@@ -717,32 +717,32 @@ rule aaFactors:
 
                     # out.write(makeCompFeatures(seq)+",0"+"\n")
                     # None
-rule reprof:
-    input:
-        seq="sequences/{header}.seq",
-        # png="seq_pics/{header}.png"
-    output:
-        "sequences/{header}.reprof"
-    shell:
-        "reprof -i {input.seq} -o {output}"
+# rule reprof:
+#     input:
+#         seq="sequences/{header}.seq",
+#         # png="seq_pics/{header}.png"
+#     output:
+#         "sequences/{header}.reprof"
+#     shell:
+#         "reprof -i {input.seq} -o {output}"
 
 
-rule sspro2all:
-    input:
-        "sequences/{header}.reprof"
-    output:
-        "sequences/{header}.all"
-    shell:
-        """ echo ">"{input} > {output}
-        grep -v "#" {input} |tail -n +2| awk '{printf $2}' >>
-        echo >> {output}
-        grep -v "#" {input} |tail -n +2| awk '{printf $3}' >> {output}
-        echo >> {output}
-        grep -v "#" {input} |tail -n +2| awk '{printf $13}' >> {output}
-        echo >> {output}
-        """
-
-# rule Raptorx:
+# rule sspro2all:
+#     input:
+#         "sequences/{header}.reprof"
+#     output:
+#         "sequences/{header}.all"
+#     shell:
+#         """ echo ">"{input} > {output}
+#         grep -v "#" {input} |tail -n +2| awk '{printf $2}' >>
+#         echo >> {output}
+#         grep -v "#" {input} |tail -n +2| awk '{printf $3}' >> {output}
+#         echo >> {output}
+#         grep -v "#" {input} |tail -n +2| awk '{printf $13}' >> {output}
+#         echo >> {output}
+#         """
+#
+# # rule Raptorx:
 #     input:
 #         seq="sequences/{header}.seq",
 #         # png="seq_pics/{header}.png"
@@ -752,57 +752,58 @@ rule sspro2all:
 #     shell:
 #         "bash {config[raptorx_dir]}/oneline_command.sh {input.seq} 64 0 "
 
-rule ssComp:
-    input:
-        dynamic("sequences/{header}.all")
-    output:
-        "sspro.csv"
-    run:
-        header=""
-        # ss_dict = {
-        #     "ss3":"HEC",
-        #     "ss8":"HGIEBTSL",
-        #     "acc":"MBE",
-        #     "diso":"*."
-        #     }
-        ss_dict = {
-            "ss3":"HEL",
-            "acc":"bie"
-        }
-        with open(output[0],"w") as out:
+# rule ssComp:
+#     input:
+#         dynamic("sequences/{header}.all")
+#     output:
+#         "sspro.csv"
+#     run:
+#         header=""
+#         # ss_dict = {
+#         #     "ss3":"HEC",
+#         #     "ss8":"HGIEBTSL",
+#         #     "acc":"MBE",
+#         #     "diso":"*."
+#         #     }
+#         ss_dict = {
+#             "ss3":"HEL",
+#             "acc":"bie"
+#         }
+#         with open(output[0],"w") as out:
+#
+#             for current_file in input:
+#                 print("opening:",current_file)
+#                 with open(current_file) as f:
+#                     header = current_file.strip().split("/")[-1].replace(".all","")
+#                     lineNum = 1
+#                     line2write=""
+#                     for line in f:
+#
+#                         if lineNum == 1:
+#                             if line.strip() == "too_small":
+#                             #     header =line.strip().replace(">","").replace("|","_")
+#                             # else:
+#                                 line2write = "NA,"*498 +"NA"
+#                                 break
+#
+#                         elif lineNum == 3:
+#                             line2write += makeFeatures(line.strip(),ss_dict["ss3"]) +","
+#                         elif lineNum == 4:
+#                             line2write += makeFeatures(line.strip(),ss_dict["ss8"]) +","
+#                         elif lineNum == 5:
+#                             line2write += makeFeatures(line.strip(),ss_dict["acc"]) +","
+#                         elif lineNum == 6:
+#                             line2write += makeFeatures(line.strip(),ss_dict["diso"])
+#                         elif lineNum > 6:
+#                             break
+#
+#                         lineNum+=1
+#                     out.write(header+",")
+#                     out.write(line2write+"\n")
+#
 
-            for current_file in input:
-                print("opening:",current_file)
-                with open(current_file) as f:
-                    header = current_file.strip().split("/")[-1].replace(".all","")
-                    lineNum = 1
-                    line2write=""
-                    for line in f:
-
-                        if lineNum == 1:
-                            if line.strip() == "too_small":
-                            #     header =line.strip().replace(">","").replace("|","_")
-                            # else:
-                                line2write = "NA,"*498 +"NA"
-                                break
-
-                        elif lineNum == 3:
-                            line2write += makeFeatures(line.strip(),ss_dict["ss3"]) +","
-                        elif lineNum == 4:
-                            line2write += makeFeatures(line.strip(),ss_dict["ss8"]) +","
-                        elif lineNum == 5:
-                            line2write += makeFeatures(line.strip(),ss_dict["acc"]) +","
-                        elif lineNum == 6:
-                            line2write += makeFeatures(line.strip(),ss_dict["diso"])
-                        elif lineNum > 6:
-                            break
-
-                        lineNum+=1
-                    out.write(header+",")
-                    out.write(line2write+"\n")
 rule combineFiles:
     input:
-        sspro="sspro.csv",
         shahib="shahib.csv",
     output:
         "all.combined.csv"
