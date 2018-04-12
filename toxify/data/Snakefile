@@ -725,7 +725,7 @@ rule Raptorx:
     output:
         "{header}.seq.dumb/{header}/{header}.all"
     shell:
-        "bash {config[raptorx_dir]}/oneline_command.sh {input.seq} 64 0 || echo too_small > {output}"
+        "bash {config[raptorx_dir]}/oneline_command.sh {input.seq} 64 0 "
 rule ssComp:
     input:
         dynamic("{header}.seq.dumb/{header}/{header}.all")
