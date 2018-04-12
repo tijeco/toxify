@@ -717,28 +717,58 @@ rule aaFactors:
 
                     # out.write(makeCompFeatures(seq)+",0"+"\n")
                     # None
-rule Raptorx:
+rule reprof:
     input:
         seq="sequences/{header}.seq",
         # png="seq_pics/{header}.png"
-
     output:
-        "{header}.seq.dumb/{header}/{header}.all"
+        "sequences/{header}.reprof"
     shell:
-        "bash {config[raptorx_dir]}/oneline_command.sh {input.seq} 64 0 "
+        "reprof -i {input.seq} -o {output}"
+
+
+rule sspro2all:
+    input:
+        "sequences/{header}.reprof"
+    output:
+        "sequences/{header}.all"
+    shell:
+        """ echo ">"{input} > {output}
+        grep -v "#" {input} |tail -n +2| awk '{printf $2}' >> 
+        echo >> {output}
+        grep -v "#" {input} |tail -n +2| awk '{printf $3}' >> {output}
+        echo >> {output}
+        grep -v "#" {input} |tail -n +2| awk '{printf $13}' >> {output}
+        echo >> {output}
+        """
+
+# rule Raptorx:
+#     input:
+#         seq="sequences/{header}.seq",
+#         # png="seq_pics/{header}.png"
+#
+#     output:
+#         "{header}.seq.dumb/{header}/{header}.all"
+#     shell:
+#         "bash {config[raptorx_dir]}/oneline_command.sh {input.seq} 64 0 "
+
 rule ssComp:
     input:
-        dynamic("{header}.seq.dumb/{header}/{header}.all")
+        dynamic("sequences/{header}.all")
     output:
         "sspro.csv"
     run:
         header=""
+        # ss_dict = {
+        #     "ss3":"HEC",
+        #     "ss8":"HGIEBTSL",
+        #     "acc":"MBE",
+        #     "diso":"*."
+        #     }
         ss_dict = {
-            "ss3":"HEC",
-            "ss8":"HGIEBTSL",
-            "acc":"MBE",
-            "diso":"*."
-            }
+            "ss3":"HEL"
+            "acc":"bie"
+        }
         with open(output[0],"w") as out:
 
             for current_file in input:
