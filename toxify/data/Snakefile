@@ -632,7 +632,7 @@ rule splitSeqs:
         dynamic("sequences/{header}.seq")
 
     run:
-        "head -n 2 {input} > {output}"
+        # "head -n 2 {input} > {output}"
         sequence_iterator = fasta_iter(input[0])
         for ff in sequence_iterator:
             headerStr,seq = ff
@@ -700,9 +700,11 @@ rule seq2png:
 
 rule aaFactors:
     input:
-        expand("{sample}.fa",sample=SAMPLES)
+        "sequences/{header}.seq"
+        # expand("{sample}.fa",sample=SAMPLES)
     output:
-        "shahib.csv"
+        "sequences/{header}.csv"
+        # "shahib.csv"
     run:
 
         input_fasta = fasta_iter(input[0])
@@ -713,7 +715,8 @@ rule aaFactors:
                 # try:
                 out.write(headerStr.replace("|","_")+",")
                 out.write(makeCompFeatures(seq)+"\n")
-                # except:
+rule
+            # except:
 
                     # out.write(makeCompFeatures(seq)+",0"+"\n")
                     # None
@@ -802,40 +805,46 @@ rule aaFactors:
 #                     out.write(line2write+"\n")
 #
 
-
 rule combineFiles:
     input:
-        shahib="shahib.csv",
+        "sequences/{header}.csv"
     output:
         "all.combined.csv"
-    run:
-        df_dict = {}
-        files = [input.shahib]
-        for current_file in files:
-            df_name = str(current_file)
-            currentData = pd.read_csv(current_file, header=None)
-            currentHeaders = list(currentData)
-            newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
-            currentData.columns = newHeaders
-            currentData.to_csv(df_name.split(".")[1]+".clean.csv",na_rep='nan', index=False,quoting=3)
-            header_df = currentData['N:feature_0']
-            currentData = currentData.drop('N:feature_0', 1)
-
-            df_dict[df_name] = currentData
-            print(currentData.shape)
-
-
-        all_combined = pd.concat(df_dict,axis=1)
-        currentHeaders = list(all_combined)
-        newHeaders = ["N:feature_" + str(header+1) for header in range(len(currentHeaders))]
-        all_combined.columns = newHeaders
-
-        print(all_combined.shape)
-        # all_combined.insert(0, '.', range(1, 1 + len(all_combined)))
-        all_combined.insert(0, 'N:feature_0', header_df)
-        all_combined.to_csv(output[0],na_rep='nan', index=False,quoting=3)
-        # "touch {output}"
+    shell:
+        "cat sequences/*csv > {output}"
 
 
 
-# "cut -d, -f1 --complement {input.sspro} > sspro.noHead.csv; cut -d, -f1 --complement {input.shahib} > shahib.noHead.csv; paste -d,  {input.pssm} sspro.noHead.csv shahib.noHead.csv > {output}"
+# rule combineFiles:
+#     input:
+#         shahib="shahib.csv",
+#     output:
+#         "all.combined.csv"
+#     run:
+#         df_dict = {}
+#         files = [input.shahib]
+#         for current_file in files:
+#             df_name = str(current_file)
+#             currentData = pd.read_csv(current_file, header=None)
+#             currentHeaders = list(currentData)
+#             newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
+#             currentData.columns = newHeaders
+#             currentData.to_csv(df_name.split(".")[1]+".clean.csv",na_rep='nan', index=False,quoting=3)
+#             header_df = currentData['N:feature_0']
+#             currentData = currentData.drop('N:feature_0', 1)
+#
+#             df_dict[df_name] = currentData
+#             print(currentData.shape)
+#
+#
+#         all_combined = pd.concat(df_dict,axis=1)
+#         currentHeaders = list(all_combined)
+#         newHeaders = ["N:feature_" + str(header+1) for header in range(len(currentHeaders))]
+#         all_combined.columns = newHeaders
+#
+#         print(all_combined.shape)
+#         all_combined.insert(0, 'N:feature_0', header_df)
+#         all_combined.to_csv(output[0],na_rep='nan', index=False,quoting=3)
+#
+#
+#
