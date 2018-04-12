@@ -715,7 +715,7 @@ rule aaFactors:
                 # try:
                 out.write(headerStr.replace("|","_")+",")
                 out.write(makeCompFeatures(seq)+"\n")
-rule
+# rule
             # except:
 
                     # out.write(makeCompFeatures(seq)+",0"+"\n")
