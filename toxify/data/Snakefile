@@ -809,7 +809,7 @@ rule combineFiles:
         "all.combined.csv"
     run:
         df_dict = {}
-        files = [input.sspro,input.shahib]
+        files = [input.shahib]
         for current_file in files:
             df_name = str(current_file)
             currentData = pd.read_csv(current_file, header=None)
