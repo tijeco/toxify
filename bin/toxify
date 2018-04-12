@@ -3,7 +3,6 @@
 import toxify
 from toxify import dfUtil
 import os
-import urllib.request
 import sys
 import numpy as np
 import tensorflow as tf
