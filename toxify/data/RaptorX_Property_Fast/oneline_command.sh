@@ -67,12 +67,12 @@ cd $Server_Root
 			then
 				#--> Fast_TGT
 				echo "Running Fast_TGT to generate TGT file for sequence $relnam"
-				./Fast_TGT.sh -i /tmp/$relnam.fasta -c $BindX_CPU -o $tmp 1> $tmp/$relnam.tgt_log1 2> $tmp/$relnam.tgt_log2
+				$Server_Root/Fast_TGT.sh -i /tmp/$relnam.fasta -c $BindX_CPU -o $tmp 1> $tmp/$relnam.tgt_log1 2> $tmp/$relnam.tgt_log2
 				OUT=$?
 				if [ $OUT -ne 0 ]
 				then
 					echo "Failed in generating TGT file for sequence $relnam"
-					echo "Failed: ./Fast_TGT.sh -i /tmp/$relnam.fasta -c $BindX_CPU -o $tmp 1> $tmp/$relnam.tgt_log1 2> $tmp/$relnam.tgt_log2"
+					echo "Failed: $Server_Root/Fast_TGT.sh -i /tmp/$relnam.fasta -c $BindX_CPU -o $tmp 1> $tmp/$relnam.tgt_log1 2> $tmp/$relnam.tgt_log2"
 					program_suc=0
 					break
 				fi
