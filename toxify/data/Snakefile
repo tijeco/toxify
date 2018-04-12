@@ -734,7 +734,7 @@ rule sspro2all:
         "sequences/{header}.all"
     shell:
         """ echo ">"{input} > {output}
-        grep -v "#" {input} |tail -n +2| awk '{printf $2}' >> 
+        grep -v "#" {input} |tail -n +2| awk '{printf $2}' >>
         echo >> {output}
         grep -v "#" {input} |tail -n +2| awk '{printf $3}' >> {output}
         echo >> {output}
@@ -766,7 +766,7 @@ rule ssComp:
         #     "diso":"*."
         #     }
         ss_dict = {
-            "ss3":"HEL"
+            "ss3":"HEL",
             "acc":"bie"
         }
         with open(output[0],"w") as out:
