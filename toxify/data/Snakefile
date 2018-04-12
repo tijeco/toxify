@@ -807,16 +807,19 @@ rule aaFactors:
 
 rule combineFiles:
     input:
-        "sequences/{header}.csv"
+        dynamic("sequences/{header}.csv")
     output:
         "all.combined.csv"
-    run:
-        with open(output[0],"w") as out:
-            for currentFile in input:
-                with open(currentFile) as f:
-                    for line in f:
-                        out.write(line)
-                        
+    shell:
+        "cat sequences/*csv > {output}"
+
+    # run:
+    #     with open(output[0],"w") as out:
+    #         for currentFile in input:
+    #             with open(currentFile) as f:
+    #                 for line in f:
+    #                     out.write(line)
+    #
 
         # "cat sequences/*csv > {output}"
 
