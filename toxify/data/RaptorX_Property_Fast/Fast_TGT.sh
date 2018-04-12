@@ -1,5 +1,6 @@
 #!/bin/bash
-
+CurRoot="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+Server_Root=$CurRoot
 # ----- usage ------ #
 usage()
 {
@@ -28,8 +29,8 @@ curdir="$(pwd)"
 #-> optional arguments
 out_root="./"   #-> output to current directory
 job_id="tmp"    #-> we allow job id here
-coverage=-2     #-> automatic determine the coverage on basis of input sequence length 
-cpu_num=4       #-> use 4 CPUs 
+coverage=-2     #-> automatic determine the coverage on basis of input sequence length
+cpu_num=4       #-> use 4 CPUs
 kill_tmp=1      #-> default: kill temporary root
 #-> required arguments
 input_fasta=""
@@ -100,7 +101,7 @@ mkdir -p $tmp_root
 
 # ---- verify FASTA file -------- #
 seq_file=$relnam.seq
-util/Verify_FASTA $input_fasta $tmp_root/$seq_file
+$Server_Root/util/Verify_FASTA $input_fasta $tmp_root/$seq_file
 OUT=$?
 if [ $OUT -ne 0 ]
 then
@@ -171,5 +172,3 @@ fi
 
 # ========= exit 0 =========== #
 exit 0
-
-
