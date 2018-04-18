@@ -4,6 +4,12 @@ import numpy as np
 def splitTrain(pos_list,neg_list):
     pos_df = labelDF(pos_list,1)
     neg_df = labelDF(neg_list,0)
+    print("----------------NOW concatING NEG AND POS ---------------------\n\n\n\n\n\n")
+    print("neg shape:",neg_df.shape)
+    print("pos shape:",pos_df.shape)
+    print("neg headers:",list(neg_df))
+    print("pos headers:",list(pos_df))
+    print("----------------NOW concatING NEG AND POS ---------------------\n\n\n\n\n\n")
     neg_and_pos = pd.concat(neg_df,pos_df)
     msk = np.random.rand(len(neg_and_pos)) < 0.7
 
