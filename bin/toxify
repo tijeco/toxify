@@ -52,7 +52,7 @@ if "--prep-train" in sys.argv:
                 pos_list.append(currentDF)
             if row[0] == "neg":
                 neg_list.append(currentDF)
-        (train,test) = splitTrain(pos_list,neg_list)
+        (train,test) = dfUtil.splitTrain(pos_list,neg_list)
         train.to_csv('fasta_paths.train.csv', na_rep='0')
         test.to_csv('fasta_paths.test.csv', na_rep='0')
 
