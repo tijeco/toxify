@@ -10,7 +10,7 @@ def splitTrain(pos_list,neg_list):
     print("neg headers:",list(neg_df))
     print("pos headers:",list(pos_df))
     print("----------------NOW concatING NEG AND POS ---------------------\n\n\n\n\n\n")
-    neg_and_pos = pd.concat(neg_df,pos_df)
+    neg_and_pos = pd.concat([neg_df,pos_df])
     msk = np.random.rand(len(neg_and_pos)) < 0.7
 
     train = all_combined[msk]
