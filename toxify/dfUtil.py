@@ -13,8 +13,8 @@ def splitTrain(pos_list,neg_list):
     neg_and_pos = pd.concat([neg_df,pos_df])
     msk = np.random.rand(len(neg_and_pos)) < 0.7
 
-    train = all_combined[msk]
-    test = all_combined[~msk]
+    train = neg_and_pos[msk]
+    test = neg_and_pos[~msk]
     return (train,test)
 
 def labelDF(df_list,label):
