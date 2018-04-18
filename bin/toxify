@@ -83,7 +83,6 @@ if "--prep-train" in sys.argv:
 
 
 
-    # input_df = pd.read_csv(input_file, header=None)
 
 elif "-train" in sys.argv or "-test" in sys.argv:
 
