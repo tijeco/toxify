@@ -4,7 +4,7 @@ import numpy as np
 def splitTrain(pos_list,neg_list):
     pos_df = labelDF(pos_list,1)
     neg_df = labelDF(neg_list,0)
-    
+    neg_and_pos = pd.concat([neg_df,pos_df])
     msk = np.random.rand(len(neg_and_pos)) < 0.7
 
     train = neg_and_pos[msk]
