@@ -94,6 +94,7 @@ elif sys.argv[1] == "cloudforest":
         os.system(bash_command)
 
         if sys.argv[2] == "select":
+            print("Now selecting features")
             importance_data = training_data+".importance.tsv"
             importance_dict = {}
             with open(importance_data) as f:
@@ -101,6 +102,7 @@ elif sys.argv[1] == "cloudforest":
                     row = line.strip().split()
                     feat = row[1]
                     p_value = float(row[2])
+                    print("p_value, bigger than > 0.001",p_value > 0.001)
                     if p_value > 0.001:
                         importance_dict[feat] = True
             line1 = True
