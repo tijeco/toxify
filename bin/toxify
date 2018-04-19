@@ -119,7 +119,8 @@ elif sys.argv[1] == "cloudforest":
                                 if row[i] not in importance_dict:
                                     keep_index[i] = True
                             line1 = False
-                        # print("Keep the following:\n",keep_index)
+                        print("Keep the following:\n",keep_index)
+                        print("line1:\n",line1 )
                         else:
                             for i in range(len(row)):
                                 # print(i,"in keep_index:",i in keep_index    )
