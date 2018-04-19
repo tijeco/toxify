@@ -110,7 +110,7 @@ elif sys.argv[1] == "cloudforest":
 
                     for line in f:
                         line2write  = ""
-                        row = line.strip().split():
+                        row = line.strip().split()
 
                         if line1:
                             for i in range(len(row)):
