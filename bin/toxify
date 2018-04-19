@@ -102,7 +102,7 @@ elif sys.argv[1] == "cloudforest":
                     row = line.strip().split()
                     feat = row[1]
                     p_value = float(row[2])
-                    print("p_value, bigger than > 0.001",p_value > 0.001)
+                    # print("p_value, bigger than > 0.001",p_value > 0.001)
                     if p_value > 0.001:
                         importance_dict[feat] = True
             line1 = True
@@ -118,6 +118,7 @@ elif sys.argv[1] == "cloudforest":
                             for i in range(len(row)):
                                 if row[i] not in importance_dict:
                                     keep_index[i] = True
+                            print("Keep the following:\n",keep_index)
                         else:
                             for i in range(len(row)):
                                 if i in keep_index:
