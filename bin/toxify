@@ -80,8 +80,8 @@ if "--prep-train" in sys.argv:
 
 
 
-        train.to_csv(fasta_paths+'.train.fm', na_rep='0',sep='\t')
-        test.to_csv(fasta_paths+'.test.fm', na_rep='0',sep='\t')
+        train.to_csv(fasta_paths+'.train.fm', na_rep='0',sep='\t',index = False)
+        test.to_csv(fasta_paths+'.test.fm', na_rep='0',sep='\t',index = False)
 
 
 
