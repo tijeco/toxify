@@ -119,7 +119,7 @@ elif sys.argv[1] == "cloudforest":
                         else:
                             for i in range(len(row)):
                                 if i in keep_index:
-                                    line2write + = row[i] +"\t"
+                                    line2write += row[i] +"\t"
 
                             out.write(line2write.strip()+"\n")
 
