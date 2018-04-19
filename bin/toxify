@@ -84,28 +84,45 @@ if "--prep-train" in sys.argv:
         test.to_csv(fasta_paths+'.test.fm', na_rep='0',sep='\t',index = False)
 
 
-
-
-
-
-
-elif "-train" in sys.argv or "-test" in sys.argv:
-
-    if "-train" in sys.argv:
+elif sys.argv[2] == "cloudforest":
+    if "-train" in sys.argv and "-test" in sys.argv:
         training_data = getOptionValue("-train")
-        train_only = True
-    if "-test" in sys.argv:
         test_data = getOptionValue("-test")
-        test_only = True
-    elif "-predict" in sys.argv and "-model" in sys.argv:
-        predict_data = getOptionValue("-predict")
-        modelDir = getOptionValue("-model")
-        predict_only = True
+        bash_command = "growforest -train "+ training_data +" -rfpred "+training_data+".forest.sf -oob -nCores 64 -nTrees 1000 -target C:venom -ace 10 -importance "+training_data"+.importance.tsv"
+        print(bash_command)
+        os.system(bash_command)
+        if sys.argv[1] == "select":
+
 
     else:
         print("please provide training data with -train")
         print("please provide test data with -test")
         sys.exit()
+
+
+
+
+
+
+
+elif sys.argv[2] == "tensorflow":
+    if "-train" in sys.argv or "-test" in sys.argv:
+
+        if "-train" in sys.argv:
+            training_data = getOptionValue("-train")
+            train_only = True
+        if "-test" in sys.argv:
+            test_data = getOptionValue("-test")
+            test_only = True
+        elif "-predict" in sys.argv and "-model" in sys.argv:
+            predict_data = getOptionValue("-predict")
+            modelDir = getOptionValue("-model")
+            predict_only = True
+
+        else:
+            print("please provide training data with -train")
+            print("please provide test data with -test")
+            sys.exit()
 else:
     print("DO SOMETHING ELSE")
     sys.exit()
