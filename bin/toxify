@@ -92,7 +92,42 @@ elif sys.argv[1] == "cloudforest":
         bash_command = "growforest -train "+ training_data +" -rfpred "+training_data+".forest.sf -oob -nCores 64 -nTrees 1000 -target C:venom -ace 10 -importance "+training_data+".importance.tsv"
         print(bash_command)
         os.system(bash_command)
-        # if sys.argv[1] == "select":
+
+        if sys.argv[2] == "select":
+            importance_data = training_data+".importance.tsv"
+            importance_dict = {}
+            with open(importance_data) as f:
+                for line in f:
+                    row = line.strip().split()
+                    feat = row[1]
+                    p_value = float(row[2])
+                    if p_value > 0.001:
+                        importance_dict[feat] = True
+            line1 = True
+            with open(training_data+"important.fm","w") as out:
+                with open(training_data) as f:
+                    keep_index = {}
+
+                    for line in f:
+                        line2write  = ""
+                        row = line.strip().split():
+
+                        if line1:
+                            for i in range(len(row)):
+                                if row[i] not in importance_dict:
+                                    keep_index[i] = True
+                        else:
+                            for i in range(len(row)):
+                                if i in keep_index:
+                                    line2write + = row[i] +"\t"
+
+                            out.write(line2write.strip()+"\n")
+
+
+
+
+
+
 
 
     else:
