@@ -36,7 +36,7 @@ if "--create-features" in sys.argv:
     bash_command = "snakemake --snakefile "+snake_file+" -d "+fasta_dir+" --cores "+core_num + " --use-conda"
     print(bash_command)
     os.system(bash_command)
-print("CF:",sys.argv[2] == "cloudforest",sys.argv[2])
+print("CF:",sys.argv[1] == "cloudforest",sys.argv[2])
 
 if "--prep-train" in sys.argv:
     # should generate six files from list of neg_and_pos = pd.concat([neg_df,pos_df])"all.combined.csv" with relative fasta_paths
@@ -85,7 +85,7 @@ if "--prep-train" in sys.argv:
         test.to_csv(fasta_paths+'.test.fm', na_rep='0',sep='\t',index = False)
 
 
-elif sys.argv[2] == "cloudforest":
+elif sys.argv[1] == "cloudforest":
     if "-train" in sys.argv or "-test" in sys.argv:
         training_data = getOptionValue("-train")
         test_data = getOptionValue("-test")
@@ -106,7 +106,7 @@ elif sys.argv[2] == "cloudforest":
 
 
 
-elif sys.argv[2] == "tensorflow":
+elif sys.argv[1] == "tensorflow":
     if "-train" in sys.argv or "-test" in sys.argv:
 
         if "-train" in sys.argv:
