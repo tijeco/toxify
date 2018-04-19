@@ -66,7 +66,7 @@ if "--prep-train" in sys.argv:
         print("test_fm shape:",test_fm.shape)
 
         print("----------------NOWdoing thingS ---------------------\n\n\n\n\n\n")
-        neg_and_pos = pd.concat([neg_df,pos_df])
+        
         train_fm.to_csv(fasta_paths+'.train.fm', na_rep='0',sep='\t')
         test_fm.to_csv(fasta_paths+'.test.fm', na_rep='0',sep='\t')
 
