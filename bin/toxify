@@ -130,6 +130,7 @@ elif sys.argv[1] == "cloudforest":
 
                         out.write(line2write.strip()+"\n")
             print("opening:",test_data+".important.fm")
+            line1 =True
             with open(test_data+".important.fm","w") as out:
                 with open(test_data) as f:
                     keep_index = {}
