@@ -88,7 +88,7 @@ if "--prep-train" in sys.argv:
 elif sys.argv[1] == "cloudforest":
     if "-train" in sys.argv and "-test" in sys.argv:
         training_data = getOptionValue("-train")
-        # test_data = getOptionValue("-test")
+        test_data = getOptionValue("-test")
         bash_command = "growforest -train "+ training_data +" -rfpred "+training_data+".forest.sf -oob -nCores 64 -nTrees 1000 -target C:venom -ace 10 -importance "+training_data+".importance.tsv"
         print(bash_command)
         os.system(bash_command)
