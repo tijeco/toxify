@@ -118,6 +118,7 @@ elif sys.argv[1] == "cloudforest":
                             for i in range(len(row)):
                                 if row[i] not in importance_dict:
                                     keep_index[i] = True
+                                    line2write += row[i] +"\t"
                             line1 = False
 
                         else:
@@ -126,9 +127,8 @@ elif sys.argv[1] == "cloudforest":
                                 if i in keep_index:
                                     line2write += row[i] +"\t"
 
-                            out.write(line2write.strip()+"\n")
-                        print("Keep the following:\n",keep_index)
-                        print("line1:\n",line1 )
+                        out.write(line2write.strip()+"\n")
+
 
 
 
