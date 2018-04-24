@@ -107,6 +107,9 @@ elif sys.argv[1] == "cloudforest":
                     if p_value > 0.001:
                         importance_dict[feat] = True
             line1 = True
+            print("____________________________BEGIN IMPORTANCE____________________________")
+            print(importance_dict)
+            print("____________________________END IMPORTANCE____________________________")
             with open(training_data+".important.fm","w") as out:
                 with open(training_data) as f:
                     keep_index = {}
