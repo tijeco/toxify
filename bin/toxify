@@ -64,6 +64,10 @@ if "--prep-train" in sys.argv:
 
         train.drop('N:feature_0' ,axis=1, inplace=True)
         test.drop('N:feature_0' ,axis=1, inplace=True)
+        for key in dfUtil.drop_these:
+            train.drop(key ,axis=1, inplace=True)
+            test.drop(key ,axis=1, inplace=True)
+
         with open(fasta_paths+'.train.tf.csv', 'w') as out:
             out.write(str(train.shape[0])+","+str(train.shape[1]-1)+"\n")
 
