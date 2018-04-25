@@ -6,6 +6,7 @@ import os
 import sys
 import numpy as np
 import tensorflow as tf
+import pandas as pd
 import random
 
 
@@ -35,9 +36,10 @@ if "--create-features" in sys.argv:
     bash_command = "snakemake --snakefile "+snake_file+" -d "+fasta_dir+" --cores "+core_num + " --use-conda"
     print(bash_command)
     os.system(bash_command)
+print("CF:",sys.argv[1] == "cloudforest",sys.argv[1])
 
 if "--prep-train" in sys.argv:
-    # should generate six files from list of "all.combined.csv" with relative fasta_paths
+    # should generate six files from list of neg_and_pos = pd.concat([neg_df,pos_df])"all.combined.csv" with relative fasta_paths
     # two test and two train as fm and tf_csv and flat_csv with header column
     fasta_paths = getOptionValue("--prep-train")
     pos_list = []
@@ -51,25 +53,26 @@ if "--prep-train" in sys.argv:
                 pos_list.append(currentDF)
             if row[0] == "neg":
                 neg_list.append(currentDF)
-        (train,test) = splitTrain(pos_list,neg_list)
+        (train,test) = dfUtil.splitTrain(pos_list,neg_list)
         train.to_csv('fasta_paths.train.csv', na_rep='0')
         test.to_csv('fasta_paths.test.csv', na_rep='0')
 
-        train.drop('N:feature_0', 1)
-        test.drop('N:feature_0', 1)
-        train_fm = train.insert(0, '.', range(1, 1 + len(train)))
-        test_fm = test.insert(0, '.', range(1, 1 + len(test)))
 
 
-        train_fm.to_csv(fasta_paths+'.train.fm', na_rep='0',sep='\t')
-        test_fm.to_csv(fasta_paths+'.test.fm', na_rep='0',sep='\t')
+
+
+
+        train.drop('N:feature_0' ,axis=1, inplace=True)
+        test.drop('N:feature_0' ,axis=1, inplace=True)
+        for key in dfUtil.drop_these:
+            train.drop(key ,axis=1, inplace=True)
+            test.drop(key ,axis=1, inplace=True)
 
         with open(fasta_paths+'.train.tf.csv', 'w') as out:
             out.write(str(train.shape[0])+","+str(train.shape[1]-1)+"\n")
 
         with open(fasta_paths+'.test.tf.csv', 'w') as out:
             out.write(str(test.shape[0])+","+str(test.shape[1]-1)+"\n")
-
         with open(fasta_paths+'.train.tf.csv', 'a') as f:
             train.to_csv(f, na_rep='0', header=False,index = False)
 
@@ -77,31 +80,124 @@ if "--prep-train" in sys.argv:
             test.to_csv(f, na_rep='0', header=False,index = False)
 
 
+        train.insert(0, '.', range(1, 1 + len(train)))
+        test.insert(0, '.', range(1, 1 + len(test)))
 
 
 
+        train.to_csv(fasta_paths+'.train.fm', na_rep='0',sep='\t',index = False)
+        test.to_csv(fasta_paths+'.test.fm', na_rep='0',sep='\t',index = False)
 
 
-
-    # input_df = pd.read_csv(input_file, header=None)
-
-elif "-train" in sys.argv or "-test" in sys.argv:
-
-    if "-train" in sys.argv:
+elif sys.argv[1] == "cloudforest":
+    if "-train" in sys.argv and "-test" in sys.argv:
         training_data = getOptionValue("-train")
-        train_only = True
-    if "-test" in sys.argv:
         test_data = getOptionValue("-test")
-        test_only = True
-    elif "-predict" in sys.argv and "-model" in sys.argv:
-        predict_data = getOptionValue("-predict")
-        modelDir = getOptionValue("-model")
-        predict_only = True
+        print("Test:",test_data)
+        bash_command = "growforest -train "+ training_data +" -rfpred "+training_data+".forest.sf -oob -nCores 64 -nTrees 1000 -target C:venom -ace 10 -importance "+training_data+".importance.tsv"
+        print(bash_command)
+        os.system(bash_command)
+
+        if sys.argv[2] == "select":
+            print("Now selecting features")
+            importance_data = training_data+".importance.tsv"
+            importance_dict = {}
+            with open(importance_data) as f:
+                for line in f:
+                    row = line.strip().split()
+                    feat = row[1]
+                    p_value = float(row[2])
+                    # print("p_value, bigger than > 0.001",p_value > 0.001)
+                    if p_value > 0.001:
+                        importance_dict[feat] = True
+            line1 = True
+            print("____________________________BEGIN IMPORTANCE____________________________")
+            print(importance_dict)
+            print("____________________________END IMPORTANCE____________________________")
+            with open(training_data+".important.fm","w") as out:
+                with open(training_data) as f:
+                    keep_index = {}
+
+                    for line in f:
+                        line2write  = ""
+                        row = line.strip().split()
+
+                        if line1:
+                            for i in range(len(row)):
+                                if row[i] not in importance_dict:
+                                    keep_index[i] = True
+                                    line2write += row[i] +"\t"
+                            line1 = False
+
+                        else:
+                            for i in range(len(row)):
+                                # print(i,"in keep_index:",i in keep_index    )
+                                if i in keep_index:
+                                    line2write += row[i] +"\t"
+
+                        out.write(line2write.strip()+"\n")
+            print("opening:",test_data+".important.fm")
+            line1 =True
+            with open(test_data+".important.fm","w") as out:
+                with open(test_data) as f:
+                    keep_index = {}
+
+                    for line in f:
+                        line2write  = ""
+                        row = line.strip().split()
+
+                        if line1:
+                            for i in range(len(row)):
+                                if row[i] not in importance_dict:
+                                    keep_index[i] = True
+                                    line2write += row[i] +"\t"
+                            line1 = False
+
+                        else:
+                            for i in range(len(row)):
+                                # print(i,"in keep_index:",i in keep_index    )
+                                if i in keep_index:
+                                    line2write += row[i] +"\t"
+
+                        out.write(line2write.strip()+"\n")
+
+
+
+
+
+
+
+
 
     else:
         print("please provide training data with -train")
         print("please provide test data with -test")
         sys.exit()
+
+
+
+
+
+
+
+elif sys.argv[1] == "tensorflow":
+    if "-train" in sys.argv or "-test" in sys.argv:
+
+        if "-train" in sys.argv:
+            training_data = getOptionValue("-train")
+            train_only = True
+        if "-test" in sys.argv:
+            test_data = getOptionValue("-test")
+            test_only = True
+        elif "-predict" in sys.argv and "-model" in sys.argv:
+            predict_data = getOptionValue("-predict")
+            modelDir = getOptionValue("-model")
+            predict_only = True
+
+        else:
+            print("please provide training data with -train")
+            print("please provide test data with -test")
+            sys.exit()
 else:
     print("DO SOMETHING ELSE")
     sys.exit()
