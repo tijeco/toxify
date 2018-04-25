@@ -231,7 +231,7 @@ if train_only and test_only:
         y=np.array(training_set.target),
         num_epochs=1000,
         shuffle=True)
-    classifier.train(input_fn=train_input_fn, steps=100000) 
+    classifier.train(input_fn=train_input_fn, steps=1000000) 
 
     with open(test_data) as f:
         for line in f:
