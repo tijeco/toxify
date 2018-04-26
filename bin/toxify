@@ -180,8 +180,8 @@ elif sys.argv[1] == "cloudforest":
 
 
 
-if sys.argv[1] == "tensorflow":
-    if "-train" in sys.argv or "-test" in sys.argv "-predict"  in sys.argv:
+elif sys.argv[1] == "tensorflow":
+    if "-train" in sys.argv or "-test" in sys.argv or "-predict"  in sys.argv:
 
         if "-train" in sys.argv:
             training_data = getOptionValue("-train")
