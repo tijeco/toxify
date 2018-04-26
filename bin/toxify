@@ -8,6 +8,7 @@ import numpy as np
 import tensorflow as tf
 import pandas as pd
 import random
+import pickle
 
 
 data_dir = os.path.dirname(dfUtil.__file__)
@@ -37,6 +38,25 @@ if "--create-features" in sys.argv:
     print(bash_command)
     os.system(bash_command)
 print("CF:",sys.argv[1] == "cloudforest",sys.argv[1])
+
+if "--normalize" in sys.argv:
+    input_file = getOptionValue("--normalize")
+    df_mean_file = data_dir+"/data/mean.p"
+    df_std_file = data_dir+"/data/std.p"
+    df_mean = pickle.load( open( df_mean_file, "rb" ) )
+    df_std  = pickle.load( open( df_std_file, "rb" ) )
+    train_df = pd.read_csv(input_file, skiprows=1, header=None)
+    train_data_df = train_df.drop([376],axis=1)
+    sub_mean = train_data_df.sub(df_mean,axis=0)
+    scaled_df = sub_mean.div(df_std,axis=0)
+    scaled_df[376] = train_df[376]
+    with open(input_file+"norm.csv","w") as out:
+        True
+    with open(input_file+"norm.csv","a") as out:
+        out.write(str(scaled_df.shape[0])+","+str(scaled_df.shape[1]-1)+"\n")
+        scaled_df.to_csv(out, header=False,index=False)
+
+
 
 if "--prep-train" in sys.argv:
     # should generate six files from list of neg_and_pos = pd.concat([neg_df,pos_df])"all.combined.csv" with relative fasta_paths
