@@ -180,7 +180,7 @@ elif sys.argv[1] == "cloudforest":
 
 
 
-elif sys.argv[1] == "tensorflow":
+if sys.argv[1] == "tensorflow":
     if "-train" in sys.argv or "-test" in sys.argv "-predict"  in sys.argv:
 
         if "-train" in sys.argv:
