@@ -181,7 +181,7 @@ elif sys.argv[1] == "cloudforest":
 
 
 elif sys.argv[1] == "tensorflow":
-    if "-train" in sys.argv or "-test" in sys.argv "-predict" in sys.argv:
+    if "-train" in sys.argv or "-test" in sys.argv "-predict"  in sys.argv:
 
         if "-train" in sys.argv:
             training_data = getOptionValue("-train")
@@ -231,7 +231,7 @@ if train_only and test_only:
         y=np.array(training_set.target),
         num_epochs=1000,
         shuffle=True)
-    classifier.train(input_fn=train_input_fn, steps=1000000) 
+    classifier.train(input_fn=train_input_fn, steps=10000000)
 
     with open(test_data) as f:
         for line in f:
