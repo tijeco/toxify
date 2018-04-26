@@ -50,8 +50,9 @@ if "--normalize" in sys.argv:
     sub_mean = train_data_df.sub(df_mean,axis=0)
     scaled_df = sub_mean.div(df_std,axis=0)
     scaled_df[376] = train_df[376]
-    print(sub_mean.shape)
     print(train_df.shape)
+    print(train_data_df.shape)
+    print(sub_mean.shape)
     print(scaled_df.shape)
     with open(input_file+"norm.csv","w") as out:
         True
