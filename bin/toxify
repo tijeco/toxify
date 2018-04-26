@@ -198,9 +198,9 @@ elif sys.argv[1] == "tensorflow":
             print("please provide training data with -train")
             print("please provide test data with -test")
             sys.exit()
-# else:
-#     print("DO SOMETHING ELSE")
-#     sys.exit()
+else:
+    print("DO SOMETHING ELSE")
+    sys.exit()
 
 
 if train_only and test_only:
