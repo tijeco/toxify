@@ -82,11 +82,6 @@ if "--prep-train" in sys.argv:
         train.to_csv('fasta_paths.train.csv', na_rep='0')
         test.to_csv('fasta_paths.test.csv', na_rep='0')
 
-
-
-
-
-
         train.drop('N:feature_0' ,axis=1, inplace=True)
         test.drop('N:feature_0' ,axis=1, inplace=True)
         for key in dfUtil.drop_these:
@@ -104,14 +99,36 @@ if "--prep-train" in sys.argv:
         with open(fasta_paths+'.test.tf.csv', 'a') as f:
             test.to_csv(f, na_rep='0', header=False,index = False)
 
-
         train.insert(0, '.', range(1, 1 + len(train)))
         test.insert(0, '.', range(1, 1 + len(test)))
 
-
-
         train.to_csv(fasta_paths+'.train.fm', na_rep='0',sep='\t',index = False)
         test.to_csv(fasta_paths+'.test.fm', na_rep='0',sep='\t',index = False)
+
+if "--prep-csv" in sys.argv:
+    csv_file = getOptionValue("--prep-csv")
+    csv_DF = pd.read_csv(csv_file, header=None)
+    currentHeaders = list(csv_DF)
+    newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
+    csv_DF.columns = newHeaders
+    csv_DF['C:venom'] = 1
+    csv_DF.drop('N:feature_0' ,axis=1, inplace=True)
+    for key in dfUtil.drop_these:
+        csv_DF.drop(key ,axis=1, inplace=True)
+    with open(csv_file+'.tf.csv', 'w') as out:
+        out.write(str(csv_DF.shape[0])+","+str(csv_DF.shape[1]-1)+"\n")
+    with open(csv_file+'.tf.csv', 'a') as f:
+        csv_DF.to_csv(f, na_rep='0', header=False,index = False)
+    csv_DF.insert(0, '.', range(1, 1 + len(csv_DF)))
+    csv_DF.to_csv(csv_file+'.fm', na_rep='0',sep='\t',index = False)
+
+
+
+
+
+
+
+
 
 
 elif sys.argv[1] == "cloudforest":
@@ -248,13 +265,13 @@ if train_only and test_only:
                                           n_classes=2,
                                           # dropout=0.02,
                                           model_dir="tmp/"+training_data.replace("train","model"),
-                                          optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.0001, l1_regularization_strength=0.001)
+                                          optimizer=tf.train.ProximalAdagradOptimizer(learning_rate=0.00001, l1_regularization_strength=0.001)
                                           )
                                           #Adagrad', 'Adam', 'Ftrl', 'RMSProp', 'SGD'
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"x": np.array(training_set.data)},
         y=np.array(training_set.target),
-        num_epochs=1000,
+        num_epochs=10000,
         shuffle=True)
     classifier.train(input_fn=train_input_fn, steps=10000000)
 
