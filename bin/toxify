@@ -16,6 +16,9 @@ def getOptionValue(option):
     optionPos = [i for i, j in enumerate(sys.argv) if j == option][0]
     optionValue = sys.argv[optionPos + 1]
     return optionValue
+def dist(x,y):
+    return np.sqrt(np.sum((x-y)**2))
+
 if "-t" in sys.argv:
     core_num = getOptionValue("-t")
 if "-db" in sys.argv:
@@ -121,6 +124,88 @@ if "--prep-csv" in sys.argv:
         csv_DF.to_csv(f, na_rep='0', header=False,index = False)
     csv_DF.insert(0, '.', range(1, 1 + len(csv_DF)))
     csv_DF.to_csv(csv_file+'.fm', na_rep='0',sep='\t',index = False)
+
+
+
+
+
+
+elif sys.argv[1] == "distance":
+    if "-pos" in sys.argv and "-neg" in sys.argv:
+        pos_data = getOptionValue("-pos")
+        neg_data = getOptionValue("-neg")
+        pos_DF = pd.read_csv(pos_data, header=None)
+        neg_DF = pd.read_csv(neg_data, header=None)
+
+        df_mean_file = data_dir+"/data/mean.p"
+        df_std_file = data_dir+"/data/std.p"
+        df_mean = pickle.load( open( df_mean_file, "rb" ) )
+        df_std  = pickle.load( open( df_std_file, "rb" ) )
+
+
+        #############################pos########################################
+        currentHeaders = list(pos_DF)
+        newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
+        pos_DF.columns = newHeaders
+        for key in dfUtil.drop_these:
+            pos_DF.drop(key ,axis=1, inplace=True)
+        neg_DF.columns = newHeaders
+        for key in dfUtil.drop_these:
+            neg_DF.drop(key ,axis=1, inplace=True)
+        for pos_row in range(len(pos_DF))
+
+        pos_DF_noHeaders = pos_DF.drop('N:feature_0' ,axis=1)
+        pos_DF_noHeaders.to_csv(pos_data+".noheaders", na_rep='0', header=False,index = False)
+        pos_DF_noHeaders = pd.read_csv(pos_data+".noheaders",  header=None)
+
+
+        sub_mean = pos_DF_noHeaders.sub(df_mean,axis=1)
+        scaled_df_pos = sub_mean.div(df_std,axis=1)
+        scaled_df_pos["N:feature_0"] = pos_DF["N:feature_0"]
+
+
+
+        ################################neg####################################
+        currentHeaders = list(neg_DF)
+        newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
+        neg_DF.columns = newHeaders
+        for key in dfUtil.drop_these:
+            neg_DF.drop(key ,axis=1, inplace=True)
+        neg_DF.columns = newHeaders
+        for key in dfUtil.drop_these:
+            neg_DF.drop(key ,axis=1, inplace=True)
+
+
+        neg_DF_noHeaders = neg_DF.drop('N:feature_0' ,axis=1)
+        neg_DF_noHeaders.to_csv(neg_data+".noheaders", na_rep='0', header=False,index = False)
+        neg_DF_noHeaders = pd.read_csv(neg_data+".noheaders",  header=None)
+
+
+        sub_mean = neg_DF_noHeaders.sub(df_mean,axis=1)
+        scaled_df_neg = sub_mean.div(df_std,axis=1)
+        scaled_df_neg["N:feature_0"] = neg_DF["N:feature_0"]
+
+        neg_dict = {}
+        for neg_row in range(len(neg_DF)):
+
+            neg_seq = scaled_df_pos.iloc[neg_row][:-1]
+            neg_header = scaled_df_pos.iloc[neg_row][-1]
+
+            for pos_row in range(len(pos_DF)):
+                pos_seq = scaled_df_pos.iloc[pos_row][:-1]
+                pos_header = scaled_df_pos.iloc[pos_row][-1]
+                if (neg_header) not in neg_dict:
+
+                    neg_dict[neg_header] = (dist(neg_seq,pos_seq),pos_header)
+                elif neg_dict[neg_header][0] >dist(neg_seq,pos_seq):
+                    neg_dict[neg_header] = (dist(neg_seq,pos_seq),pos_header)
+        print(neg_dict)
+
+
+
+
+
+
 
 
 
