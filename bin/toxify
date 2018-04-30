@@ -178,13 +178,13 @@ elif sys.argv[1] == "distance":
         scaled_df_neg["N:feature_0"] = neg_DF["N:feature_0"]
 
         neg_dict = {}
-        for neg_row in range(len(neg_DF)):
+        for neg_row in range(len(scaled_df_neg)):
 
             neg_seq = scaled_df_pos.iloc[neg_row][:-1]
             neg_header = scaled_df_pos.iloc[neg_row][-1]
             print(neg_header)
 
-            for pos_row in range(len(pos_DF)):
+            for pos_row in range(len(scaled_df_neg)):
                 pos_seq = scaled_df_pos.iloc[pos_row][:-1]
                 pos_header = scaled_df_pos.iloc[pos_row][-1]
 
