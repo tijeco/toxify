@@ -165,7 +165,7 @@ elif sys.argv[1] == "distance":
 
 
         ################################neg####################################
-        
+
 
 
         neg_DF_noHeaders = neg_DF.drop('N:feature_0' ,axis=1)
@@ -182,16 +182,24 @@ elif sys.argv[1] == "distance":
 
             neg_seq = scaled_df_pos.iloc[neg_row][:-1]
             neg_header = scaled_df_pos.iloc[neg_row][-1]
+            print(neg_header)
 
             for pos_row in range(len(pos_DF)):
                 pos_seq = scaled_df_pos.iloc[pos_row][:-1]
                 pos_header = scaled_df_pos.iloc[pos_row][-1]
+
                 if (neg_header) not in neg_dict:
 
                     neg_dict[neg_header] = (dist(neg_seq,pos_seq),pos_header)
                 elif neg_dict[neg_header][0] >dist(neg_seq,pos_seq):
                     neg_dict[neg_header] = (dist(neg_seq,pos_seq),pos_header)
-        print(neg_dict)
+        #print(neg_dict)
+        # print(pd.DataFrame(d).transpose())
+        dp = pd.DataFrame(neg_dict).transpose()
+        # print(list(dp))
+        # print("______________________")
+        dp_sort = dp.sort_values(0)
+        dp_sort.head(8700).to_csv(neg_data+".nearest")
 
 
 
