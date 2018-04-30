@@ -152,7 +152,6 @@ elif sys.argv[1] == "distance":
         neg_DF.columns = newHeaders
         for key in dfUtil.drop_these:
             neg_DF.drop(key ,axis=1, inplace=True)
-        for pos_row in range(len(pos_DF))
 
         pos_DF_noHeaders = pos_DF.drop('N:feature_0' ,axis=1)
         pos_DF_noHeaders.to_csv(pos_data+".noheaders", na_rep='0', header=False,index = False)
