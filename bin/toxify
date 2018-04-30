@@ -165,14 +165,7 @@ elif sys.argv[1] == "distance":
 
 
         ################################neg####################################
-        currentHeaders = list(neg_DF)
-        newHeaders = ["N:feature_" + str(header) for header in currentHeaders]
-        neg_DF.columns = newHeaders
-        for key in dfUtil.drop_these:
-            neg_DF.drop(key ,axis=1, inplace=True)
-        neg_DF.columns = newHeaders
-        for key in dfUtil.drop_these:
-            neg_DF.drop(key ,axis=1, inplace=True)
+        
 
 
         neg_DF_noHeaders = neg_DF.drop('N:feature_0' ,axis=1)
