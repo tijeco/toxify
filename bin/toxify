@@ -79,8 +79,8 @@ if "--prep-train" in sys.argv:
             if row[0] == "neg":
                 neg_list.append(currentDF)
         (train,test) = dfUtil.splitTrain(pos_list,neg_list)
-        train.to_csv('fasta_paths.train.csv', na_rep='0')
-        test.to_csv('fasta_paths.test.csv', na_rep='0')
+        train.to_csv(fasta_paths+'.train.csv', na_rep='0')
+        test.to_csv(fasta_paths.+'test.csv', na_rep='0')
 
         train.drop('N:feature_0' ,axis=1, inplace=True)
         test.drop('N:feature_0' ,axis=1, inplace=True)
