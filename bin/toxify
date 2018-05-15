@@ -107,6 +107,9 @@ if "--prep-train" in sys.argv:
 
         train.to_csv(fasta_paths+'.train.fm', na_rep='0',sep='\t',index = False)
         test.to_csv(fasta_paths+'.test.fm', na_rep='0',sep='\t',index = False)
+"""
+toxclassify.evaluate_dir/neg_euk/all.combined.csv.tf.csvnorm.csv_predictions.csv toxclassify.evaluate_dir/pos/all.combined.csv.tf.csvnorm.csv_predictions.csv toxclassify.evaluate_dir/neg_met/all.combined.csv.tf.csvnorm.csv_predictions.csv
+"""
 
 if "--prep-csv" in sys.argv:
     csv_file = getOptionValue("--prep-csv")
@@ -125,9 +128,7 @@ if "--prep-csv" in sys.argv:
     csv_DF.insert(0, '.', range(1, 1 + len(csv_DF)))
     csv_DF.to_csv(csv_file+'.fm', na_rep='0',sep='\t',index = False)
 
-"""
-toxclassify.evaluate_dir/neg_euk/all.combined.csv.tf.csvnorm.csv_predictions.csv toxclassify.evaluate_dir/pos/all.combined.csv.tf.csvnorm.csv_predictions.csv toxclassify.evaluate_dir/neg_met/all.combined.csv.tf.csvnorm.csv_predictions.csv
-"""
+
 
 
 elif sys.argv[1] == "distance":
