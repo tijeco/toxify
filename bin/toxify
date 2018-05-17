@@ -40,6 +40,22 @@ if "--create-features" in sys.argv:
     bash_command = "snakemake --snakefile "+snake_file+" -d "+fasta_dir+" --cores "+core_num + " --use-conda"
     print(bash_command)
     os.system(bash_command)
+if "--make-features" in sys.argv:
+    from math import sqrt
+    from joblib import Parallel, delayed
+    input_fasta = getOptionValue("--make-features")
+    seq_iter = dfUtil.fasta_iter(input_fasta)
+    Parallel(n_jobs=int(os.cpu_count() *0.8))(delayed(dfUtil.makeCompFeatures)(ff[1]) for ff in seq_iter)
+
+    #out_csv = input_fasta+".csv"
+
+    #with open(out_csv,"w") as out:
+    # for ff in input_fasta:
+    #     headerStr, seq = ff
+    #         # try:
+    #     out.write(headerStr.replace("|","_")+",")
+    #     out.write(makeCompFeatures(seq)+"\n")
+
 print("CF:",sys.argv[1] == "cloudforest",sys.argv[1])
 
 if "--normalize" in sys.argv:
