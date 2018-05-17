@@ -45,7 +45,7 @@ if "--make-features" in sys.argv:
     from joblib import Parallel, delayed
     input_fasta = getOptionValue("--make-features")
     seq_iter = dfUtil.fasta_iter(input_fasta)
-    Parallel(n_jobs=int(os.cpu_count() *0.8))(delayed(dfUtil.makeCompFeatures)(ff[1]) for ff in seq_iter)
+    print(Parallel(n_jobs=int(os.cpu_count() *0.8))(delayed(dfUtil.makeCompFeatures)(ff[1]) for ff in seq_iter))
 
     #out_csv = input_fasta+".csv"
 
