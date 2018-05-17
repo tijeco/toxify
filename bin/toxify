@@ -41,6 +41,7 @@ if "--create-features" in sys.argv:
     print(bash_command)
     os.system(bash_command)
 if "--make-features" in sys.argv:
+    print("making features")
     from math import sqrt
     from joblib import Parallel, delayed
     input_fasta = getOptionValue("--make-features")
