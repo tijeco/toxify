@@ -810,16 +810,14 @@ rule combineFiles:
         dynamic("sequences/{header}.csv")
     output:
         "all.combined.csv"
-    shell:
-        "cat sequences/*csv > {output}"
 
-    # run:
-    #     with open(output[0],"w") as out:
-    #         for currentFile in input:
-    #             with open(currentFile) as f:
-    #                 for line in f:
-    #                     out.write(line)
-    #
+    run:
+        with open(output[0],"w") as out:
+            for currentFile in input:
+                with open(currentFile) as f:
+                    for line in f:
+                        out.write(line)
+
 
         # "cat sequences/*csv > {output}"
 
