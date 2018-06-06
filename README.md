@@ -7,14 +7,33 @@ deep learning approach to classify animal toxins
 Convert fasta protein files to csv files.
 
 
-
+Set up toxify conda environment
 ```
 conda env create -f requirements.yml
 ```
+Activate the environment
+```
+source activate toxify
+```
+install toxify
+```
+cd toxify/
+python setup.py install
+```
 
-make sure that fasta files end in .fa
+create features
+```
+toxify --create-features dir_with_fastaFile/
+```
 
+prep csv
 
 ```
-python toxify.py -predict dir/with/fastas/all.combined.to_csv
+toxify --prep-csv dir_with_fastaFile/all.combined.csv
+```
+
+generate predictions
+
+```
+toxify tensorflow -predict dir_with_fastaFile/all.combined.csv.tf.csv -model path/to/model
 ```
