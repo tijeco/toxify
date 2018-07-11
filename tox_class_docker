@@ -1,0 +1,127 @@
+apt-get install gfortran
+    2  apt-get install software-properties-common
+    3  add-apt-repository ppa:webupd8team/java
+    4  apt-get install oracle-java8-installer
+    5  wget https://cran.cnr.berkeley.edu/src/base/R-3/R-3.2.3.tar.gz
+    6  cd R-3.2.3.tar.gz
+    7  tar xvzf R-3.2.3.tar.gz
+    8  cd R-3.2.3
+    9  ./configure --with-readline=no --with-x=no
+   10  make
+   11  history
+
+   apt-get install -y build-essential python python-dev python-pip
+   apt-get install pkg-config libnlopt-dev
+   apt-get install libcurl4-gnutls-dev librtmp-dev
+   pip install pycurl
+   apt-get install git-lfs
+   git-lfs clone https://github.com/rgacesa/ToxClassifier.git
+
+
+packageurl <- "http://cran.r-project.org/src/contrib/Archive/Rcpp/Rcpp_0.12.3.tar.gz"
+install.packages(packageurl, repos=NULL, type="source")
+
+
+packageurl <- "http://cran.r-project.org/src/contrib/Archive/plyr/plyr_1.8.3.tar.gz"
+install.packages(packageurl, repos=NULL, type="source")
+
+packageurl <- "http://cran.r-project.org/src/contrib/Archive/nlme/nlme_3.1-123.tar.gz"
+install.packages(packageurl, repos=NULL, type="source")
+
+
+
+packageurl <- "http://cran.r-project.org/src/contrib/Archive/caret/caret_6.0-64.tar.gz"
+install.packages(packageurl, repos=NULL, type="source",dependencies = c("Depends", "Suggests"))
+ERROR: dependencies 'ggplot2', 'car', 'foreach', 'reshape2' are not available for package 'caret'
+  packageurl <- "http://cran.r-project.org/src/contrib/Archive/ggplot2/ggplot2_2.2.0.tar.gz"
+  install.packages(packageurl, repos=NULL, type="source")
+  ERROR: dependencies 'digest', 'gtable', 'reshape2', 'scales', 'tibble', 'lazyeval' are not available for package 'ggplot2'
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/digest/digest_0.6.10.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/gtable/gtable_0.1.2.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/reshape2/reshape2_1.4.2.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+    ERROR: dependency 'stringr' is not available for package 'reshape2'
+      packageurl <- "http://cran.r-project.org/src/contrib/Archive/stringr/stringr_1.1.0.tar.gz"
+      install.packages(packageurl, repos=NULL, type="source")
+        ERROR: dependencies 'stringi', 'magrittr' are not available for package 'stringr'
+        packageurl <- "http://cran.r-project.org/src/contrib/Archive/stringi/stringi_1.1.2.tar.gz"
+        install.packages(packageurl, repos=NULL, type="source")
+        packageurl <- "http://cran.r-project.org/src/contrib/Archive/magrittr/magrittr_1.0.1.tar.gz"
+        install.packages(packageurl, repos=NULL, type="source")
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/scales/scales_0.4.1.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+    ERROR: dependencies 'RColorBrewer', 'dichromat', 'munsell', 'labeling' are not available for package 'scales'
+      packageurl <- "http://cran.r-project.org/src/contrib/Archive/RColorBrewer/RColorBrewer_1.0-5.tar.gz"
+      install.packages(packageurl, repos=NULL, type="source")
+      packageurl <- "http://cran.r-project.org/src/contrib/Archive/dichromat/dichromat_1.2-4.tar.gz"
+      install.packages(packageurl, repos=NULL, type="source")
+      packageurl <- "http://cran.r-project.org/src/contrib/Archive/munsell/munsell_0.4.3.tar.gz"
+      install.packages(packageurl, repos=NULL, type="source")
+      ERROR: dependency 'colorspace' is not available for package 'munsell'
+        packageurl <- "http://cran.r-project.org/src/contrib/Archive/colorspace/colorspace_1.2-7.tar.gz"
+        install.packages(packageurl, repos=NULL, type="source")
+      packageurl <- "http://cran.r-project.org/src/contrib/Archive/labeling/labeling_0.2.tar.gz"
+      install.packages(packageurl, repos=NULL, type="source")
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/tibble/tibble_1.1.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+    ERROR: dependencies 'assertthat', 'lazyeval' are not available for package 'tibble'
+      packageurl <- "http://cran.r-project.org/src/contrib/Archive/lazyeval/lazyeval_0.2.0.tar.gz"
+      install.packages(packageurl, repos=NULL, type="source")
+      packageurl <- "http://cran.r-project.org/src/contrib/Archive/assertthat/assertthat_0.1.tar.gz"
+      install.packages(packageurl, repos=NULL, type="source")
+  packageurl <- "http://cran.r-project.org/src/contrib/Archive/car/car_2.1-1.tar.gz"
+  install.packages(packageurl, repos=NULL, type="source",dependencies = c("Depends", "Suggests"))
+  ERROR: dependencies 'pbkrtest', 'quantreg' are not available for package 'car'
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/pbkrtest/pbkrtest_0.4-5.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source",dependencies = c("Depends", "Suggests"))
+    ERROR: dependency 'lme4' is not available for package 'pbkrtest'
+      packageurl <- "http://cran.r-project.org/src/contrib/Archive/lme4/lme4_1.1-10.tar.gz"
+      install.packages(packageurl, repos=NULL, type="source")
+      ERROR: dependencies 'minqa', 'nloptr', 'RcppEigen' are not available for package 'lme4'
+        packageurl <- "http://cran.r-project.org/src/contrib/Archive/minqa/minqa_1.2.3.tar.gz"
+        install.packages(packageurl, repos=NULL, type="source")
+        packageurl <- "http://cran.r-project.org/src/contrib/nloptr_1.0.4.tar.gz"
+        install.packages(packageurl, repos=NULL, type="source")
+        packageurl <- "http://cran.r-project.org/src/contrib/Archive/RcppEigen/RcppEigen_0.3.2.9.0.tar.gz"
+        install.packages(packageurl, repos=NULL, type="source")
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/quantreg/quantreg_5.29.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+    ERROR: dependencies 'SparseM', 'MatrixModels' are not available for package 'quantreg'
+      packageurl <- "http://cran.r-project.org/src/contrib/Archive/SparseM/SparseM_1.72.tar.gz"
+      install.packages(packageurl, repos=NULL, type="source")
+      packageurl <- "http://cran.r-project.org/src/contrib/MatrixModels_0.4-1.tar.gz"
+      install.packages(packageurl, repos=NULL, type="source")
+  packageurl <- "http://cran.r-project.org/src/contrib/Archive/foreach/foreach_1.4.3.tar.gz"
+  install.packages(packageurl, repos=NULL, type="source")
+    ERROR: dependency 'iterators' is not available for package 'foreach'
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/iterators/iterators_1.0.8.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+
+packageurl <- "http://cran.r-project.org/src/contrib/Archive/argparse/argparse_1.0.4.tar.gz"
+install.packages(packageurl, repos=NULL, type="source")
+ERROR: dependencies 'proto', 'findpython', 'getopt', 'rjson' are not available for package 'argparse'
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/proto/proto_0.3-10.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/findpython/findpython_1.0.1.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/getopt/getopt_1.20.0.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.15.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+
+
+
+
+packageurl <- "http://cran.r-project.org/src/contrib/Archive/pbkrtest/pbkrtest_0.4-5.tar.gz"
+packageurl <- "http://cran.r-project.org/src/contrib/Archive/lme4/lme4_1.1-10.tar.gz"
+
+packageurl <- "http://cran.r-project.org/src/contrib/nloptr_1.0.4.tar.gz"
+https://cran.r-project.org/src/contrib/nloptr_1.0.4.tar.gz
+pbkrtest_0.4-5
+plyr_1.8.3
+Rcpp_0.12.3
+car_2.1-1
+lme4_1.1-10
+nloptr_1.0.4
