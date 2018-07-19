@@ -64,12 +64,12 @@ The most commonly used git commands are:
 
 
 def main():
-    print(fm.joke())
+    # print(fm.joke())
     # ParseCommands()
     tox_args = ParseCommands().args
     # print(tox_args)
     if hasattr(tox_args,"sequences"):
-        print(tox_args.sequences)
+        # print(tox_args.sequences)
         predictions_dir = tox_args.sequences +"_toxify_predictions"
         if not os.path.exists(predictions_dir):
             os.makedirs(predictions_dir)
@@ -79,11 +79,11 @@ def main():
 
         proteins = fm.ProteinWindows(tox_args.sequences)
         protein_15mer = proteins.data
-        print(protein_15mer)
+        # print(protein_15mer)
         # import protfactor as pf
         # execute pf.ProteinVectors(protein_15mer)
         # returns np.array (N,5,15)
-        print(pf.ProteinVectors(protein_15mer).data.shape)
+        # print(pf.ProteinVectors(protein_15mer).data.shape)
 
 
         protein_vectors_np = pf.ProteinVectors(protein_15mer).data
@@ -91,8 +91,8 @@ def main():
         # os.system("pwd")
         os.system("saved_model_cli run --dir "+model_dir+"  --tag_set serve --signature_def serving_default --inputs inputs="+predictions_dir+"/protein_vectors.npy  --outdir "+predictions_dir)
         prediction_np = np.load(predictions_dir+"/predictions.npy")
-        print("data:",protein_15mer.shape)
-        print("output:",prediction_np.shape)
+        # print("data:",protein_15mer.shape)
+        # print("output:",prediction_np.shape)
         # print(protein_15mer[0])
         prediction_15mer = np.hstack((protein_15mer,prediction_np))
         # print(prediction_15mer)
@@ -102,7 +102,7 @@ def main():
 
         columnsTitles=['header','15mer','venom_probability','sequence']
         prediction_15mer_df=prediction_15mer_df.reindex(columns=columnsTitles)
-        print(prediction_15mer_df)
+        # print(prediction_15mer_df)
         prediction_15mer_outfile = predictions_dir+"/predictions_15mer.csv"
         prediction_15mer_df.to_csv(prediction_15mer_outfile,index=False)
         prediction_proteins = fm.regenerate(prediction_15mer_df)
@@ -124,5 +124,17 @@ def main():
     elif hasattr(tox_args,"pos") and hasattr(tox_args,"neg"):
         print(tox_args.pos)
         print(tox_args.neg)
+        training_file = "sequence_data/training_np.npy"
+        test_file =  "sequence_data/test_np.npy"
+        if training_file.exists() and test_file.exists():
+            training_np = np.load("sequence_data/training_np.npy")
+            test_np =  np.load("sequence_data/test_np.npy")
+        else:
+
+            training_seqs = seqs2train(args.pos,args.neg)[0]
+            test_seqs = seqs2train(args.pos,args.neg)[1]
+            np.save(training_seqs,"sequence_data/training_np.npy")
+            np.save(test_seqs,"sequence_data/test_np.npy")
+
         # returns np array with four columns
         # 1. header 2. kmerNum 3. sequence 4. label
