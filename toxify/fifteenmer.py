@@ -68,11 +68,29 @@ def regenerate(df_15mer):
     return pd.DataFrame(outDict)
         # for i in subset['sequence']
 
-
+def seqs2train(pos,neg):
+    mat=[]
+    for i in pos[0]:
+        pos_iter = fasta_iter(i)
+        for ff in pos_iter:
+            headerStr, seq = ff
+            if len(seq) < 101 and len(seq) > 14:
+                mat.append([headerStr,seq,1])
+    for i in neg[0]:
+        neg_iter = fasta_iter(i)
+        for ff in neg_iter:
+            headerStr, seq = ff
+            if len(seq) < 101 and len(seq) > 14:
+                mat.append([headerStr,seq,0])
+    # print(mat)
+    mat_np = np.array(mat)
+    indices = np.random.permutation(mat_np.shape[0])
+    training_idx, test_idx = indices[:int(mat_np.shape[0]*0.8)], indices[int(mat_np.shape[0]*0.8):]
+    training_np, test_np = mat_np[training_idx,:], mat_np[test_idx,:]
+    return (training_np,test_np)
 
         # print(subset['venom_probability'].mean())
         # print(subset.describe())
 
 def joke():
-    return (u'Wenn ist das Nunst\u00fcck git und Slotermeyer? Ja! ... '
-            u'Beiherhund das Oder die Flipperwaldt gersput.')
+    return ('joke')
