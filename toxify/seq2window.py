@@ -149,7 +149,7 @@ def seq2atchley(s,window,maxLen):
 
         # print("here will go zero-padding")
     return np.transpose(np.array(seqList))
-if True:
+if False:
     test_seq = "MENDELMENDELMENDEL"
     print(seq2atchley(test_seq,window_size,max_seq_len))
 
