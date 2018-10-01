@@ -69,7 +69,7 @@ def seq15mer(  protein_panda ,window,maxLen):#,max_value=1000): n_samples=1000
         seq=seq.strip("*")
         if len(seq) <= maxLen:
             for i in range(len(seq)):
-                if len(seq) - window_size >= i:
+                if len(seq) - window >= i:
                     data.append([headerStr,"kmer_"+str(i),seq[i:i+window_size]])
     data = np.array(data)
     return data
