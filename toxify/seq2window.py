@@ -84,7 +84,6 @@ def seqs2train(pos,neg,window,maxLen):
     for pos_file in pos[0]:
         # print("POS:",pos_file)
         pos_pd = fa2pd(pos_file,window,maxLen)
-
         if window:
             pos_mat.append(seq15mer(pos_pd,window,maxLen))
         else:
