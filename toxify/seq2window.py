@@ -4,8 +4,7 @@ import pandas as pd
 import numpy as np
 
 
-max_seq_len = 100
-window_size = 20
+
 
 factorDict ={
 "A":[-0.59,-1.30,-0.73,1.57,-0.15],
@@ -97,7 +96,7 @@ def seqs2train(pos,neg,window,maxLen):
         neg_pd = fa2pd(neg_file,window,maxLen)
         # print(neg_pd.shape)
         if window:
-            print("window_size")
+            print("window_size: ",window)
             neg_mat.append(seq15mer(neg_pd,maxLen))
         else:
             print("NEG PD:")
@@ -150,7 +149,7 @@ def seq2atchley(s,window,maxLen):
 
         # print("here will go zero-padding")
     return np.transpose(np.array(seqList))
-if False:
+if True:
     test_seq = "MENDELMENDELMENDEL"
     print(seq2atchley(test_seq,window_size,max_seq_len))
 
