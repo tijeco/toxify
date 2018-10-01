@@ -96,7 +96,7 @@ def seqs2train(pos,neg,window,maxLen):
         # print(neg_pd.shape)
         if window:
             print("window_size: ",window)
-            neg_mat.append(seq15mer(neg_pd,maxLen))
+            neg_mat.append(seq15mer(neg_pd,window,maxLen))
         else:
             print("NEG PD:")
             neg_mat.append(neg_pd)
