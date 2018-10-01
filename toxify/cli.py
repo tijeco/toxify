@@ -117,7 +117,6 @@ def main():
         # output csv file with 6 columns
         # 1. header 2. n_15mers 3. mean_venom_probability 4. median_venom_probability 5. sd_venom_probability 6. sequence
 
-toxify train -pos sequence_data/training_data/hard/databases.met.hard.fa sequence_data/training_data/neg_eukaryota/reviewed_subset.NegEuk.fa sequence_data/training_data/neg_metazoa/reviewed_subset.negMet.fa -neg sequence_data/training_data/pos/allPos.fa -window 15 -maxLen 100
 
         # run command_line_tf using os on pf.ProteinVectors(protein_15mer)
         # open the returned np.array, recombine with headers, create file with three columns
