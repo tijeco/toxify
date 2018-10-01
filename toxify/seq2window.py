@@ -62,7 +62,7 @@ def fa2pd(fastaFile,window,maxLen):
 
 
 
-def seq15mer(  protein_panda ,maxLen):#,max_value=1000): n_samples=1000
+def seq15mer(  protein_panda ,window,maxLen):#,max_value=1000): n_samples=1000
     data = []
     for index, row in protein_panda.iterrows():
         headerStr, seq = row['headers'],row['sequences']
@@ -86,7 +86,7 @@ def seqs2train(pos,neg,window,maxLen):
         pos_pd = fa2pd(pos_file,window,maxLen)
 
         if window:
-            pos_mat.append(seq15mer(pos_pd,maxLen))
+            pos_mat.append(seq15mer(pos_pd,window,maxLen))
         else:
             print("POS PD:")
             pos_mat.append(pos_pd)
