@@ -198,7 +198,7 @@ def main():
         d = train_X.shape[2]  # Input dimension
         print(d) #9
         T = train_X.shape[1]  # Sequence length
-        epochs = 500
+        epochs = 50
         # batch_size = 100
 
         lr = 0.01  # Learning rate
@@ -220,7 +220,7 @@ def main():
         # Output mapped to probabilities by softmax
         prediction = tf.nn.softmax(logits)
         # Error function
-        loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(
+        loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits_v2(
             labels=target, logits=logits))
         # 0-1 loss; compute most likely class and compare with target
         accuracy = tf.equal(tf.argmax(logits, 1), tf.argmax(target, 1))
@@ -241,10 +241,11 @@ def main():
         with tf.Session() as sess:
             init = tf.global_variables_initializer()
             sess.run(init)
-            summary_writer = tf.summary.FileWriter("my_test_model", graph=tf.get_default_graph())
+            model_dir = training_dir+"models"
+            summary_writer = tf.summary.FileWriter(model_dir, graph=tf.get_default_graph())
             saver = tf.train.Saver()
 
-            ckpt = tf.train.get_checkpoint_state("my_test_model")
+            ckpt = tf.train.get_checkpoint_state(model_dir)
             if ckpt and ckpt.model_checkpoint_path:
                 saver.restore(sess, ckpt.model_checkpoint_path)
                 print(ckpt.model_checkpoint_path)
@@ -262,7 +263,7 @@ def main():
                     tmp_loss, tmp_acc = sess.run([loss, accuracy], feed_dict={inputs: train_X, target: train_Y})
                     tmp_acc_test = sess.run(accuracy, feed_dict={inputs: test_X, target: test_Y})
                     print(i + 1, 'Loss:', tmp_loss, 'Accuracy, train:', tmp_acc, ' Accuracy, test:', tmp_acc_test)
-                    checkpoint_path = os.path.join("my_test_model", 'model.ckpt')
+                    checkpoint_path = os.path.join(model_dir, 'model.ckpt')
                     saver.save(sess, checkpoint_path, global_step=i)
 
         with tf.Session() as sess:
