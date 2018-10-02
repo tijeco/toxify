@@ -174,7 +174,7 @@ def main():
             np.save(training_dir+"testData.npy",test_np)
             np.save(training_dir+"testLabels.npy",test_label_np)
             np.save(training_dir+"trainData.npy",train_np)
-            np.save(training_dir+"testData.npy",train_label_np)
+            np.save(training_dir+"trainLabels.npy",train_label_np)
             test_X = test_np
             test_Y = test_label_np
             train_X = train_np
@@ -183,7 +183,7 @@ def main():
             test_X = np.load(training_dir+"testData.npy")
             test_Y = np.load(training_dir+"testLabels.npy")
             train_X = np.load(training_dir+"trainData.npy")
-            train_Y = np.load(training_dir+"testData.npy")
+            train_Y = np.load(training_dir+"trainLabels.npy")
 
 
         print("train_X.shape:",train_X.shape)
