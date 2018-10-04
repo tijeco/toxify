@@ -235,13 +235,13 @@ def main():
         tf.summary.scalar("accuracy", accuracy)
         # Merge all summaries into a single op
         merged_summary_op = tf.summary.merge_all()
-
+        model_dir = training_dir+"models"
         # if True:
             # Create session and initialize variables
         with tf.Session() as sess:
             init = tf.global_variables_initializer()
             sess.run(init)
-            model_dir = training_dir+"models"
+
             summary_writer = tf.summary.FileWriter(model_dir, graph=tf.get_default_graph())
             saver = tf.train.Saver()
 
@@ -268,7 +268,7 @@ def main():
 
         with tf.Session() as sess:
           # Restore variables from disk.
-          saver.restore(sess, "my_test_model/model.ckpt")
+          saver.restore(sess, model_dir+"/model.ckpt")
           print("Model restored.")
           # Check the values of the variables
           print("v1 : %s" % v1.eval())
