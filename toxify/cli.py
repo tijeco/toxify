@@ -165,9 +165,9 @@ def main():
                 train_mat.append(sw.seq2atchley(seq,window_size,max_seq_len))
                 label = row[-1]
                 if label:
-                    train_label_mat.append([1,0])
+                    train_label_mat.append([1.0,0.0])
                 else:
-                    train_label_mat.append([0,1])
+                    train_label_mat.append([0.0,1.0])
             train_label_np = np.array(train_label_mat)
             train_np = np.array(train_mat)
 
