@@ -4,7 +4,8 @@ import pandas as pd
 import numpy as np
 
 
-
+window_size = 15
+max_seq_len = 100
 
 factorDict ={
 "A":[-0.59,-1.30,-0.73,1.57,-0.15],
@@ -105,12 +106,17 @@ def seqs2train(pos,neg,window,maxLen):
     pos_np = np.vstack(pos_mat)
     neg_np = np.vstack(neg_mat)
     # print(pos_np.shape[0])
+
     pos_ones = np.ones((pos_np.shape[0],1))
+    # pos_ones = np.full((pos_np.shape[0], 2), np.array([0,1]))
     pos_labeled = np.append(pos_np,pos_ones, axis=1)
     # print("POS NP:")
     # print(pos_labeled)
     neg_zeros = np.zeros((neg_np.shape[0],1))
+    # neg_zeros = np.full((neg_np.shape[0], 2), np.array([0,1]))
+    print(neg_zeros)
     neg_labeled = np.append(neg_np,neg_zeros, axis=1)
+    print(neg_labeled)
 
     mat_np = np.vstack([pos_labeled,neg_labeled])
     indices = np.random.permutation(mat_np.shape[0])
@@ -148,46 +154,47 @@ def seq2atchley(s,window,maxLen):
 
         # print("here will go zero-padding")
     return np.transpose(np.array(seqList))
-if False:
+if True:
     print("uncomment below")
-    # test_seq = "MENDELMENDELMENDEL"
-    # print(seq2atchley(test_seq,window_size,max_seq_len))
-    #
-    #
-    # pos_list = [ ["sequence_data/training_data/hard/databases.met.hard.fa","sequence_data/training_data/neg_eukaryota/reviewed_subset.NegEuk.fa","sequence_data/training_data/neg_metazoa/reviewed_subset.negMet.fa" ]]
-    # neg_list = [ ["sequence_data/training_data/pos/allPos.fa" ]]
-    #
-    # (train_seqs,test_seqs) = seqs2train(pos_list,neg_list,window_size,max_seq_len)
-    # print(train_seqs.shape,test_seqs.shape)
-    # print(train_seqs)
-    #
-    # test_mat = []
-    # test_label_mat = []
-    # for row in test_seqs:
-    #     seq = row[2]
-    #     label = row[-1]
-    #     if label:
-    #         test_label_mat.append([1,0])
-    #     else:
-    #         test_label_mat.append([0,1])
-    #     test_mat.append(seq2atchley(seq,window_size,max_seq_len))
-    # test_label_np = np.array(test_label_mat)
-    # test_np = np.array(test_mat)
-    #
-    # train_mat = []
-    # train_label_mat = []
-    # for row in train_seqs:
-    #     seq = row[2]
-    #     train_mat.append(seq2atchley(seq,window_size,max_seq_len))
-    #     label = row[-1]
-    #     if label:
-    #         train_label_mat.append([1,0])
-    #     else:
-    #         train_label_mat.append([0,1])
-    # train_label_np = np.array(train_label_mat)
-    # train_np = np.array(train_mat)
-    # print(test_seqs)
-    # print(test_label_np)
-    #
-    #
-    # # def fa15mer(fa_np):
+    test_seq = "MENDELMENDELMENDEL"
+    print(seq2atchley(test_seq,window_size,max_seq_len))
+
+
+    pos_list = [ ["sequence_data/training_data/hard/databases.met.hard.fa","sequence_data/training_data/neg_eukaryota/reviewed_subset.NegEuk.fa","sequence_data/training_data/neg_metazoa/reviewed_subset.negMet.fa" ]]
+    neg_list = [ ["sequence_data/training_data/pos/allPos.fa" ]]
+
+    (train_seqs,test_seqs) = seqs2train(pos_list,neg_list,window_size,max_seq_len)
+    print(train_seqs.shape,test_seqs.shape)
+    print(train_seqs)
+
+    test_mat = []
+    test_label_mat = []
+    for row in test_seqs:
+        seq = row[2]
+        label = row[-1]
+        if label:
+            test_label_mat.append(label)
+        else:
+            test_label_mat.append(label)
+        test_mat.append(seq2atchley(seq,window_size,max_seq_len))
+    test_label_np = np.array(test_label_mat)
+    test_np = np.array(test_mat)
+
+    train_mat = []
+    train_label_mat = []
+    for row in train_seqs:
+        seq = row[2]
+        train_mat.append(seq2atchley(seq,window_size,max_seq_len))
+        label = row[-1]
+        if label:
+            train_label_mat.append(np.array([1,0]))
+        else:
+            train_label_mat.append(np.array([0,1]))
+    train_label_np = np.array(train_label_mat)
+    train_np = np.array(train_mat)
+    print(test_seqs)
+    print(test_label_np)
+    print(test_np.shape)
+
+
+    # def fa15mer(fa_np):
