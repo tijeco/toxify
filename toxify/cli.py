@@ -177,13 +177,13 @@ def main():
             np.save(training_dir+"trainLabels.npy",train_label_np)
             test_X = test_np
             test_Y = test_label_np
-            train_X = train_np
-            train_Y = train_label_np
+            train_Y = train_np
+            train_X = train_label_np
         else:
             test_X = np.load(training_dir+"testData.npy")
             test_Y = np.load(training_dir+"testLabels.npy")
-            train_X = np.load(training_dir+"trainData.npy")
-            train_Y = np.load(training_dir+"trainLabels.npy")
+            train_Y = np.load(training_dir+"trainData.npy")
+            train_X = np.load(training_dir+"trainLabels.npy")
 
 
         print("train_X.shape:",train_X.shape)
