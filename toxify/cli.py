@@ -186,18 +186,18 @@ def main():
             train_X = np.load(training_dir+"trainLabels.npy")
 
 
-        print("train_X.shape:",train_X.shape)
         print("train_Y.shape:",train_Y.shape)
+        print("train_X.shape:",train_X.shape)
         # Parameters
-        n = train_X.shape[0]  # Number of training sequences
+        n = train_Y.shape[0]  # Number of training sequences
         print(n) #7352
-        n_test = train_Y.shape[0]  # Number of test sequences
+        n_test = train_X.shape[0]  # Number of test sequences
         print(n_test) #7352
-        m = train_Y.shape[1]  # Output dimension
+        m = train_X.shape[1]  # Output dimension
         print(m) #6
-        d = train_X.shape[2]  # Input dimension
+        d = train_Y.shape[2]  # Input dimension
         print(d) #9
-        T = train_X.shape[1]  # Sequence length
+        T = train_Y.shape[1]  # Sequence length
         epochs = 50
         # batch_size = 100
 
@@ -256,11 +256,11 @@ def main():
             sess.graph.finalize()
             # Do the learning
             for i in range(epochs):
-                sess.run(train_step, feed_dict={inputs: train_X, target: train_Y})
-                _, c, summary = sess.run([train_step, loss, merged_summary_op],feed_dict={inputs: train_X, target: train_Y})
+                sess.run(train_step, feed_dict={inputs: train_Y, target: train_X})
+                _, c, summary = sess.run([train_step, loss, merged_summary_op],feed_dict={inputs: train_Y, target: train_X})
                 summary_writer.add_summary(summary, epochs)
                 if (i + 1) % 10 == 0:
-                    tmp_loss, tmp_acc = sess.run([loss, accuracy], feed_dict={inputs: train_X, target: train_Y})
+                    tmp_loss, tmp_acc = sess.run([loss, accuracy], feed_dict={inputs: train_Y, target: train_X})
                     tmp_acc_test = sess.run(accuracy, feed_dict={inputs: test_X, target: test_Y})
                     print(i + 1, 'Loss:', tmp_loss, 'Accuracy, train:', tmp_acc, ' Accuracy, test:', tmp_acc_test)
                     checkpoint_path = os.path.join(model_dir, 'model.ckpt')
