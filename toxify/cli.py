@@ -266,13 +266,14 @@ def main():
                     checkpoint_path = os.path.join(model_dir, 'model.ckpt')
                     saver.save(sess, checkpoint_path, global_step=i)
 
-        with tf.Session() as sess:
-          # Restore variables from disk.
-          saver.restore(sess, model_dir+"/model.ckpt")
-          print("Model restored.")
-          # Check the values of the variables
-          print("v1 : %s" % v1.eval())
-          print("v2 : %s" % v2.eval())
+        if False:
+            with tf.Session() as sess:
+              # Restore variables from disk.
+              saver.restore(sess, model_dir+"/model.ckpt")
+              print("Model restored.")
+              # Check the values of the variables
+              print("v1 : %s" % v1.eval())
+              print("v2 : %s" % v2.eval())
 
 
 
