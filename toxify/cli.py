@@ -185,7 +185,10 @@ def main():
             train_Y = np.load(training_dir+"trainData.npy")
             train_X = np.load(training_dir+"trainLabels.npy")
 
-
+        train_X = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/training_np.npy') #(7352, 128, 9)
+        test_X  = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/test_np.npy')
+        train_Y = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/training_labels.npy') #(7352, 6)
+        test_Y  = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/test_labels.npy')
         print("train_Y.shape:",train_Y.shape)
         print("train_X.shape:",train_X.shape)
         # Parameters
