@@ -150,6 +150,7 @@ def main():
             for row in test_seqs:
                 seq = row[2]
                 label = row[-1]
+                print(label,"row:",row)
                 if label:
                     test_label_mat.append([1,0])
                 else:
@@ -165,6 +166,7 @@ def main():
                 train_mat.append(sw.seq2atchley(seq,window_size,max_seq_len))
                 label = row[-1]
                 if label:
+
                     train_label_mat.append([1,0])
                 else:
                     train_label_mat.append([0,1])
