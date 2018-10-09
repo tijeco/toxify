@@ -165,9 +165,9 @@ def main():
                 train_mat.append(sw.seq2atchley(seq,window_size,max_seq_len))
                 label = row[-1]
                 if label:
-                    train_label_mat.append([1.0,0.0])
+                    train_label_mat.append([1,0])
                 else:
-                    train_label_mat.append([0.0,1.0])
+                    train_label_mat.append([0,1])
             train_label_np = np.array(train_label_mat)
             train_np = np.array(train_mat)
 
@@ -175,20 +175,23 @@ def main():
             np.save(training_dir+"testLabels.npy",test_label_np)
             np.save(training_dir+"trainData.npy",train_np)
             np.save(training_dir+"trainLabels.npy",train_label_np)
-            test_X = test_np
-            test_Y = test_label_np
-            train_X = train_np
-            train_Y = train_label_np
-        else:
-            test_X = np.load(training_dir+"testData.npy")
-            test_Y = np.load(training_dir+"testLabels.npy")
-            train_X = np.load(training_dir+"trainData.npy")
-            train_Y = np.load(training_dir+"trainLabels.npy")
+            # test_X = test_np
+            # test_Y = test_label_np
+            # train_X = train_np
+            # train_Y = train_label_np
+        # else:
 
-        train_X = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/training_np.npy') #(7352, 128, 9)
-        test_X  = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/test_np.npy')
-        train_Y = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/training_labels.npy') #(7352, 6)
-        test_Y  = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/test_labels.npy')
+
+        # train_X = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/training_np.npy') #(7352, 128, 9)
+        # test_X  = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/test_np.npy')
+        # train_Y = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/training_labels.npy') #(7352, 6)
+        # test_Y  = np.load('/media/brewerlab/BigRAID/Jeffrey/toxify/sequence_data/training_data/test_labels.npy')
+
+        test_X = np.load(training_dir+"testData.npy")
+        test_Y = np.load(training_dir+"testLabels.npy")
+        train_X = np.load(training_dir+"trainData.npy")
+        train_Y = np.load(training_dir+"trainLabels.npy")
+
         print("train_X.shape:",train_X.shape)
         print("train_Y.shape:",train_Y.shape)
         # Parameters
