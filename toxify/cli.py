@@ -149,7 +149,7 @@ def main():
             test_label_mat = []
             for row in test_seqs:
                 seq = row[2]
-                label = row[-1]
+                label = int(row[-1])
                 print(bool(label),label,"row:",row)
                 if label:
                     test_label_mat.append([1,0])
