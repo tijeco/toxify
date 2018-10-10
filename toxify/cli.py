@@ -47,6 +47,7 @@ The most commonly used git commands are:
         parser.add_argument('-neg',action='append',nargs='*')
         parser.add_argument('-window',type = int,default = 15)
         parser.add_argument('-maxLen',type = int,default = 100)
+        parser.add_argument('-units',type = int,default = 150)
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
         args = parser.parse_args(sys.argv[2:])
@@ -127,6 +128,7 @@ def main():
     elif hasattr(tox_args,"pos") and hasattr(tox_args,"neg"):
         max_seq_len = tox_args.maxLen
         window_size = tox_args.window
+        N_units = tox_args.units
         # here we are given a list of positive fasta files and a list of negative fasta files
         print(tox_args.pos)
         print(tox_args.neg)
@@ -216,8 +218,8 @@ def main():
         target = tf.placeholder(tf.float32, [None, m])
 
         # Network architecture
-        N = 150
-        rnn_units = tf.nn.rnn_cell.GRUCell(N)
+
+        rnn_units = tf.nn.rnn_cell.GRUCell(N_units)
         rnn_output, _ = tf.nn.dynamic_rnn(rnn_units, inputs, dtype=tf.float32)
 
         # Ignore all but the last timesteps
