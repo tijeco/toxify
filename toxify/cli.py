@@ -150,7 +150,7 @@ def main():
             for row in test_seqs:
                 seq = row[2]
                 label = float(row[-1])
-                print(bool(label),label,"row:",row)
+                # print(bool(label),label,"row:",row)
                 if label:
                     test_label_mat.append([1,0])
                 else:
