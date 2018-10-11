@@ -114,9 +114,9 @@ def seqs2train(pos,neg,window,maxLen):
     # print(pos_labeled)
     neg_zeros = np.zeros((neg_np.shape[0],1))
     # neg_zeros = np.full((neg_np.shape[0], 2), np.array([0,1]))
-    print(neg_zeros)
+    # print(neg_zeros)
     neg_labeled = np.append(neg_np,neg_zeros, axis=1)
-    print(neg_labeled)
+    # print(neg_labeled)
 
     mat_np = np.vstack([pos_labeled,neg_labeled])
     indices = np.random.permutation(mat_np.shape[0])
