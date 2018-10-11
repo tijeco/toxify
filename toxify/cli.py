@@ -134,7 +134,7 @@ def main():
         print(tox_args.neg)
         (train_seqs,test_seqs) = sw.seqs2train(tox_args.pos,tox_args.neg,window_size,max_seq_len)
         print("TEST:")
-        print(test_seqs)
+        # print(test_seqs)
 
         training_dir = "training_data/max_len_" + str(max_seq_len) + "/window_"+str(window_size)+"/units_"+str(N_units)+"/"
         if not os.path.exists(training_dir):
@@ -202,7 +202,7 @@ def main():
         n = train_X.shape[0]  # Number of training sequences
         print(n) #7352
         n_test = train_Y.shape[0]  # Number of test sequences
-        print(n_test) #7352
+        # print(n_test) #7352
         m = train_Y.shape[1]  # Output dimension
         print(m) #6
         d = train_X.shape[2]  # Input dimension
