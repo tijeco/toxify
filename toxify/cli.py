@@ -208,7 +208,7 @@ def main():
         d = train_X.shape[2]  # Input dimension
         print(d) #9
         T = train_X.shape[1]  # Sequence length
-        epochs = 50
+        epochs = 150
         # batch_size = 100
 
         lr = 0.01  # Learning rate
