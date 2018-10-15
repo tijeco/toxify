@@ -276,7 +276,8 @@ def main():
                     print(i + 1, 'Loss:', tmp_loss, 'Accuracy, train:', tmp_acc, ' Accuracy, test:', tmp_acc_test)
                     checkpoint_path = os.path.join(model_dir, 'model.ckpt')
                     saver.save(sess, checkpoint_path, global_step=i)
-
+            tf.saved_model.simple_save(sess, model_dir+"/saved_model/", inputs={"inputs":inputs,"target":target},outputs={"predictions":prediction})
+            sess.graph.finalize()
 
         if False:
             with tf.Session() as sess:
