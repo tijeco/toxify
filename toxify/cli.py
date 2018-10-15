@@ -263,8 +263,10 @@ def main():
             else:
                 print('No checkpoint file found!')
                 i_stopped = 0
-            tf.saved_model.simple_save(sess, model_dir+"/saved_model/", inputs={"inputs":inputs,"target":target},outputs={"predictions":prediction})
-            sess.graph.finalize()
+
+            #tf.saved_model.simple_save(sess, model_dir+"/saved_model/", inputs={"inputs":inputs,"target":target},outputs={"predictions":prediction})
+            #sess.graph.finalize()
+
             # Do the learning
             for i in range(epochs):
                 sess.run(train_step, feed_dict={inputs: train_X, target: train_Y})
