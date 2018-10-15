@@ -276,7 +276,7 @@ def main():
                     checkpoint_path = os.path.join(model_dir, 'model.ckpt')
                     saver.save(sess, checkpoint_path, global_step=i)
 
-            tf.saved_model.simple_save(sess, model_dir, inputs={"inputs":inputs,"target":target},outputs={"predictions":prediction})
+            tf.saved_model.simple_save(sess, model_dir+"/saved_model/", inputs={"inputs":inputs,"target":target},outputs={"predictions":prediction})
         if False:
             with tf.Session() as sess:
               # Restore variables from disk.
