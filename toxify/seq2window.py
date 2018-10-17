@@ -153,4 +153,5 @@ def seq2atchley(s,window,maxLen):
 
 
         # print("here will go zero-padding")
+    print(np.transpose(np.array(seqList)))
     return np.transpose(np.array(seqList))
