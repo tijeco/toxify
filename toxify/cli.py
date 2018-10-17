@@ -150,7 +150,7 @@ def main():
             test_mat = []
             test_label_mat = []
             for row in test_seqs:
-                seq = row[2]
+                seq = row[-2]
                 label = float(row[-1])
                 # print(bool(label),label,"row:",row)
                 if label:
@@ -164,7 +164,7 @@ def main():
             train_mat = []
             train_label_mat = []
             for row in train_seqs:
-                seq = row[2]
+                seq = row[-2]
                 train_mat.append(sw.seq2atchley(seq,window_size,max_seq_len))
                 label = float(row[-1])
                 if label:
