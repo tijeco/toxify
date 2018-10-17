@@ -140,11 +140,13 @@ def seq2atchley(s,window,maxLen):
     else:
         for i in range(maxLen):
             try:
+                print("AMINO ACID:",i)
                 aa = s[i]
                 seqList.append([])
                 for factor in factorDict[aa]:
                     seqList[i].append(factor)
             except:
+                print("amino acid: X")
                 seqList.append([])
                 for factor in factorDict["X"]:
                     seqList[i].append(0.0)
@@ -153,5 +155,5 @@ def seq2atchley(s,window,maxLen):
 
 
         # print("here will go zero-padding")
-    print(np.transpose(np.array(seqList)))
+    # print(np.transpose(np.array(seqList)))
     return np.transpose(np.array(seqList))
