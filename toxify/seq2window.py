@@ -107,9 +107,9 @@ def seqs2train(pos,neg,window,maxLen):
     neg_np = np.vstack(neg_mat)
     # print(pos_np.shape[0])
 
-    pos_ones = np.ones((pos_np.shape[0],1))
+    pos_ones = np.ones((pos_np.shape[0], 1))
     # pos_ones = np.full((pos_np.shape[0], 2), np.array([0,1]))
-    pos_labeled = np.append(pos_np,pos_ones, axis=1)
+    pos_labeled = np.append(pos_np, pos_ones, axis=1)
     # print("POS NP:")
     # print(pos_labeled)
     neg_zeros = np.zeros((neg_np.shape[0],1))
@@ -138,17 +138,17 @@ def seq2atchley(s,window,maxLen):
             for factor in factorDict[aa]:
                 seqList[i].append(factor)
     else:
-        print(s)
+        print("SEQ:",s)
         for i in range(maxLen):
 
             try:
-                print("AMINO ACID:",i)
+                # print("AMINO ACID:",i)
                 aa = s[i]
                 seqList.append([])
                 for factor in factorDict[aa]:
                     seqList[i].append(factor)
             except:
-                print("amino acid: X")
+                # print("amino acid: X")
                 seqList.append([])
                 for factor in factorDict["X"]:
                     seqList[i].append(0.0)
