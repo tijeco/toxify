@@ -138,7 +138,9 @@ def seq2atchley(s,window,maxLen):
             for factor in factorDict[aa]:
                 seqList[i].append(factor)
     else:
+        print(s)
         for i in range(maxLen):
+
             try:
                 print("AMINO ACID:",i)
                 aa = s[i]
