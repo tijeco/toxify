@@ -74,54 +74,37 @@ def main():
     # print(tox_args)
     if hasattr(tox_args,"sequences"):
         # print(tox_args.sequences)
+        """
+        HERE needs to be a new way of converting fasta proteins to atchley factors, seq2window funcs
+        """
         predictions_dir = tox_args.sequences +"_toxify_predictions"
         if not os.path.exists(predictions_dir):
             os.makedirs(predictions_dir)
-        # execute fm.seq2np(sequences)
-        # returns np array with three columns
-        # 1. header 2. kmerNum 3. sequence
-        predictions_dir = tox_args.sequences +"_toxify_predictions"
+        protein_pd = sw.fa2pd(tox_args.sequences,0,500)
+        print("Number of input proteins:",protein_pd.shape)
         # this will produce np array of fifteenmer seqs
-        proteins = fm.ProteinWindows(tox_args.sequences)
-        protein_15mer = proteins.data
-        # print(protein_15mer)
-        # import protfactor as pf
-        # execute pf.ProteinVectors(protein_15mer)
-        # returns np.array (N,5,15)
-        # print(pf.ProteinVectors(protein_15mer).data.shape)
+        use15mer = False
+        if use15mer:
 
+            proteins = fm.ProteinWindows(tox_args.sequences)
+            protein_15mer = proteins.data
 
-        protein_vectors_np = pf.ProteinVectors(protein_15mer).data
-        np.save(predictions_dir+"/protein_vectors.npy",protein_vectors_np)
-        # os.system("pwd")
-        os.system("saved_model_cli run --dir "+model_dir+"  --tag_set serve --signature_def serving_default --inputs inputs="+predictions_dir+"/protein_vectors.npy  --outdir "+predictions_dir)
-        prediction_np = np.load(predictions_dir+"/predictions.npy")
-        # print("data:",protein_15mer.shape)
-        # print("output:",prediction_np.shape)
-        # print(protein_15mer[0])
-        prediction_15mer = np.hstack((protein_15mer,prediction_np))
-        # print(prediction_15mer)
-        prediction_15mer_df = pd.DataFrame(prediction_15mer).drop(4,1)
+            protein_vectors_np = pf.ProteinVectors(protein_15mer).data
+            np.save(predictions_dir+"/protein_vectors.npy",protein_vectors_np)
 
-        prediction_15mer_df.columns = [ 'header','15mer','sequence','venom_probability']
+            os.system("saved_model_cli run --dir "+model_dir+"  --tag_set serve --signature_def serving_default --inputs inputs="+predictions_dir+"/protein_vectors.npy  --outdir "+predictions_dir)
 
-        columnsTitles=['header','15mer','venom_probability','sequence']
-        prediction_15mer_df=prediction_15mer_df.reindex(columns=columnsTitles)
-        # print(prediction_15mer_df)
-        prediction_15mer_outfile = predictions_dir+"/predictions_15mer.csv"
-        prediction_15mer_df.to_csv(prediction_15mer_outfile,index=False)
-        prediction_proteins = fm.regenerate(prediction_15mer_df)
-        prediction_proteins_outfile = predictions_dir+"/predictions_proteins.csv"
-        prediction_proteins.to_csv(prediction_proteins_outfile,index=False)
-
-        # now pass prediction_15mer_df to fm.regenerate(prediction_15mer_df)
-        # output csv file with 6 columns
-        # 1. header 2. n_15mers 3. mean_venom_probability 4. median_venom_probability 5. sd_venom_probability 6. sequence
-
-
-        # run command_line_tf using os on pf.ProteinVectors(protein_15mer)
-        # open the returned np.array, recombine with headers, create file with three columns
-        # 1. header 2. 15mer 3. venom probability
+            prediction_np = np.load(predictions_dir+"/predictions.npy")
+            prediction_15mer = np.hstack((protein_15mer,prediction_np))
+            prediction_15mer_df = pd.DataFrame(prediction_15mer).drop(4,1)
+            prediction_15mer_df.columns = [ 'header','15mer','sequence','venom_probability']
+            columnsTitles=['header','15mer','venom_probability','sequence']
+            prediction_15mer_df=prediction_15mer_df.reindex(columns=columnsTitles)
+            prediction_15mer_outfile = predictions_dir+"/predictions_15mer.csv"
+            prediction_15mer_df.to_csv(prediction_15mer_outfile,index=False)
+            prediction_proteins = fm.regenerate(prediction_15mer_df)
+            prediction_proteins_outfile = predictions_dir+"/predictions_proteins.csv"
+            prediction_proteins.to_csv(prediction_proteins_outfile,index=False)
 
 
     # here we are given a list of positive fasta files and a list of negative fasta files
