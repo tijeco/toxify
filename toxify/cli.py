@@ -82,10 +82,11 @@ def main():
             os.makedirs(predictions_dir)
         protein_pd = sw.fa2pd(tox_args.sequences,0,500)
         fa_mat = []
-        for row  in protein_pd:
-            print(row)
+        for seq  in protein_pd["sequences"]:
+            fa_mat.append(sw.seq2atchley(seq,0,500))
 
         # this will produce np array of fifteenmer seqs
+        print(fa_mat)
         use15mer = False
 
         if use15mer:
