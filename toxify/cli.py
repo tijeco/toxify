@@ -86,6 +86,7 @@ def main():
             fa_mat.append(sw.seq2atchley(seq,0,500))
 
         # this will produce np array of fifteenmer seqs
+        print("saving to ",predictions_dir+"/protein_vectors.npy")
         np.save(predictions_dir+"/protein_vectors.npy",np.array(fa_mat))
         use15mer = False
 
