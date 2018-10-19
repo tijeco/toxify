@@ -81,10 +81,13 @@ def main():
         if not os.path.exists(predictions_dir):
             os.makedirs(predictions_dir)
         protein_pd = sw.fa2pd(tox_args.sequences,0,500)
-        print("Number of input proteins:",protein_pd.shape)
-        print(protein_pd["sequences"])
+        fa_mat = []
+        for row  in protein_pd:
+            print(row)
+
         # this will produce np array of fifteenmer seqs
         use15mer = False
+
         if use15mer:
 
             proteins = fm.ProteinWindows(tox_args.sequences)
