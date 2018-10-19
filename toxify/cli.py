@@ -82,7 +82,7 @@ def main():
             os.makedirs(predictions_dir)
         protein_pd = sw.fa2pd(tox_args.sequences,0,500)
         print("Number of input proteins:",protein_pd.shape)
-        print(protein_pd)
+        print(protein_pd["headers"])
         # this will produce np array of fifteenmer seqs
         use15mer = False
         if use15mer:
