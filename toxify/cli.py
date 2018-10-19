@@ -86,7 +86,7 @@ def main():
             fa_mat.append(sw.seq2atchley(seq,0,500))
 
         # this will produce np array of fifteenmer seqs
-        print(fa_mat)
+        print(np.array(fa_mat).shape)
         use15mer = False
 
         if use15mer:
