@@ -94,8 +94,8 @@ def main():
         prediction_np = np.load(predictions_dir+"/predictions.npy")
         print(prediction_np.shape,fa_np.shape)
         protein_pd["pred"] = prediction_np[:,0]
-        print(protein_pd)
-        protein_pd.drop(["sequences"]).to_csv(predictions_dir+"/predictions.csv",index=False)
+        print(list(protein_pd))
+        # protein_pd.drop(["sequences"]).to_csv(predictions_dir+"/predictions.csv",index=False)
         use15mer = False
 
 
