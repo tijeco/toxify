@@ -93,7 +93,10 @@ def main():
         os.system("saved_model_cli run --dir "+model_dir+"  --tag_set serve --signature_def serving_default --inputs inputs="+predictions_dir+"/protein_vectors.npy  --outdir "+predictions_dir)
         prediction_np = np.load(predictions_dir+"/predictions.npy")
         print(prediction_np.shape,fa_np.shape)
+        protein_pd["pred"] = prediction_np[:,0]
+        print(protein_pd)
         use15mer = False
+
 
         if use15mer:
 
