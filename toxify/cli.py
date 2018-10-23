@@ -84,10 +84,13 @@ def main():
         fa_mat = []
         for seq  in protein_pd["sequences"]:
             fa_mat.append(sw.seq2atchley(seq,0,500))
-
+        fa_np = np.array(fa_mat)
         # this will produce np array of fifteenmer seqs
         print("saving to ",predictions_dir+"/protein_vectors.npy")
-        np.save(predictions_dir+"/protein_vectors.npy",np.array(fa_mat))
+        np.save(predictions_dir+"/protein_vectors.npy",fa_np)
+        os.system("saved_model_cli run --dir "+model_dir+"  --tag_set serve --signature_def serving_default --inputs inputs="+predictions_dir+"/protein_vectors.npy  --outdir "+predictions_dir)
+        prediction_np = np.load(predictions_dir+"/predictions.npy")
+        print(prediction_np.shape,fa_np.shape)
         use15mer = False
 
         if use15mer:
