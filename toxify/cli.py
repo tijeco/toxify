@@ -95,7 +95,8 @@ def main():
         print(prediction_np.shape,fa_np.shape)
         protein_pd["pred"] = prediction_np[:,0]
         print(list(protein_pd))
-        # protein_pd.drop(["sequences"]).to_csv(predictions_dir+"/predictions.csv",index=False)
+        # print(protein_pd.drop())
+        protein_pd.drop(["sequences"],axis=1).to_csv(predictions_dir+"/predictions.csv",index=False)
         use15mer = False
 
 
