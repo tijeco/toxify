@@ -60,6 +60,7 @@ The most commonly used git commands are:
             description='Predicts venom probabilities')
         # NOT prefixing the argument with -- means it's not optional
         parser.add_argument('sequences')
+        parser.add_argument('-model',type = str,default = os.path.abspath(toxify.__file__).replace("__init__.py","models"))
         args = parser.parse_args(sys.argv[2:])
         print('Running toxify predict\n input data:' , args.sequences)
         self.args = args
@@ -78,6 +79,7 @@ def main():
         HERE needs to be a new way of converting fasta proteins to atchley factors, seq2window funcs
         """
         predictions_dir = tox_args.sequences +"_toxify_predictions"
+        model_dir = tox_args.model
         if not os.path.exists(predictions_dir):
             os.makedirs(predictions_dir)
         protein_pd = sw.fa2pd(tox_args.sequences,0,500)
