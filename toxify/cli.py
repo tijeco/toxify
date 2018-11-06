@@ -96,6 +96,7 @@ def main():
         protein_pd["pred"] = prediction_np[:,0]
         print(list(protein_pd))
         # print(protein_pd.drop())
+
         protein_pd.drop(["sequences"],axis=1).to_csv(predictions_dir+"/predictions.csv",index=False)
         use15mer = False
 
@@ -209,7 +210,7 @@ def main():
         d = train_X.shape[2]  # Input dimension
         print(d) #9
         T = train_X.shape[1]  # Sequence length
-        epochs = 300
+        epochs = 50
         # batch_size = 100
 
         lr = 0.01  # Learning rate
