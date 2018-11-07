@@ -140,7 +140,7 @@ def main():
         print("TEST:")
         # print(test_seqs)
 
-        training_dir = "training_data/max_len_" + str(max_seq_len) + "/window_"+str(window_size)+"/units_"+str(N_units)+"/lr_"+str(lr).split(".")[0]+"/epochs_"+str(epochs)+"/"
+        training_dir = "training_data/max_len_" + str(max_seq_len) + "/window_"+str(window_size)+"/units_"+str(N_units)+"/lr_"+str(lr).split(".")[1]+"/epochs_"+str(epochs)+"/"
         if not os.path.exists(training_dir):
             os.makedirs(training_dir)
             print("writing to: "+training_dir+"testSeqs.csv")
