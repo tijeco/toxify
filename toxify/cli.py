@@ -48,6 +48,7 @@ The most commonly used git commands are:
         parser.add_argument('-window',type = int,default = 15)
         parser.add_argument('-maxLen',type = int,default = 100)
         parser.add_argument('-units',type = int,default = 150)
+        parser.add_argument('-epochs',type = int,default = 150)
         parser.add_argument('-lr',type = float,default = 0.01)
         # now that we're inside a subcommand, ignore the first
         # TWO argvs, ie the command (git) and the subcommand (commit)
@@ -131,6 +132,7 @@ def main():
         window_size = tox_args.window
         N_units = tox_args.units
         lr = tox_args.lr
+        epochs = tox_args.epochs
         # here we are given a list of positive fasta files and a list of negative fasta files
         print(tox_args.pos)
         print(tox_args.neg)
@@ -138,7 +140,7 @@ def main():
         print("TEST:")
         # print(test_seqs)
 
-        training_dir = "training_data/max_len_" + str(max_seq_len) + "/window_"+str(window_size)+"/units_"+str(N_units)+"/"+"/lr_"+str(lr).split(".")[0]+"/"
+        training_dir = "training_data/max_len_" + str(max_seq_len) + "/window_"+str(window_size)+"/units_"+str(N_units)+"/"+"/lr_"+str(lr).split(".")[0]+"/"+"/epochs_"+str(epochs)+"/"
         if not os.path.exists(training_dir):
             os.makedirs(training_dir)
             print("writing to: "+training_dir+"testSeqs.csv")
@@ -212,7 +214,7 @@ def main():
         d = train_X.shape[2]  # Input dimension
         print(d) #9
         T = train_X.shape[1]  # Sequence length
-        epochs = 50
+
         # batch_size = 100
 
          # Learning rate
