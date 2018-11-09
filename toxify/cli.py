@@ -82,12 +82,13 @@ def main():
         """
         predictions_dir = tox_args.sequences +"_toxify_predictions"
         model_dir = tox_args.model
+        model_len = int(model_dir.split("max_len_")[1].split("/")[0])
         if not os.path.exists(predictions_dir):
             os.makedirs(predictions_dir)
-        protein_pd = sw.fa2pd(tox_args.sequences,0,500)
+        protein_pd = sw.fa2pd(tox_args.sequences,0,model_len)
         fa_mat = []
         for seq  in protein_pd["sequences"]:
-            fa_mat.append(sw.seq2atchley(seq,0,500))
+            fa_mat.append(sw.seq2atchley(seq,0,model_len))
         fa_np = np.array(fa_mat)
         # this will produce np array of fifteenmer seqs
         print("saving to ",predictions_dir+"/protein_vectors.npy")
