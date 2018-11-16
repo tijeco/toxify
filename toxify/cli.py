@@ -279,7 +279,7 @@ def main():
                 sess.run(train_step, feed_dict={inputs: train_X, target: train_Y})
                 _, c, summary = sess.run([train_step, loss, merged_summary_op],feed_dict={inputs: train_X, target: train_Y})
                 summary_writer.add_summary(summary, epochs)
-                if (i + 1) % 2 == 0:
+                if (i + 1) % 10 == 0:
                     tmp_loss, tmp_acc = sess.run([loss, accuracy], feed_dict={inputs: train_X, target: train_Y})
                     tmp_acc_test = sess.run(accuracy, feed_dict={inputs: test_X, target: test_Y})
                     print(i + 1, 'Loss:', tmp_loss, 'Accuracy, train:', tmp_acc, ' Accuracy, test:', tmp_acc_test)
