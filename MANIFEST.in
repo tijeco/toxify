@@ -1,4 +1,2 @@
 include toxify/models/*
 include toxify/models/variables/*
-include toxify/models/max_len_500-window_0-units_270-lr_0.01-epochs_50/*
-include toxify/models/max_len_500-window_0-units_270-lr_0.01-epochs_50/variables/*
