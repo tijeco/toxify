@@ -13,7 +13,7 @@ import toxify.protfactor as pf
 import toxify.seq2window as sw
 
 
-model_dir = os.path.abspath(toxify.__file__).replace("__init__.py","models")
+model_dir = os.path.abspath(toxify.__file__).replace("__init__.py","models/max_len_500/window_0/units_270/lr_0.01/epochs_50/models")
 print(model_dir)
 class ParseCommands(object):
 
@@ -62,7 +62,7 @@ The most commonly used git commands are:
             description='Predicts venom probabilities')
         # NOT prefixing the argument with -- means it's not optional
         parser.add_argument('sequences')
-        parser.add_argument('-model',type = str,default = os.path.abspath(toxify.__file__).replace("__init__.py","models"))
+        parser.add_argument('-model',type = str,default = os.path.abspath(toxify.__file__).replace("__init__.py","models/max_len_500/window_0/units_270/lr_0.01/epochs_50/models"))
         args = parser.parse_args(sys.argv[2:])
         print('Running toxify predict\n input data:' , args.sequences)
         self.args = args
