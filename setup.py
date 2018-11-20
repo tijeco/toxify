@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='toxify',
-      version='0.1.69',
+      version='0.1.70',
       description='The toxify joke in the world',
       url='http://github.com/tijeco/toxify',
       author='Flying Circus',
