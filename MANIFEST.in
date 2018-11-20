@@ -1,4 +1,10 @@
 include toxify/models/*
 include toxify/models/variables/*
+include toxify/models/max_len_500/*
+include toxify/models/max_len_500/window_0/*
+include toxify/models/max_len_500/window_0/units_270/*
+include toxify/models/max_len_500/window_0/units_270/lr_0.01/*
+include toxify/models/max_len_500/window_0/units_270/lr_0.01/epochs_50/*
+include toxify/models/max_len_500/window_0/units_270/lr_0.01/epochs_50/models/*
 include toxify/models/max_len_500/window_0/units_270/lr_0.01/epochs_50/models/saved_model/*
 include toxify/models/max_len_500/window_0/units_270/lr_0.01/epochs_50/models/saved_model/variables/*
