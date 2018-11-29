@@ -34,3 +34,21 @@ toxify predict <input.fasta>
 ```bash
 source deactivate
 ```
+
+# Custom training dataset
+
+If you wish to train a different model with your own training data, that can be  accomplished with toxify using the ```train``` sub command.
+
+There are a few variables that can be modified in terms of setting up the model.
+
+* ```-pos``` can be followed by a list of protein sequence fasta files that you wish to constitute the positive dataset
+
+* ```-neg``` can be followed by a list of protein sequence fasta files that you wish to constitute the negative dataset
+
+* ```-maxLen``` is the maximum length (integer) of protein seqeunce to be included in the training set
+
+* ```-units``` is the number (integer) of gated recurrent units to be used in the model
+
+* ```-epochs``` is the number (integer) of training epochs to run for the model
+
+* ```lr``` is the learning_rate (float, 0 < ```lr``` < 1)
