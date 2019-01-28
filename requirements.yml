@@ -1,5 +1,6 @@
 name: toxify_env
 channels:
+  - aaronzs
   - bioconda
 dependencies:
   - python=3.6.3
